@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discover Properties in Hyderabad | ILA Homes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
+<style>
+:root{
+  --ink:#111d27;--muted:#687582;--green:#064c3e;--green2:#0d6b57;--mint:#e7f0e9;
+  --line:#e5e6e1;--paper:#f7f7f2;--white:#fff;--shadow:0 10px 30px rgba(23,39,32,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",Arial,sans-serif;font-size:14px}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #8fc8b7;outline-offset:2px}
+a{color:inherit;text-decoration:none}
+.top-hero{position:relative;isolation:isolate;min-height:288px;padding:10px 4.1% 18px;overflow:visible;background:#e9eee7}
+.top-hero:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(248,249,246,.38) 0%,rgba(248,249,246,.08) 42%,rgba(8,48,41,.22) 100%),url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=2200&q=85") center 48%/cover no-repeat}
+.top-hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(244,248,244,.12),transparent 65%)}
+.nav-wrap{max-width:1270px;margin:0 auto;height:50px;padding:0 12px 0 26px;border:1px solid rgba(255,255,255,.85);background:rgba(255,255,255,.9);backdrop-filter:blur(18px);border-radius:40px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 24px rgba(22,38,32,.08)}
+.brand{display:flex;align-items:center;gap:7px;font-weight:700;font-size:18px;letter-spacing:-.8px;white-space:nowrap}
+.brand-mark{width:28px;height:24px;position:relative;border-top:2px solid #101c20;transform:skewY(-1deg)}
+.brand-mark:before{content:"";position:absolute;left:4px;top:-8px;width:17px;height:17px;border-left:2px solid #101c20;border-top:2px solid #101c20;transform:rotate(45deg)}
+.brand small{display:block;font-size:5px;letter-spacing:0;font-weight:500;margin-top:-2px}
+.nav-links{display:flex;align-items:center;gap:clamp(14px,2.6vw,38px);font-size:11px;font-weight:600}
+.nav-links a:hover{color:var(--green2)}
+.nav-actions{display:flex;align-items:center;gap:18px;font-size:11px;font-weight:600;white-space:nowrap}
+.nav-action{display:flex;align-items:center;gap:6px}
+.pill-btn{border:0;background:var(--green);color:#fff;border-radius:30px;padding:11px 17px;font-weight:700;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;box-shadow:0 4px 10px rgba(0,70,55,.12)}
+.pill-btn:hover{background:#08634f}
+.hero-copy{max-width:1015px;margin:20px auto 0;color:#101c27}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:3px;font-weight:700;color:#164a42;margin-bottom:5px}
+.eyebrow:after{content:"";width:38px;height:1px;background:#719a8d}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(27px,3vw,42px);line-height:1.12;letter-spacing:-1.2px;margin:0 0 15px;font-weight:700}
+h1 span{color:var(--green)}
+.search-panel{height:65px;max-width:1015px;margin:0 auto;background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.9);border-radius:38px;padding:8px 9px;display:flex;align-items:center;gap:12px;box-shadow:0 12px 35px rgba(17,38,32,.15)}
+.location-select{height:100%;display:flex;align-items:center;gap:10px;padding:0 16px;border-right:1px solid #d8ded9;min-width:170px;font-size:12px;font-weight:600}
+.location-select select{border:0;background:transparent;color:var(--ink);font-weight:600;max-width:120px}
+.ai-orb{height:43px;width:43px;flex:0 0 43px;border-radius:50%;background:#edf0dd;display:grid;place-items:center;color:#174c40;font-size:23px}
+.search-input{border:0;outline:0;min-width:0;flex:1;color:var(--ink);background:transparent;font-size:12px}
+.search-input::placeholder{color:#71808e}
+.search-helper{font-size:10px;color:#8a939d;white-space:nowrap}
+.mic{border:0;background:transparent;border-left:1px solid #d8ded9;padding:0 10px;color:#14232a;font-size:19px}
+.search-submit{border:0;border-radius:28px;background:var(--green);color:#fff;height:48px;padding:0 25px;display:flex;align-items:center;gap:10px;font-weight:700;min-width:142px;justify-content:center}
+.popular{max-width:1015px;margin:11px auto 0;display:flex;align-items:center;gap:8px;color:#fff;font-size:10px;flex-wrap:wrap}
+.popular-label{margin-right:4px;font-weight:600}
+.search-chip{border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.88);color:#15232b;border-radius:22px;padding:7px 14px;font-size:10px;font-weight:600;white-space:nowrap}
+.search-chip:hover{background:#e8f0e9}
+main{padding:14px 4.1% 28px;max-width:1600px;margin:auto}
+.filterbar{display:flex;align-items:center;gap:10px;padding:9px;background:rgba(255,255,255,.86);border:1px solid #ecece6;border-radius:16px;box-shadow:0 4px 18px rgba(24,37,31,.05);margin-bottom:12px}
+.filter{min-width:0;flex:1;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e9e9e4;border-radius:12px;padding:9px 12px;min-height:46px;box-shadow:0 2px 7px rgba(18,34,28,.03)}
+.filter-icon{font-size:19px;width:20px;text-align:center}
+.filter-text{min-width:0;flex:1;line-height:1.25}
+.filter-text small{display:block;color:#6c7680;font-size:9px;margin-bottom:3px}
+.filter-text strong{display:block;font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.filter select{border:0;outline:0;min-width:0;max-width:100%;background:transparent;color:var(--ink);font-size:11px}
+.clear-btn{border:0;border-left:1px solid #e0e3df;background:transparent;color:#475660;display:flex;align-items:center;gap:8px;padding:0 12px;white-space:nowrap;font-size:11px}
+.results-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 4px 10px}
+.results-count{font-size:21px;font-weight:700;letter-spacing:-.7px}
+.results-count span{color:var(--green2)}
+.toolbar-right{display:flex;align-items:center;gap:8px;font-size:11px;color:#59636e}
+.sort-select{border:1px solid #ecece7;background:#fff;border-radius:10px;padding:10px 12px;min-width:124px;color:var(--ink)}
+.view-btn{border:1px solid #e4e7e2;background:#fff;border-radius:10px;padding:10px 13px;display:flex;align-items:center;gap:7px;font-weight:600;color:#23333b}
+.view-btn.active{background:var(--green);border-color:var(--green);color:#fff}
+.save-search{border:1px solid #8eb6aa;background:#fff;color:var(--green);border-radius:10px;padding:10px 12px;font-weight:600;white-space:nowrap}
+.content-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch}
+.list-panel{min-width:0;display:flex;flex-direction:column;gap:7px}
+.property-card{min-height:127px;display:grid;grid-template-columns:44% minmax(0,1fr);background:rgba(255,255,255,.96);border:1px solid #e9ebe6;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(22,38,31,.04);transition:transform .2s,box-shadow .2s}
+.property-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.property-image{position:relative;min-height:127px;background-size:cover;background-position:center}
+.property-image:after{content:"";position:absolute;inset:50% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.2))}
+.featured-tag{position:absolute;top:9px;left:10px;z-index:1;background:#075646;color:#fff;border-radius:9px;padding:7px 10px;font-size:9px;font-weight:700}
+.property-info{padding:10px 13px 9px 15px;min-width:0;display:flex;flex-direction:column}
+.card-top{display:flex;align-items:flex-start;gap:8px}
+.card-title-wrap{flex:1;min-width:0}
+.card-title{font-size:14px;line-height:1.2;font-weight:700;letter-spacing:-.2px;margin:0 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.location{font-size:11px;color:#697580;display:flex;align-items:center;gap:5px}
+.heart{border:0;background:transparent;font-size:21px;line-height:1;padding:0 0 2px;color:#17262c}
+.heart.saved{color:#08765f}
+.price{font-size:15px;color:#006251;font-weight:700;margin-top:5px;letter-spacing:-.2px}
+.specs{font-size:11px;color:#6b7783;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amenity-row{display:flex;align-items:center;gap:11px;margin-top:auto;padding-top:9px;color:#47555f;font-size:9px;white-space:nowrap;overflow:hidden}
+.amenity-row span{display:inline-flex;align-items:center;gap:4px}
+.amenity-row span+span{border-left:1px solid #e4e7e3;padding-left:10px}
+.card-arrow{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #eef0ec;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);font-size:21px;display:grid;place-items:center}
+.map-panel{position:relative;min-height:520px;height:100%;border-radius:15px;overflow:hidden;border:1px solid #dfe5df;background:#dce6d7;box-shadow:0 4px 16px rgba(25,43,35,.07)}
+#propertyMap{position:absolute;inset:0;width:100%;height:100%}
+.map-top-controls{position:absolute;z-index:3;left:12px;right:12px;top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;pointer-events:none}
+.map-style-switch{pointer-events:auto;display:flex;padding:4px;background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.9);box-shadow:0 5px 20px rgba(0,0,0,.12);border-radius:30px}
+.map-style-switch button{border:0;background:transparent;color:#25343a;padding:10px 17px;border-radius:24px;font-size:10px;font-weight:600}
+.map-style-switch button.active{background:var(--green);color:white}
+.expand-map{pointer-events:auto;border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.96);border-radius:12px;padding:10px 13px;font-size:10px;font-weight:700;box-shadow:0 5px 20px rgba(0,0,0,.1)}
+.map-price{background:#064c3e;color:white;border:2px solid rgba(255,255,255,.92);padding:7px 11px;border-radius:10px;font-weight:700;font-size:11px;box-shadow:0 4px 12px rgba(0,0,0,.18);white-space:nowrap}
+.map-label{display:flex;align-items:center;gap:5px;border:1px solid rgba(8,67,52,.12);background:rgba(255,255,255,.96);color:#17282b;padding:7px 9px;border-radius:20px;box-shadow:0 3px 12px rgba(0,0,0,.12);font-size:10px;font-weight:600;white-space:nowrap}
+.map-label i{width:8px;height:8px;background:#08715a;border-radius:50%;display:inline-block}
+.mapboxgl-ctrl-group{border-radius:12px!important;overflow:hidden;box-shadow:0 5px 18px rgba(0,0,0,.14)!important}
+.mapboxgl-ctrl-bottom-right{right:8px;bottom:8px}
+.ai-refine{margin-top:10px;border:1px solid #e0e9e1;background:linear-gradient(100deg,#edf3e9,#f7f8f3);border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:12px}
+.ai-icon{width:38px;height:38px;border-radius:50%;background:#e1e8ce;display:grid;place-items:center;font-size:22px;flex:0 0 auto;color:#174e41}
+.ai-copy{min-width:170px;flex:1}
+.ai-copy strong{display:block;font-size:11px}
+.ai-copy small{display:block;color:#74818a;font-size:10px;margin-top:3px}
+.ai-suggestions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.ai-suggestions button{background:#fff;border:1px solid #e5e9e2;border-radius:9px;padding:9px 11px;font-size:9px;font-weight:600;color:#24413a;box-shadow:0 2px 5px rgba(0,0,0,.03)}
+.ai-next{border:0;border-radius:50%;background:var(--green);color:white;width:38px;height:38px;font-size:21px;flex:0 0 auto}
+.bottom-row{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#65717b;font-size:11px;padding:7px 3px 0}
+.pagination{display:flex;align-items:center;gap:5px}
+.pagination button{min-width:27px;height:27px;border:1px solid #e5e7e2;background:#fff;border-radius:7px;color:#53616c;font-size:10px}
+.pagination button.active{background:var(--green);color:#fff;border-color:var(--green)}
+.per-page{border:1px solid #e5e7e2;background:#fff;border-radius:8px;padding:7px 10px;color:#25343a}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#102c27;color:#fff;padding:12px 18px;border-radius:12px;box-shadow:var(--shadow);z-index:20;font-size:12px;transition:.25s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.map-fullscreen{position:fixed!important;inset:18px!important;z-index:30!important;height:auto!important;min-height:0!important;box-shadow:0 0 0 100vmax rgba(8,22,18,.55),0 25px 80px rgba(0,0,0,.25)}
+.close-fullscreen{display:none;position:absolute;z-index:5;right:12px;top:60px;border:0;border-radius:10px;background:#fff;padding:10px 14px;font-weight:700}
+.map-fullscreen .close-fullscreen{display:block}
+.grid-mode .list-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}
+.grid-mode .property-card{display:flex;flex-direction:column}
+.grid-mode .property-image{min-height:145px}
+.grid-mode .property-info{min-height:150px}
+.grid-mode .amenity-row{flex-wrap:wrap;white-space:normal}
+@media(min-width:1500px){main{padding-left:4.5%;padding-right:4.5%}.content-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.map-panel{min-height:555px}}
+@media(max-width:1100px){
+ .nav-links{gap:15px}.nav-actions{gap:10px}.nav-wrap{padding-left:18px}
+ .filterbar{flex-wrap:wrap}.filter{flex:1 1 26%;}.clear-btn{height:42px}
+ .content-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .property-card{grid-template-columns:40% minmax(0,1fr)}.amenity-row{gap:6px}.amenity-row span+span{padding-left:6px}
+ .ai-suggestions button:nth-child(n+3){display:none}
+}
+@media(max-width:760px){
+ .top-hero{padding:9px 15px 17px;min-height:0}.nav-wrap{height:48px;padding:0 12px}.brand{font-size:16px}.brand-mark{display:none}
+ .nav-links{display:none}.nav-actions{gap:10px}.nav-actions .nav-action:first-child{display:none}.nav-actions .pill-btn{padding:10px 12px;font-size:10px}
+ .hero-copy{margin-top:23px}.eyebrow{font-size:9px;letter-spacing:2px}h1{font-size:31px;max-width:530px}
+ .search-panel{height:auto;min-height:58px;gap:8px;padding:7px;border-radius:22px;flex-wrap:wrap}
+ .location-select{min-width:0;width:100%;height:35px;border-right:0;border-bottom:1px solid #e5e7e2;padding:0 7px}
+ .ai-orb{width:34px;height:34px;flex-basis:34px;font-size:18px}
+ .search-input{font-size:11px;min-height:35px}.search-helper{display:none}.mic{padding:0 5px;border-left:0}.search-submit{min-width:42px;width:44px;height:40px;padding:0;font-size:0}.search-submit span{font-size:19px}
+ .popular{gap:6px;margin-top:10px}.popular-label{width:100%}.search-chip{font-size:9px;padding:7px 10px}
+ main{padding:12px 12px 22px}.filterbar{padding:7px;gap:6px;border-radius:13px}
+ .filter{flex:1 1 calc(50% - 6px);padding:8px 9px;min-height:42px;gap:7px}.filter-icon{font-size:16px;width:17px}.filter-text small{font-size:8px}.filter-text strong{font-size:10px}
+ .clear-btn{flex:1;justify-content:center;border-left:0;border-top:1px solid #e8e9e4;padding:8px 0}
+ .results-toolbar{align-items:flex-start;flex-direction:column;margin:12px 2px 10px}.results-count{font-size:19px}.toolbar-right{width:100%;flex-wrap:wrap}.toolbar-right .sort-label{display:none}.sort-select{flex:1;min-width:100px;padding:9px}.view-btn{padding:9px 10px}.save-search{padding:9px 10px}
+ .content-grid{grid-template-columns:1fr}.map-panel{grid-row:1;min-height:330px;height:330px}.list-panel{grid-row:2}
+ .property-card{min-height:120px;grid-template-columns:39% minmax(0,1fr)}.property-image{min-height:120px}.property-info{padding:9px 10px}.card-title{font-size:12px}.price{font-size:13px}.specs{font-size:10px}.amenity-row{font-size:8px;gap:6px;padding-top:7px}.amenity-row span+span{padding-left:6px}
+ .map-style-switch button{padding:9px 12px;font-size:9px}.expand-map{padding:9px 10px;font-size:9px}
+ .ai-refine{align-items:flex-start;flex-wrap:wrap;padding:10px}.ai-copy{min-width:calc(100% - 60px)}.ai-suggestions{width:100%;padding-left:49px}.ai-suggestions button:nth-child(n+3){display:none}.ai-next{position:absolute;right:22px;margin-top:0}
+ .bottom-row{flex-wrap:wrap;justify-content:center;text-align:center}.bottom-row>span:first-child{width:100%}.pagination{order:2}.per-page-wrap{margin-left:auto}
+ .grid-mode .list-panel{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-mode .property-card{min-height:0}.grid-mode .property-image{min-height:125px}.grid-mode .property-info{min-height:155px}
+}
+@media(max-width:430px){
+ .nav-actions{gap:8px}.nav-actions .nav-action{font-size:10px}.nav-actions .pill-btn{padding:9px 10px}
+ h1{font-size:27px}.search-chip{padding:6px 8px}
+ .property-card{grid-template-columns:36% minmax(0,1fr)}.property-image{min-height:130px}.property-info{padding:8px}.card-title{font-size:11px}.location{font-size:9px}.price{font-size:12px}.specs{font-size:9px}
+ .amenity-row{gap:5px}.amenity-row span:nth-child(n+3){display:none}
+ .grid-mode .list-panel{grid-template-columns:1fr}.grid-mode .property-card{display:grid;grid-template-columns:38% 1fr}.grid-mode .property-image{min-height:125px}
+ .map-panel{min-height:290px;height:290px}
+}
+</style>
+</head>
+<body>
+<header class="top-hero">
+  <nav class="nav-wrap" aria-label="Main navigation">
+    <a class="brand" href="#" aria-label="ILA Homes home"><span class="brand-mark"></span><span>ILA HOMES<small>Building futures and unlocking possibilities</small></span></a>
+    <div class="nav-links"><a href="#properties">Buy</a><a href="#properties">Rent</a><a href="#properties">Projects</a><a href="#propertyMap">Explore Map</a><a href="#resources">Resources⌄</a></div>
+    <div class="nav-actions"><a class="nav-action" href="#properties">♡ <span>Saved</span></a><a class="nav-action" href="#signin">♙ <span>Sign In</span></a><button class="pill-btn" onclick="showToast('Property listing flow is ready to connect.')">List Property <span>→</span></button></div>
+  </nav>
+  <div class="hero-copy">
+    <div class="eyebrow">DISCOVER PROPERTIES</div>
+    <h1>Find your perfect place in <span>Hyderabad</span></h1>
+  </div>
+  <form class="search-panel" id="searchForm">
+    <label class="location-select"><span style="font-size:20px">⌖</span><select aria-label="Location"><option>Hyderabad</option><option>Kokapet</option><option>Gachibowli</option><option>Tellapur</option><option>Narsingi</option></select><span>⌄</span></label>
+    <div class="ai-orb" aria-hidden="true">✧</div>
+    <input class="search-input" id="mainSearch" type="search" placeholder="Describe the property you're looking for..." aria-label="Describe the property you're looking for">
+    <div class="search-helper">e.g. 3 BHK in Gachibowli under ₹2 Cr, villa plots near ORR</div>
+    <button type="button" class="mic" aria-label="Voice search" onclick="showToast('Voice search can be connected to your preferred speech API.')">♩</button>
+    <button class="search-submit" type="submit"><span>⌕</span> Search</button>
+  </form>
+  <div class="popular"><span class="popular-label">Popular searches:</span><button class="search-chip">3 BHK in Gachibowli</button><button class="search-chip">Villa plots near ORR</button><button class="search-chip">Ready to move flats</button><button class="search-chip">Plots under ₹1 Cr</button><button class="search-chip">Gated communities</button><button class="search-chip">Commercial spaces</button></div>
+</header>
+<main id="properties">
+  <section class="filterbar" aria-label="Property filters">
+    <label class="filter"><span class="filter-icon">⌂</span><span class="filter-text"><small>Property Type</small><select id="typeFilter"><option value="all">All Types</option><option>Villa</option><option>Apartment</option><option>Plot</option></select></span></label>
+    <label class="filter"><span class="filter-icon">₹</span><span class="filter-text"><small>Budget</small><select id="budgetFilter"><option value="all">Any Budget</option><option value="under1">Under ₹1 Cr</option><option value="1to3">₹1 Cr – ₹3 Cr</option><option value="above3">Above ₹3 Cr</option></select></span></label>
+    <label class="filter"><span class="filter-icon">▤</span><span class="filter-text"><small>Bedrooms</small><select id="bedFilter"><option value="all">Any</option><option value="2">2 BHK</option><option value="3">3 BHK</option><option value="4">4 BHK</option></select></span></label>
+    <label class="filter"><span class="filter-icon">⛶</span><span class="filter-text"><small>Property Size</small><select id="sizeFilter"><option value="all">Any Size</option><option>Under 200 Sq.Yd</option><option>200–400 Sq.Yd</option><option>400+ Sq.Yd</option></select></span></label>
+    <label class="filter"><span class="filter-icon">▦</span><span class="filter-text"><small>Possession Status</small><select id="statusFilter"><option value="all">Any</option><option>Ready to Move</option><option>Under Construction</option><option>New Launch</option></select></span></label>
+    <label class="filter"><span class="filter-icon">☷</span><span class="filter-text"><small>More Filters</small><select id="moreFilter"><option value="all">Amenities, Furnishing</option><option>Gated Community</option><option>Swimming Pool</option><option>Park Facing</option></select></span></label>
+    <button class="clear-btn" id="clearFilters"><span>◴</span> Clear All</button>
+  </section>
+  <div class="results-toolbar">
+    <div class="results-count"><span id="resultNumber">2,348</span> properties in <span>Hyderabad</span></div>
+    <div class="toolbar-right"><span class="sort-label">Sort by</span><select class="sort-select" id="sortSelect" aria-label="Sort properties"><option value="relevance">Relevance</option><option value="priceLow">Price: Low to High</option><option value="priceHigh">Price: High to Low</option></select><button class="view-btn active" id="listView">☷ List</button><button class="view-btn" id="gridView">▦ Grid</button><button class="save-search" id="saveSearch">♡ Save Search</button></div>
+  </div>
+  <section class="content-grid" id="contentGrid">
+    <div class="list-panel" id="propertyList" aria-label="Property results"></div>
+    <div class="map-panel" id="mapPanel">
+      <div id="propertyMap" aria-label="Interactive map of Hyderabad properties"></div>
+      <div class="map-top-controls">
+        <div class="map-style-switch" role="group" aria-label="Map style"><button class="active" data-style="streets">Map</button><button data-style="satellite">Satellite</button><button data-style="3d">3D View</button></div>
+        <button class="expand-map" id="expandMap">⛶ Expand Map</button>
+      </div>
+      <button class="close-fullscreen" id="closeMap">✕ Close map</button>
+    </div>
+  </section>
+  <section class="ai-refine">
+    <div class="ai-icon">✧</div><div class="ai-copy"><strong>Refine your search with AI</strong><small>Tell us what you'd like to change, like a different budget, location, or property type.</small></div>
+    <div class="ai-suggestions"><button>Show only 3 BHK</button><button>Under ₹1.5 Cr</button><button>Only ready to move</button><button>Near international schools</button></div>
+    <button class="ai-next" aria-label="Refine search" onclick="document.getElementById('mainSearch').focus()">→</button>
+  </section>
+  <div class="bottom-row"><span>Showing <strong id="showingRange">1 – 12</strong> of <strong id="footerCount">2,348</strong> properties</span><div class="pagination"><button aria-label="Previous page">‹</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>5</button><span>…</span><button>196</button><button aria-label="Next page">›</button></div><label class="per-page-wrap">Show <select class="per-page"><option>12</option><option>24</option><option>48</option></select> per page</label></div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const properties = [
+ {id:1,title:"Serene Meadows",area:"Kokapet, Hyderabad",price:1.8,priceText:"₹ 1.8 Cr – 3.2 Cr",type:"Villa",bed:4,size:"180 – 320 Sq.Yd",status:"Under Construction",features:["Clubhouse","Park","Security","+3 more"],image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=85",tag:"Featured",lng:78.3405,lat:17.3934},
+ {id:2,title:"Lakeview Residences",area:"Narsingi, Hyderabad",price:1.2,priceText:"₹ 1.2 Cr – 2.6 Cr",type:"Apartment",bed:3,size:"1,200 – 2,400 Sq.Ft",status:"Under Construction",features:["Swimming Pool","Gym","Power Backup","+3 more"],image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=85",lng:78.365,lat:17.385},
+ {id:3,title:"Green Valley Plots",area:"Mokila, Hyderabad",price:.6,priceText:"₹ 60 Lakhs – 1.5 Cr",type:"Plot",bed:0,size:"200 – 400 Sq.Yd Plots",status:"Ready to Move",features:["Gated Community","Blacktop Roads","Park","+3 more"],image:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=85",lng:78.215,lat:17.365},
+ {id:4,title:"Oakridge Villas",area:"Tellapur, Hyderabad",price:2.5,priceText:"₹ 2.5 Cr – 4.2 Cr",type:"Villa",bed:4,size:"300 – 500 Sq.Yd",status:"Ready to Move",features:["Clubhouse","Sports Facilities","Security","+3 more"],image:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=85",lng:78.315,lat:17.455}
+];
+const propertyList=document.getElementById('propertyList');
+let saved=new Set();
+function renderProperties(){
+ const type=document.getElementById('typeFilter').value,budget=document.getElementById('budgetFilter').value,bed=document.getElementById('bedFilter').value,status=document.getElementById('statusFilter').value,search=document.getElementById('mainSearch').value.toLowerCase().trim();
+ let items=properties.filter(p=>(type==='all'||p.type===type)&&(budget==='all'||(budget==='under1'&&p.price<1)||(budget==='1to3'&&p.price>=1&&p.price<=3)||(budget==='above3'&&p.price>3))&&(bed==='all'||p.bed===Number(bed))&&(status==='all'||p.status===status)&&(!search||(p.title+' '+p.area+' '+p.type+' '+p.features.join(' ')).toLowerCase().includes(search)));
+ const sort=document.getElementById('sortSelect').value;if(sort==='priceLow')items.sort((a,b)=>a.price-b.price);if(sort==='priceHigh')items.sort((a,b)=>b.price-a.price);
+ propertyList.innerHTML='';
+ if(!items.length){propertyList.innerHTML='<div style="background:white;border:1px solid #e6e9e3;border-radius:14px;padding:28px;text-align:center;color:#687582">No exact matches in this sample. Try changing your filters.</div>';document.getElementById('resultNumber').textContent='0';document.getElementById('footerCount').textContent='0';document.getElementById('showingRange').textContent='0';return}
+ items.forEach((p,i)=>{
+  const card=document.createElement('article');card.className='property-card';
+  card.innerHTML=`<div class="property-image" style="background-image:url('${p.image}')">${p.tag?`<span class="featured-tag">${p.tag}</span>`:''}</div><div class="property-info"><div class="card-top"><div class="card-title-wrap"><h2 class="card-title">${p.title}</h2><div class="location"><span>⌖</span>${p.area}</div></div><button class="heart ${saved.has(p.id)?'saved':''}" aria-label="Save ${p.title}" data-heart="${p.id}">${saved.has(p.id)?'♥':'♡'}</button></div><div class="price">${p.priceText}</div><div class="specs">${p.bed?p.bed+', '+p.bed+' BHK '+(p.type==='Villa'?'Villas':'Apartments')+'　|　':''}${p.size}</div><div class="amenity-row">${p.features.map((f,j)=>`<span>${['⌂','♧','♢','＋'][j%4]} ${f}</span>`).join('')}</div><button class="card-arrow" aria-label="View ${p.title}" data-view="${p.id}">→</button></div>`;
+  propertyList.appendChild(card);
+ });
+ document.getElementById('resultNumber').textContent=items.length===4?'2,348':items.length.toLocaleString();document.getElementById('footerCount').textContent=items.length===4?'2,348':items.length.toLocaleString();document.getElementById('showingRange').textContent=`1 – ${items.length===4?12:items.length}`;
+ propertyList.querySelectorAll('[data-heart]').forEach(b=>b.addEventListener('click',()=>{const id=Number(b.dataset.heart);saved.has(id)?saved.delete(id):saved.add(id);b.classList.toggle('saved',saved.has(id));b.textContent=saved.has(id)?'♥':'♡';showToast(saved.has(id)?'Property added to Saved.':'Property removed from Saved.')}));propertyList.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{const p=properties.find(x=>x.id===Number(b.dataset.view));showToast('Opening '+p.title+' property details.');if(map&&p)map.flyTo({center:[p.lng,p.lat],zoom:13.5,duration:1000})}));
+}
+['typeFilter','budgetFilter','bedFilter','statusFilter','sortSelect','sizeFilter','moreFilter'].forEach(id=>document.getElementById(id).addEventListener('change',renderProperties));
+document.getElementById('clearFilters').addEventListener('click',()=>{['typeFilter','budgetFilter','bedFilter','sizeFilter','statusFilter','moreFilter'].forEach(id=>document.getElementById(id).selectedIndex=0);document.getElementById('mainSearch').value='';renderProperties();showToast('Filters cleared.')});
+document.getElementById('searchForm').addEventListener('submit',e=>{e.preventDefault();renderProperties();showToast('Search updated.')});
+document.querySelectorAll('.search-chip,.ai-suggestions button').forEach(b=>b.addEventListener('click',()=>{document.getElementById('mainSearch').value=b.textContent.trim();renderProperties();}));
+document.getElementById('saveSearch').addEventListener('click',e=>{e.currentTarget.textContent=e.currentTarget.textContent.includes('Saved')?'♡ Save Search':'♥ Search Saved';showToast('Your search preference has been saved in this demo.')});
+document.getElementById('listView').addEventListener('click',()=>{document.getElementById('contentGrid').classList.remove('grid-mode');document.getElementById('listView').classList.add('active');document.getElementById('gridView').classList.remove('active');if(map)setTimeout(()=>map.resize(),100)});
+document.getElementById('gridView').addEventListener('click',()=>{document.getElementById('contentGrid').classList.add('grid-mode');document.getElementById('gridView').classList.add('active');document.getElementById('listView').classList.remove('active');if(map)setTimeout(()=>map.resize(),100)});
+let toastTimer;function showToast(message){const t=document.getElementById('toast');t.textContent=message;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2500)}
+renderProperties();
+
+mapboxgl.accessToken = window.MAPBOX_TOKEN || '';
+let map;
+try{
+ map=new mapboxgl.Map({container:'propertyMap',style:'mapbox://styles/mapbox/streets-v12',center:[78.355,17.39],zoom:10.6,pitch:0,bearing:-12,antialias:true});
+ map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'bottom-right');
+ map.addControl(new mapboxgl.GeolocateControl({positionOptions:{enableHighAccuracy:true},trackUserLocation:false}),'bottom-right');
+ map.addControl(new mapboxgl.FullscreenControl(),'bottom-right');
+ map.on('load',()=>{
+  const bounds=new mapboxgl.LngLatBounds();
+  properties.forEach(p=>{
+   const el=document.createElement('div');el.className='map-price';el.textContent=p.price>=1?'₹'+p.price.toFixed(1)+' Cr':'₹'+Math.round(p.price*100)+' L';
+   const popup=new mapboxgl.Popup({offset:18,closeButton:false}).setHTML(`<div style="font-family:'DM Sans',sans-serif;padding:3px 1px"><strong style="font-size:13px">${p.title}</strong><div style="font-size:11px;color:#687582;margin-top:4px">${p.area}</div><div style="font-size:12px;color:#075846;font-weight:700;margin-top:5px">${p.priceText}</div></div>`);
+   new mapboxgl.Marker({element:el,anchor:'bottom'}).setLngLat([p.lng,p.lat]).setPopup(popup).addTo(map);bounds.extend([p.lng,p.lat]);
+  });
+  // Additional neighbourhood labels anchor the map to Hyderabad's western growth corridor.
+  [['Gachibowli',78.348,17.440],['Kokapet',78.340,17.392],['Tellapur',78.315,17.455],['Financial District',78.365,17.420],['HITEC City',78.382,17.447]].forEach(([name,lng,lat])=>{
+   const el=document.createElement('div');el.className='map-label';el.innerHTML='<i></i>'+name;new mapboxgl.Marker({element:el,anchor:'center'}).setLngLat([lng,lat]).addTo(map);
+  });
+ });
+}catch(err){console.error('Mapbox initialization failed:',err);document.getElementById('propertyMap').innerHTML='<div style="padding:30px;color:#30453d">Map could not load. Check your connection and Mapbox token.</div>'}
+const mapStyles={streets:'mapbox://styles/mapbox/streets-v12',satellite:'mapbox://styles/mapbox/satellite-streets-v12','3d':'mapbox://styles/mapbox/standard'};
+document.querySelectorAll('.map-style-switch button').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.map-style-switch button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+ if(map){const s=mapStyles[b.dataset.style];map.setStyle(s);if(b.dataset.style==='3d'){map.once('style.load',()=>{try{map.setConfigProperty('basemap','show3dObjects',true);map.setPitch(55);map.setZoom(12)}catch(e){}})}else{map.setPitch(0);map.setZoom(10.6)}}
+}));
+const mapPanel=document.getElementById('mapPanel');
+document.getElementById('expandMap').addEventListener('click',()=>{mapPanel.classList.add('map-fullscreen');document.getElementById('closeMap').focus();if(map)setTimeout(()=>map.resize(),150)});
+document.getElementById('closeMap').addEventListener('click',()=>{mapPanel.classList.remove('map-fullscreen');if(map)setTimeout(()=>map.resize(),150)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){mapPanel.classList.remove('map-fullscreen');if(map)setTimeout(()=>map.resize(),150)}});
+</script>
+</body>
+</html>

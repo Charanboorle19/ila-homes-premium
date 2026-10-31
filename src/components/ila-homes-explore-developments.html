@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILA Homes — Explore Our Developments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#075a49;--green2:#087d68;--ink:#101c29;--muted:#75818b;--cream:#f8f7f1;--line:#e9e8e1;--shadow:0 9px 28px rgba(27,42,32,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif}button{font:inherit;cursor:pointer}
+.developments{padding:32px clamp(18px,3.3vw,55px) 34px;overflow:hidden;background:radial-gradient(ellipse at 14% 0%,#fffefa 0,transparent 52%),var(--cream);position:relative}
+.developments:before,.developments:after{content:"";position:absolute;pointer-events:none;width:250px;height:450px;opacity:.13;background:radial-gradient(ellipse at center,#9cae88 0 12%,transparent 13%);filter:blur(1px);transform:rotate(34deg);right:-160px;top:60px}
+.developments:after{left:-190px;right:auto;top:240px;transform:rotate(-35deg)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:0 0 24px;position:relative;z-index:1}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(36px,3.5vw,55px);line-height:1.1;letter-spacing:-1.5px;margin:0;font-weight:700}h1 span{color:var(--green)}
+.outline-btn{display:inline-flex;align-items:center;justify-content:center;gap:13px;border:1.5px solid #4e8e82;border-radius:30px;background:#fffdf8;padding:14px 23px;color:#142c32;font-size:13px;font-weight:700;white-space:nowrap;transition:.2s}.outline-btn:hover{background:var(--green);color:#fff;border-color:var(--green)}.outline-btn span{font-size:19px}
+.development-grid{display:grid;grid-template-columns:minmax(0,1.36fr) minmax(0,1.1fr);gap:16px;position:relative;z-index:1}
+.featured-card,.mini-card{background:#fff;border:1px solid #efeee8;border-radius:13px;overflow:hidden;box-shadow:var(--shadow);min-width:0}
+.featured-visual{height:clamp(360px,35vw,535px);position:relative;background:#d9e2d4;overflow:hidden}
+.featured-visual>img{height:100%;width:100%;object-fit:cover;display:block;transition:transform .5s}
+.featured-card:hover .featured-visual>img{transform:scale(1.025)}
+.visual-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,18,19,.25),transparent 28%,transparent 66%,rgba(3,16,16,.48))}
+.pill-tabs{position:absolute;left:17px;top:16px;display:flex;gap:2px;padding:4px;border-radius:28px;background:#fdfdf9ed;backdrop-filter:blur(12px);box-shadow:0 3px 14px #162d291a}
+.pill-tabs button{border:0;background:transparent;color:#1b3036;border-radius:24px;padding:11px 15px;font-size:12px;font-weight:600;transition:.2s}.pill-tabs button.active{background:var(--green);color:#fff}.pill-tabs button:hover:not(.active){background:#e9f0eb}
+.map-controls{position:absolute;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:0;border-radius:15px;overflow:hidden;box-shadow:0 3px 14px #0b25272c}
+.map-controls button{width:44px;height:43px;border:0;background:#fff;color:#1c3035;font-size:20px}.map-controls button+button{border-top:1px solid #e9ece6}
+.compass{position:absolute;left:16px;top:42%;width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:#1a3335;font-size:20px;box-shadow:0 3px 12px #0b25272c}
+.bottom-toolbar{position:absolute;left:15px;right:15px;bottom:14px;display:flex;align-items:center;gap:10px;justify-content:space-between}
+.camera-modes{display:flex;align-items:center;gap:2px;padding:4px;background:#111c20d9;border:1px solid #ffffff7a;border-radius:30px;backdrop-filter:blur(12px);min-width:0}
+.camera-modes button{border:0;background:transparent;color:#fff;padding:10px 12px;border-radius:22px;font-size:11px;white-space:nowrap}.camera-modes button.active{background:#073c34}
+.camera-modes button:hover{background:#ffffff24}
+.scene-actions{display:flex;align-items:center;gap:8px}
+.scene-actions button{height:43px;min-width:44px;border:1px solid #ffffff8a;background:#111c20d9;color:#fff;border-radius:25px;padding:0 13px;font-size:12px;white-space:nowrap;backdrop-filter:blur(12px)}
+.scene-actions button.active{background:#fff;color:#123c36}.scene-actions button .sym{font-size:17px;margin-right:5px}
+.featured-details{padding:20px 24px 21px}
+.featured-title-row{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:18px}
+.featured-title-row h2{font-family:"Playfair Display",Georgia,serif;font-size:29px;line-height:1.1;margin:0 0 7px}
+.sub-location{color:#64717e;font-size:14px;display:flex;align-items:center;gap:8px}.sub-location .pin{font-size:18px;color:#172e37}
+.explore-3d{background:linear-gradient(135deg,#087b68,#005347);border:0;border-radius:30px;color:#fff;padding:16px 25px;font-weight:700;font-size:14px;white-space:nowrap;box-shadow:0 5px 14px #075a4920}.explore-3d:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.feature-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.feature-stat{display:flex;align-items:center;gap:10px;min-width:0;padding-right:10px;border-right:1px solid #eeeee8}.feature-stat:last-child{border:0}
+.feature-stat .symbol{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:#f5f6f4;font-size:20px;flex-shrink:0}
+.feature-stat strong{font-size:13px;display:block;white-space:nowrap}.feature-stat small{font-size:11px;color:#7b8791;display:block;margin-top:3px;white-space:nowrap}
+.side-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-content:stretch}
+.mini-card{display:flex;flex-direction:column;min-height:0}
+.mini-visual{height:clamp(160px,14.1vw,220px);position:relative;overflow:hidden;background:#dfe6d9}
+.mini-visual img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}.mini-card:hover .mini-visual img{transform:scale(1.04)}
+.favorite{position:absolute;right:12px;top:12px;width:38px;height:38px;border:0;border-radius:50%;background:#fff;color:#1b2932;box-shadow:0 3px 10px #172c281b;font-size:22px;display:grid;place-items:center;transition:.2s}.favorite.active{color:#d34850;background:#fff0f1}
+.mini-details{padding:12px 14px 15px;flex:1}
+.mini-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mini-title-row h3{font-family:"Playfair Display",Georgia,serif;font-size:19px;line-height:1.15;margin:0 0 6px}
+.mini-arrow{width:40px;height:40px;flex-shrink:0;border:0;border-radius:50%;background:#fff;box-shadow:0 3px 13px #172c2812;color:#1b2932;font-size:26px;line-height:1}
+.mini-location{font-size:12px;color:#697784;margin:0 0 18px;display:flex;align-items:center;gap:6px}
+.mini-stats{display:flex;gap:15px;align-items:center}
+.mini-stat{display:flex;gap:8px;align-items:center;min-width:0}
+.mini-stat .symbol{font-size:20px;background:#f5f6f4;border-radius:6px;width:29px;height:29px;display:grid;place-items:center;flex-shrink:0}
+.mini-stat strong{font-size:12px;display:block;white-space:nowrap}.mini-stat small{font-size:10px;color:#7c8791;display:block;margin-top:3px;white-space:nowrap}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#123d34;color:#fff;padding:12px 18px;border-radius:25px;font-size:13px;box-shadow:0 6px 20px #0002;transition:.25s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1200px){.development-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px}.featured-visual{height:420px}.mini-visual{height:170px}.pill-tabs button{padding:10px 11px}.bottom-toolbar{gap:6px}.camera-modes button{padding:9px 8px;font-size:10px}.scene-actions{gap:5px}.scene-actions button{padding:0 10px}.featured-details{padding:17px}.featured-title-row h2{font-size:25px}.explore-3d{padding:13px 17px}.feature-stats{gap:7px}.feature-stat{gap:6px}.feature-stat .symbol{width:30px;height:30px}.feature-stat strong{font-size:11px}.feature-stat small{font-size:10px}.mini-details{padding:10px}.mini-title-row h3{font-size:17px}.mini-stats{gap:9px}.mini-stat{gap:5px}.mini-stat .symbol{width:25px;height:25px;font-size:17px}.mini-stat strong{font-size:11px}}
+@media(max-width:900px){.development-grid{grid-template-columns:1fr}.featured-visual{height:clamp(340px,58vw,530px)}.side-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.mini-visual{height:clamp(180px,30vw,280px)}.section-head{margin-bottom:18px}}
+@media(max-width:600px){.developments{padding:23px 12px 25px}h1{font-size:35px;letter-spacing:-.7px}.section-head{align-items:flex-start;flex-direction:column;gap:15px;margin-bottom:17px}.outline-btn{padding:11px 16px;font-size:12px}.development-grid{gap:13px}.featured-visual{height:370px}.pill-tabs{left:9px;top:10px;max-width:calc(100% - 18px);overflow:auto}.pill-tabs button{padding:9px 10px;font-size:10px}.compass{left:10px;top:37%;width:38px;height:38px}.map-controls{left:10px;top:50%;border-radius:11px}.map-controls button{width:38px;height:38px}.bottom-toolbar{left:8px;right:8px;bottom:8px;gap:5px;flex-wrap:wrap}.camera-modes{max-width:100%;overflow:auto}.camera-modes button{padding:9px 9px;font-size:10px}.scene-actions{margin-left:auto}.scene-actions button{height:37px;min-width:37px;padding:0 9px;font-size:10px}.featured-details{padding:16px 13px}.featured-title-row{align-items:flex-start;flex-direction:column;gap:12px;margin-bottom:15px}.featured-title-row h2{font-size:25px}.explore-3d{padding:12px 18px;font-size:12px}.feature-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.feature-stat{border-right:0;padding:0}.feature-stat .symbol{width:32px;height:32px}.feature-stat strong{font-size:12px}.feature-stat small{font-size:10px}.side-grid{gap:9px}.mini-visual{height:140px}.mini-details{padding:10px 9px 12px}.mini-title-row{align-items:flex-start}.mini-title-row h3{font-size:16px}.mini-arrow{width:31px;height:31px;font-size:22px}.favorite{width:32px;height:32px;right:8px;top:8px;font-size:19px}.mini-location{font-size:10px;margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mini-stats{gap:8px;flex-wrap:wrap}.mini-stat{gap:5px}.mini-stat .symbol{width:23px;height:23px;font-size:15px}.mini-stat strong{font-size:10px}.mini-stat small{font-size:9px}.mini-card{border-radius:10px}}
+@media(max-width:390px){h1{font-size:31px}.featured-visual{height:330px}.camera-modes button{padding:8px 7px}.scene-actions button{font-size:9px;padding:0 7px}.side-grid{grid-template-columns:1fr}.mini-visual{height:180px}.mini-stats{gap:18px}}
+</style>
+</head>
+<body>
+<section class="developments">
+  <header class="section-head">
+    <h1>Explore Our <span>Developments</span></h1>
+    <button class="outline-btn" id="viewAll">View All Developments <span>→</span></button>
+  </header>
+  <div class="development-grid">
+    <article class="featured-card">
+      <div class="featured-visual" id="featuredVisual">
+        <img id="heroImage" src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1500&q=90" alt="Aerial view of a premium plotted residential development">
+        <div class="visual-shade"></div>
+        <div class="pill-tabs" id="topModes"><button class="active" data-mode="3D">3D</button><button data-mode="Aerial">Aerial</button><button data-mode="Corner">Corner</button><button data-mode="Top">Top</button><button data-mode="Street">Street</button></div>
+        <button class="compass" id="compass" aria-label="Rotate compass">N</button>
+        <div class="map-controls"><button id="plus" aria-label="Zoom in">+</button><button id="minus" aria-label="Zoom out">−</button><button id="fullscreen" aria-label="Toggle fullscreen">⛶</button></div>
+        <div class="bottom-toolbar">
+          <div class="camera-modes" id="bottomModes"><button class="active" data-mode="3D">3D</button><button data-mode="Aerial">Aerial</button><button data-mode="Corner">Corner</button><button data-mode="Top">Top</button><button data-mode="Street">Street</button><button id="plusBottom">＋</button><button id="minusBottom">−</button></div>
+          <div class="scene-actions"><button id="lighting" aria-label="Change lighting"><span class="sym">☼</span></button><button id="dayMode" class="active" aria-label="Daylight mode">☀</button><button id="nightMode" aria-label="Night mode">☾</button><button id="liveMode"><span class="sym">≋</span>Live</button><button id="flyingCar"><span class="sym">♧</span>Flying car</button></div>
+        </div>
+      </div>
+      <div class="featured-details">
+        <div class="featured-title-row">
+          <div><h2>Serene Meadows</h2><div class="sub-location"><span class="pin">⌖</span> Kokapet, Hyderabad</div></div>
+          <button class="explore-3d" id="explore3d">Explore in 3D &nbsp; →</button>
+        </div>
+        <div class="feature-stats">
+          <div class="feature-stat"><span class="symbol">↗</span><div><strong>120+</strong><small>Plots</small></div></div>
+          <div class="feature-stat"><span class="symbol">⤢</span><div><strong>30–50 Sq.Yd</strong><small>Plot Sizes</small></div></div>
+          <div class="feature-stat"><span class="symbol">⌂</span><div><strong>Clubhouse</strong><small>Modern Amenities</small></div></div>
+          <div class="feature-stat"><span class="symbol">▣</span><div><strong>Ready to Build</strong><small>RERA Approved</small></div></div>
+        </div>
+      </div>
+    </article>
+    <div class="side-grid">
+      <article class="mini-card">
+        <div class="mini-visual"><img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?auto=format&fit=crop&w=800&q=85" alt="Green Valley residential plots near a lake"><button class="favorite" aria-label="Save Green Valley" aria-pressed="false">♡</button></div>
+        <div class="mini-details"><div class="mini-title-row"><h3>Green Valley</h3><button class="mini-arrow" aria-label="View Green Valley">›</button></div><p class="mini-location">⌖ &nbsp;Tellapur, Hyderabad</p><div class="mini-stats"><div class="mini-stat"><span class="symbol">↗</span><div><strong>80+</strong><small>Plots</small></div></div><div class="mini-stat"><span class="symbol">⌁</span><div><strong>25–40 Sq.Yd</strong><small>Plot Sizes</small></div></div></div></div>
+      </article>
+      <article class="mini-card">
+        <div class="mini-visual"><img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=800&q=85" alt="Lakefront Enclave plotted community"><button class="favorite" aria-label="Save Lakefront Enclave" aria-pressed="false">♡</button></div>
+        <div class="mini-details"><div class="mini-title-row"><h3>Lakefront Enclave</h3><button class="mini-arrow" aria-label="View Lakefront Enclave">›</button></div><p class="mini-location">⌖ &nbsp;Mokila, Hyderabad</p><div class="mini-stats"><div class="mini-stat"><span class="symbol">↗</span><div><strong>150+</strong><small>Plots</small></div></div><div class="mini-stat"><span class="symbol">⌁</span><div><strong>30–60 Sq.Yd</strong><small>Plot Sizes</small></div></div></div></div>
+      </article>
+      <article class="mini-card">
+        <div class="mini-visual"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=85" alt="Urban Nest villa community"><button class="favorite" aria-label="Save Urban Nest" aria-pressed="false">♡</button></div>
+        <div class="mini-details"><div class="mini-title-row"><h3>Urban Nest</h3><button class="mini-arrow" aria-label="View Urban Nest">›</button></div><p class="mini-location">⌖ &nbsp;Narsingi, Hyderabad</p><div class="mini-stats"><div class="mini-stat"><span class="symbol">↗</span><div><strong>95+</strong><small>Plots</small></div></div><div class="mini-stat"><span class="symbol">⌁</span><div><strong>20–40 Sq.Yd</strong><small>Plot Sizes</small></div></div></div></div>
+      </article>
+      <article class="mini-card">
+        <div class="mini-visual"><img src="https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=800&q=85" alt="Riverside County plotted development"><button class="favorite" aria-label="Save Riverside County" aria-pressed="false">♡</button></div>
+        <div class="mini-details"><div class="mini-title-row"><h3>Riverside County</h3><button class="mini-arrow" aria-label="View Riverside County">›</button></div><p class="mini-location">⌖ &nbsp;Shankarpally, Hyderabad</p><div class="mini-stats"><div class="mini-stat"><span class="symbol">↗</span><div><strong>200+</strong><small>Plots</small></div></div><div class="mini-stat"><span class="symbol">⌁</span><div><strong>30–70 Sq.Yd</strong><small>Plot Sizes</small></div></div></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const toastEl=document.getElementById('toast');let toastTimer;
+function toast(message){toastEl.textContent=message;toastEl.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toastEl.classList.remove('show'),2400)}
+const modes={
+ '3D':{filter:'saturate(1.02) contrast(1.02)',message:'3D perspective selected'},
+ 'Aerial':{filter:'saturate(.9) contrast(1.05)',message:'Aerial view selected'},
+ 'Corner':{filter:'saturate(1.15) contrast(1.05)',message:'Corner perspective selected'},
+ 'Top':{filter:'saturate(.82) contrast(1.08)',message:'Top view selected'},
+ 'Street':{filter:'saturate(.95) brightness(1.04)',message:'Street-level view selected'}
+};
+function setMode(mode){document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));document.getElementById('heroImage').style.filter=modes[mode].filter;toast(modes[mode].message+' · demo preview')}
+document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>setMode(btn.dataset.mode)));
+document.querySelectorAll('.favorite').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();const saved=btn.getAttribute('aria-pressed')!=='true';btn.setAttribute('aria-pressed',String(saved));btn.classList.toggle('active',saved);btn.textContent=saved?'♥':'♡';toast(saved?'Development saved to favourites':'Removed from favourites')}));
+let zoom=1;const hero=document.getElementById('heroImage');function zoomBy(n){zoom=Math.max(1,Math.min(1.6,zoom+n));hero.style.transform=`scale(${zoom})`;toast(zoom===1?'Minimum zoom':'Zoom '+Math.round(zoom*100)+'%')}
+document.getElementById('plus').addEventListener('click',()=>zoomBy(.1));document.getElementById('minus').addEventListener('click',()=>zoomBy(-.1));document.getElementById('plusBottom').addEventListener('click',()=>zoomBy(.1));document.getElementById('minusBottom').addEventListener('click',()=>zoomBy(-.1));
+document.getElementById('compass').addEventListener('click',()=>{hero.style.transform+=' rotate(1deg)';toast('Compass direction adjusted · visual demo')});
+document.getElementById('fullscreen').addEventListener('click',()=>{const el=document.getElementById('featuredVisual');if(!document.fullscreenElement&&el.requestFullscreen)el.requestFullscreen().catch(()=>toast('Fullscreen is not available in this browser'));else if(document.exitFullscreen)document.exitFullscreen()});
+document.getElementById('dayMode').addEventListener('click',()=>{hero.style.filter='brightness(1.04) saturate(1.02)';document.getElementById('dayMode').classList.add('active');document.getElementById('nightMode').classList.remove('active');toast('Daylight view selected')});
+document.getElementById('nightMode').addEventListener('click',()=>{hero.style.filter='brightness(.62) saturate(.78)';document.getElementById('nightMode').classList.add('active');document.getElementById('dayMode').classList.remove('active');toast('Night view selected')});
+document.getElementById('lighting').addEventListener('click',()=>{hero.style.filter=hero.style.filter.includes('brightness(.82)')?'':'brightness(.82) saturate(1.2)';toast('Lighting adjusted · visual demo')});
+document.getElementById('liveMode').addEventListener('click',()=>toast('Live mode needs a connected 3D scene or map engine.'));
+document.getElementById('flyingCar').addEventListener('click',()=>toast('Flying-car animation needs a 3D model and scene engine.'));
+document.getElementById('explore3d').addEventListener('click',()=>toast('Connect Explore in 3D to the development viewer.'));
+document.getElementById('viewAll').addEventListener('click',()=>toast('Connect this button to the full developments listing.'));
+document.querySelectorAll('.mini-arrow,.mini-card').forEach(el=>el.addEventListener('click',e=>{if(e.target.closest('.favorite'))return;const card=el.closest('.mini-card')||el;toast('Open '+(card.querySelector('h3')?.textContent||'development')+' details')}));
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILA Homes — Explore Properties on the Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#08432e;--green2:#15583d;--navy:#101d2b;--muted:#707981;--cream:#f7f5ed;--line:#e9e7df;--white:#fffefa;--shadow:0 10px 30px rgba(24,37,24,.055)}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--navy);font-family:"DM Sans",sans-serif}button,input{font:inherit}button{cursor:pointer}
+.map-section{position:relative;isolation:isolate;overflow:hidden;padding:32px clamp(18px,3.5vw,54px) 34px;background:radial-gradient(ellipse at 70% 5%,#fffdf7 0%,transparent 45%),var(--cream)}
+.map-section:before,.map-section:after{content:"";position:absolute;z-index:-1;pointer-events:none;border:1px solid #e8e7dc;border-radius:50%;transform:rotate(-30deg)}.map-section:before{width:520px;height:240px;right:8%;top:-185px}.map-section:after{width:440px;height:230px;right:-230px;top:10px}
+.heading-row{display:flex;justify-content:space-between;align-items:flex-end;gap:25px;margin:0 0 38px 18px}
+.eyebrow{display:flex;align-items:center;gap:13px;text-transform:uppercase;letter-spacing:2.4px;font-size:12px;font-weight:800;color:#173d2c;margin-bottom:11px}.eyebrow:before{content:"";width:32px;height:1px;background:#6d8d7c}
+h1{font-family:Manrope,sans-serif;font-size:clamp(36px,3.5vw,52px);letter-spacing:-1.8px;line-height:1.08;margin:0;font-weight:800}h1 span{color:var(--green)}
+.heading-row p{color:#687078;font-size:18px;margin:10px 0 0;line-height:1.5}
+.open-map{flex-shrink:0;border:1px solid #507c68;border-radius:30px;padding:13px 20px;background:#fffdf8;color:#153b2b;font-size:13px;font-weight:700;margin-bottom:0;white-space:nowrap}.open-map span{font-size:18px;margin-left:12px;vertical-align:-1px}
+.explorer{display:grid;grid-template-columns:minmax(300px,340px) minmax(0,1fr);gap:12px;min-height:calc(100vh - 220px)}
+.sidebar{display:flex;flex-direction:column;gap:8px;min-height:0}
+.location-panel,.district-detail{background:rgba(255,254,250,.82);border:1px solid #eeece4;border-radius:17px;box-shadow:var(--shadow)}
+.location-panel{padding:16px 17px 13px;flex:1;min-height:0}
+.panel-title{font-family:Manrope,sans-serif;font-size:18px;font-weight:800;margin:0 0 8px}
+.searchbox{height:43px;display:flex;align-items:center;gap:11px;border:1px solid #dfded7;background:#fffefa;border-radius:12px;padding:0 13px;margin-bottom:9px;color:#263947}
+.searchbox span{font-size:19px}.searchbox input{border:0;outline:0;background:transparent;min-width:0;width:100%;font-size:13px;color:var(--navy)}.searchbox input::placeholder{color:#7b838b}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);background:#f5f3ec;border-radius:12px;padding:2px;margin-bottom:17px;gap:2px}.tab{border:0;border-radius:10px;padding:10px 4px;background:transparent;font-size:12px;color:#202c35;font-weight:600}.tab.active{background:var(--green);color:white;box-shadow:0 3px 8px #0b39262b}
+.list-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}.list-heading h3{font-size:15px;margin:0;font-weight:800}.reset{border:0;background:none;font-size:12px;font-weight:700;color:#182530}.reset span{font-size:16px;margin-left:5px}
+.district-list{display:flex;flex-direction:column}
+.district{display:flex;align-items:center;gap:11px;text-align:left;width:100%;border:0;border-bottom:1px solid #f0eee7;background:transparent;padding:8px 5px;border-radius:9px;color:var(--navy);transition:.16s}
+.district:hover{background:#f4f5ec}.district.active{background:#edf0e4;box-shadow:inset 3px 0 #1c6547;padding-left:14px;margin-left:-10px;width:calc(100% + 10px)}
+.district img{width:45px;height:45px;object-fit:cover;border-radius:13px;flex-shrink:0}.district-copy{min-width:0;flex:1}.district-copy strong{display:block;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.district-copy small{display:block;font-size:12px;color:#717a82;margin-top:4px}.district .chevron{font-size:23px;color:#203b3b;padding-right:8px}
+.show-all{display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#173d2c;font-size:12px;font-weight:700;padding:12px 3px 3px}
+.district-detail{padding:13px 16px 15px;display:grid;grid-template-columns:78px minmax(0,1fr);gap:12px;align-items:center}
+.district-detail>img{width:78px;height:78px;object-fit:cover;border-radius:13px}
+.detail-copy{min-width:0}.detail-copy strong{display:block;font-family:Manrope,sans-serif;font-size:14px;margin-bottom:5px}.detail-copy p{font-size:12px;color:#707981;margin:0 0 7px}.detail-copy b{font-size:12px;font-weight:700}
+.bookmark{float:right;width:34px;height:34px;border:1px solid #efede6;background:#fffefa;border-radius:11px;font-size:19px;color:#143b2a}
+.explore-btn{grid-column:1/-1;background:linear-gradient(100deg,#0c4c35,#06412d);border:0;color:white;border-radius:10px;padding:13px;font-size:13px;font-weight:700;margin-top:1px}.explore-btn span{margin-left:10px;font-size:17px;vertical-align:-1px}
+.map-canvas{position:relative;min-height:650px;border-radius:18px;overflow:hidden;border:1px solid #e7e5dc;box-shadow:var(--shadow);background:#e9eadb}
+.map-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.map-wash{position:absolute;inset:0;background:linear-gradient(90deg,rgba(248,247,237,.12),rgba(249,247,238,.2));pointer-events:none}
+.map-tools{position:absolute;right:16px;top:16px;display:flex;flex-direction:column;align-items:flex-end;gap:18px;z-index:4}
+.layer-switch{display:flex;gap:2px;padding:5px;border-radius:30px;background:rgba(255,254,250,.96);box-shadow:0 4px 16px #263a2b15}
+.layer-switch button{border:0;background:transparent;border-radius:25px;padding:10px 15px;font-size:12px;color:#38464b;font-weight:600}.layer-switch button.active{background:var(--green);color:white;box-shadow:0 3px 8px #0b39262b}
+.tool-stack{display:flex;flex-direction:column;background:#fffefa;border-radius:13px;overflow:hidden;box-shadow:0 4px 16px #263a2b18}.tool-stack button{border:0;border-bottom:1px solid #efede7;background:#fffefa;width:43px;height:43px;font-size:21px;color:#172c2b}.tool-stack button:last-child{border:0}
+.map-label{position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;gap:5px;transform:translate(-50%,-50%);white-space:nowrap;cursor:pointer;transition:transform .18s}
+.map-label:hover{transform:translate(-50%,-50%) scale(1.04)}
+.map-label strong{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.2px;padding:7px 13px;border-radius:22px;background:#f9f7f0eF;box-shadow:0 3px 10px #5b604012}
+.map-label small{font-size:12px;background:#faf8f0ed;padding:6px 12px;border-radius:20px;box-shadow:0 3px 10px #5b604012}
+.map-label.selected strong,.map-label.selected small{background:var(--green);color:white}
+.map-label .pin{font-size:26px;filter:drop-shadow(0 2px 2px #0002)}
+.map-label .landmark{font-size:35px;filter:drop-shadow(0 3px 2px #0002)}
+.map-label .plane{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#2c91d4;color:white;font-size:20px;box-shadow:0 2px 7px #163e5550}
+.map-label .mini-label{font-size:11px;padding:5px 10px;background:#fffdf7ed;border-radius:18px}
+.state-label{position:absolute;z-index:1;color:#999d90;font-weight:700;letter-spacing:3px;font-size:15px;line-height:1.25;text-align:center}
+.road-shield{position:absolute;z-index:2;padding:3px 6px;background:#f2ca56;border:1px solid #c7a444;border-radius:6px;color:#34402d;font-size:11px;font-weight:800}
+.road-tag{position:absolute;z-index:2;background:#60a95b;color:white;border-radius:5px;padding:3px 6px;font-size:10px;font-weight:800}
+.map-legend{position:absolute;bottom:15px;left:16px;z-index:4;display:flex;gap:7px;padding:8px 10px;background:rgba(255,254,250,.96);border:1px solid #eeece4;border-radius:17px;box-shadow:0 5px 15px #253d2b12;max-width:calc(100% - 32px);overflow-x:auto}
+.legend-btn{display:flex;align-items:center;gap:7px;white-space:nowrap;border:1px solid transparent;border-radius:22px;background:transparent;padding:8px 11px;font-size:11px;font-weight:700;color:#23352e}.legend-btn.active{background:#eef0e5;border-color:#e4e8d9}.legend-btn span{font-size:15px}.legend-btn[data-layer="roads"] span{color:#e8a735}.legend-btn[data-layer="transit"] span{color:#267955}.legend-btn[data-layer="schools"],.legend-btn[data-layer="hospitals"] span{color:#e94f4f}
+.scale{position:absolute;right:58px;bottom:27px;z-index:3;color:#425049;font-size:10px;text-align:center}.scale-line{height:6px;width:112px;border-left:2px solid #293a35;border-right:2px solid #293a35;border-bottom:3px solid #293a35;margin-top:3px}
+.map-status{position:absolute;left:18px;top:16px;z-index:3;padding:8px 12px;border-radius:20px;background:#fffefaeb;font-size:11px;color:#314239;display:none}
+@media(max-width:1000px){.heading-row{margin-left:0;align-items:flex-start}.explorer{grid-template-columns:290px minmax(0,1fr)}.map-canvas{min-height:610px}.map-label strong{font-size:10px;padding:6px 9px}.map-label small{font-size:10px;padding:5px 8px}.district img{width:40px;height:40px}.district-detail{grid-template-columns:64px minmax(0,1fr)}.district-detail>img{width:64px;height:72px}.map-legend{gap:2px;padding:6px}.legend-btn{padding:7px 8px;font-size:10px}}
+@media(max-width:760px){.map-section{padding:26px 14px}.heading-row{display:block;margin-bottom:22px}.eyebrow{font-size:10px}.heading-row h1{font-size:34px;letter-spacing:-1.3px}.heading-row p{font-size:14px;margin-top:8px}.open-map{margin-top:16px;padding:11px 15px}.explorer{display:flex;flex-direction:column;gap:12px}.sidebar{display:contents}.location-panel{order:1;padding:14px}.district-detail{order:3}.map-canvas{order:2;min-height:570px;height:68vh;max-height:720px}.district-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 8px}.district{border-bottom:1px solid #f0eee7}.district.active{margin-left:0;width:100%;padding-left:8px}.district img{width:37px;height:37px;border-radius:10px}.district-copy strong{font-size:11px}.district-copy small{font-size:10px}.district .chevron{font-size:18px;padding-right:0}.tabs{margin-bottom:13px}.list-heading h3{font-size:14px}.show-all{padding-top:9px}.district-detail{grid-template-columns:68px minmax(0,1fr)}.district-detail>img{width:68px;height:68px}.map-tools{right:9px;top:9px;gap:10px}.layer-switch{padding:4px}.layer-switch button{padding:9px 10px;font-size:10px}.tool-stack button{width:37px;height:37px;font-size:18px}.map-label strong{font-size:9px;padding:5px 7px}.map-label small{font-size:9px;padding:4px 7px}.map-label .landmark{font-size:25px}.map-label .pin{font-size:21px}.map-label .plane{width:28px;height:28px;font-size:17px}.map-legend{left:8px;bottom:8px;max-width:calc(100% - 16px);gap:2px;padding:5px;border-radius:13px}.legend-btn{padding:7px;font-size:9px;gap:4px}.legend-btn span{font-size:12px}.scale{right:15px;bottom:70px}.state-label{font-size:10px;letter-spacing:2px}.road-shield,.road-tag{font-size:9px}}
+@media(max-width:430px){.heading-row h1{font-size:30px}.map-canvas{min-height:520px}.district-list{grid-template-columns:1fr}.district:nth-child(n+5){display:none}.location-panel.expanded .district:nth-child(n+5){display:flex}.map-label strong{font-size:8px}.map-label small{font-size:8px}.map-legend{max-width:calc(100% - 16px)}.legend-btn{padding:6px 5px}.scale{display:none}}
+</style>
+</head>
+<body>
+<section class="map-section">
+  <header class="heading-row">
+    <div>
+      <div class="eyebrow">Discover by location</div>
+      <h1>Explore Properties <span>on the Map</span></h1>
+      <p>Discover the right neighbourhood, explore nearby areas, and find properties in the locations that suit you.</p>
+    </div>
+    <button class="open-map" id="openFullMap">♧ &nbsp; Open Full Map <span>→</span></button>
+  </header>
+
+  <div class="explorer">
+    <aside class="sidebar">
+      <section class="location-panel" id="locationPanel">
+        <h2 class="panel-title">Find a Location</h2>
+        <label class="searchbox"><span>⌕</span><input id="locationSearch" type="search" placeholder="Search state, district or locality..." aria-label="Search state district or locality"></label>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="districts">Districts</button><button class="tab" data-tab="cities">Cities</button><button class="tab" data-tab="localities">Localities</button>
+        </div>
+        <div class="list-heading"><h3 id="listHeading">Telangana Districts</h3><button class="reset" id="reset">Reset <span>⟳</span></button></div>
+        <div class="district-list" id="districtList">
+          <button class="district" data-name="Hyderabad" data-count="821+" data-location="Hyderabad" data-image="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=220&q=80"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=140&q=80" alt=""><span class="district-copy"><strong>Hyderabad</strong><small>821+ properties</small></span><span class="chevron">›</span></button>
+          <button class="district active" data-name="Rangareddy" data-count="654+" data-location="Rangareddy District" data-image="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=220&q=80"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=140&q=80" alt=""><span class="district-copy"><strong>Rangareddy</strong><small>654+ properties</small></span><span class="chevron">›</span></button>
+          <button class="district" data-name="Medchal-Malkajgiri" data-count="312+" data-location="Medchal-Malkajgiri District" data-image="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=220&q=80"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=140&q=80" alt=""><span class="district-copy"><strong>Medchal-Malkajgiri</strong><small>312+ properties</small></span><span class="chevron">›</span></button>
+          <button class="district" data-name="Sangareddy" data-count="268+" data-location="Sangareddy District" data-image="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=220&q=80"><img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=140&q=80" alt=""><span class="district-copy"><strong>Sangareddy</strong><small>268+ properties</small></span><span class="chevron">›</span></button>
+          <button class="district" data-name="Yadadri Bhuvanagiri" data-count="196+" data-location="Yadadri Bhuvanagiri District" data-image="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=220&q=80"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=140&q=80" alt=""><span class="district-copy"><strong>Yadadri Bhuvanagiri</strong><small>196+ properties</small></span><span class="chevron">›</span></button>
+          <button class="district" data-name="Nalgonda" data-count="142+" data-location="Nalgonda District" data-image="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=220&q=80"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=140&q=80" alt=""><span class="district-copy"><strong>Nalgonda</strong><small>142+ properties</small></span><span class="chevron">›</span></button>
+          <button class="district" data-name="Mahabubnagar" data-count="76+" data-location="Mahabubnagar District" data-image="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=220&q=80"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=140&q=80" alt=""><span class="district-copy"><strong>Mahabubnagar</strong><small>76+ properties</small></span><span class="chevron">›</span></button>
+          <button class="district" data-name="Vikarabad" data-count="120+" data-location="Vikarabad District" data-image="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=220&q=80"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=140&q=80" alt=""><span class="district-copy"><strong>Vikarabad</strong><small>120+ properties</small></span><span class="chevron">›</span></button>
+        </div>
+        <button class="show-all" id="showAll">Show all districts <span>⌄</span></button>
+      </section>
+
+      <section class="district-detail">
+        <img id="detailImage" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=220&q=80" alt="Selected district preview">
+        <div class="detail-copy"><button class="bookmark" id="bookmark" aria-label="Save district">♧</button><strong id="detailTitle">Rangareddy District</strong><p>Telangana, India</p><b><span id="detailCount">654+</span> properties available</b></div>
+        <button class="explore-btn" id="exploreProperties">Explore Properties <span>→</span></button>
+      </section>
+    </aside>
+
+    <main class="map-canvas" id="mapCanvas" aria-label="Illustrated Telangana property map">
+      <!-- Decorative illustrative map background. Replace with MapLibre/Google Maps for a true interactive geographic map. -->
+      <img class="map-art" id="mapArt" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2000&q=90" alt="">
+      <div class="map-wash"></div>
+      <div class="map-status" id="mapStatus">Showing property areas in Telangana</div>
+      <div class="state-label" style="left:79%;top:18%">TELANGANA</div>
+      <div class="state-label" style="left:75%;top:88%">ANDHRA<br>PRADESH</div>
+      <span class="road-shield" style="left:33%;top:6%">65</span><span class="road-shield" style="left:5%;top:46%">163</span><span class="road-shield" style="right:5%;top:44%">44</span><span class="road-shield" style="right:4%;bottom:25%">765</span><span class="road-tag" style="left:62%;top:47%">ORR</span>
+      <div class="map-label" data-region="Siddipet" style="left:60%;top:10%"><strong>Siddipet</strong><small>98+ properties</small></div>
+      <div class="map-label" data-region="Sangareddy" style="left:25%;top:28%"><strong>Sangareddy</strong><small>268+ properties</small></div>
+      <div class="map-label" data-region="Medchal-Malkajgiri" style="left:58%;top:28%"><strong>Medchal-Malkajgiri</strong><small>312+ properties</small></div>
+      <div class="map-label selected" data-region="Rangareddy" style="left:43%;top:53%"><span class="pin">♟</span><strong>Rangareddy</strong><small>654+ properties</small></div>
+      <div class="map-label" data-region="Hyderabad" style="left:57%;top:48%"><span class="landmark">♜</span><strong>Hyderabad</strong><small>821+ properties</small></div>
+      <div class="map-label" data-region="Yadadri Bhuvanagiri" style="left:82%;top:43%"><strong>Yadadri Bhuvanagiri</strong><small>196+ properties</small></div>
+      <div class="map-label" data-region="Vikarabad" style="left:20%;top:62%"><strong>Vikarabad</strong><small>120+ properties</small></div>
+      <div class="map-label" data-region="Nalgonda" style="left:82%;top:70%"><strong>Nalgonda</strong><small>142+ properties</small></div>
+      <div class="map-label" data-region="Mahabubnagar" style="left:31%;top:82%"><strong>Mahabubnagar</strong><small>76+ properties</small></div>
+      <div class="map-label" style="left:40%;top:36%"><span class="mini-label">Bhuvacheru</span></div>
+      <div class="map-label" style="left:29%;top:45%"><span class="mini-label">Chevella</span></div>
+      <div class="map-label" style="left:36%;top:67%"><span class="mini-label">Shadnagar</span></div>
+      <div class="map-label" style="left:77%;top:37%"><span class="mini-label">Bhuvanagiri</span></div>
+      <div class="map-label" style="left:47%;top:35%"><span class="landmark">♜</span><span class="mini-label">Gachibowli</span></div>
+      <div class="map-label" style="left:57%;top:64%"><span class="plane">✈</span><span class="mini-label">RGI Airport</span></div>
+      <div class="map-label" style="left:20%;top:74%"><span class="mini-label">Tandur</span></div>
+      <div class="map-label" style="left:26%;top:72%"><span class="mini-label">Manchal</span></div>
+
+      <div class="map-tools">
+        <div class="layer-switch" role="group" aria-label="Map type"><button class="active" data-maptype="Map">Map</button><button data-maptype="Satellite">Satellite</button><button data-maptype="Terrain">Terrain</button></div>
+        <div class="tool-stack"><button id="fullscreen" aria-label="Fullscreen">⛶</button><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="layers" aria-label="Toggle layers">▱</button></div>
+      </div>
+      <div class="map-legend">
+        <button class="legend-btn active" data-layer="districts"><span>⏷</span>Districts</button>
+        <button class="legend-btn" data-layer="roads"><span>⌁</span>Major Roads</button>
+        <button class="legend-btn" data-layer="transit"><span>♧</span>Transit</button>
+        <button class="legend-btn" data-layer="landmarks"><span>♢</span>Landmarks</button>
+        <button class="legend-btn" data-layer="schools"><span>✚</span>Schools</button>
+        <button class="legend-btn" data-layer="hospitals"><span>✚</span>Hospitals</button>
+      </div>
+      <div class="scale">0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30 km<div class="scale-line"></div></div>
+    </main>
+  </div>
+</section>
+<script>
+const districts=[...document.querySelectorAll('.district')], panel=document.getElementById('locationPanel');
+const detailTitle=document.getElementById('detailTitle'),detailCount=document.getElementById('detailCount'),detailImage=document.getElementById('detailImage');
+const listHeading=document.getElementById('listHeading'),search=document.getElementById('locationSearch');
+function selectDistrict(button){
+  districts.forEach(d=>d.classList.remove('active'));button.classList.add('active');
+  detailTitle.textContent=button.dataset.location;detailCount.textContent=button.dataset.count;detailImage.src=button.dataset.image;
+  document.querySelectorAll('.map-label[data-region]').forEach(label=>label.classList.toggle('selected',label.dataset.region.toLowerCase()===button.dataset.name.toLowerCase()));
+  document.getElementById('mapStatus').textContent='Selected area: '+button.dataset.name;
+}
+districts.forEach(d=>d.addEventListener('click',()=>selectDistrict(d)));
+document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');
+  const type=tab.dataset.tab;
+  listHeading.textContent=type==='districts'?'Telangana Districts':type==='cities'?'Popular Cities':'Popular Localities';
+  const cityNames=['Hyderabad','Secunderabad','Warangal','Karimnagar','Nizamabad','Khammam','Siddipet','Nalgonda'];
+  const localNames=['Gachibowli','Kokapet','Tellapur','Shadnagar','Kondapur','Miyapur','Kompally','Narsingi'];
+  districts.forEach((d,i)=>{
+    const name=type==='districts'?d.dataset.name:(type==='cities'?cityNames[i]:localNames[i]);
+    d.querySelector('strong').textContent=name;
+    d.querySelector('small').textContent=(type==='localities'?['220+','180+','145+','90+','165+','130+','72+','85+'][i]:d.dataset.count)+' properties';
+    d.dataset.name=name;d.dataset.location=type==='districts'?name+' District':name;
+  });
+}));
+search.addEventListener('input',()=>{
+  const q=search.value.trim().toLowerCase();
+  districts.forEach(d=>d.style.display=d.querySelector('strong').textContent.toLowerCase().includes(q)?'flex':'none');
+});
+document.getElementById('reset').addEventListener('click',()=>{
+  search.value='';districts.forEach(d=>d.style.display='flex');
+  document.querySelector('[data-tab="districts"]').click();
+  const rangareddy=districts.find(d=>d.querySelector('strong').textContent.toLowerCase()==='rangareddy');if(rangareddy)selectDistrict(rangareddy);
+});
+document.getElementById('showAll').addEventListener('click',()=>{
+  panel.classList.toggle('expanded');document.getElementById('showAll').innerHTML=panel.classList.contains('expanded')?'Show fewer districts <span>⌃</span>':'Show all districts <span>⌄</span>';
+});
+document.getElementById('bookmark').addEventListener('click',e=>{e.currentTarget.classList.toggle('saved');e.currentTarget.textContent=e.currentTarget.classList.contains('saved')?'♥':'♧';});
+document.getElementById('exploreProperties').addEventListener('click',()=>alert('Connect this button to your filtered property results page.'));
+document.querySelectorAll('.map-label[data-region]').forEach(label=>label.addEventListener('click',()=>{
+  const match=districts.find(d=>d.dataset.name.toLowerCase()===label.dataset.region.toLowerCase());
+  if(match){selectDistrict(match);document.querySelector('.location-panel').scrollIntoView({behavior:'smooth',block:'nearest'});}
+}));
+document.querySelectorAll('[data-maptype]').forEach(button=>button.addEventListener('click',()=>{
+  document.querySelectorAll('[data-maptype]').forEach(b=>b.classList.remove('active'));button.classList.add('active');
+  const art=document.getElementById('mapArt'),wash=document.querySelector('.map-wash');
+  if(button.dataset.maptype==='Satellite'){art.style.filter='saturate(.75) contrast(1.08) brightness(.8)';wash.style.background='rgba(25,48,36,.25)';}
+  else if(button.dataset.maptype==='Terrain'){art.style.filter='sepia(.25) saturate(1.25) contrast(.95)';wash.style.background='rgba(236,231,202,.12)';}
+  else{art.style.filter='';wash.style.background='linear-gradient(90deg,rgba(248,247,237,.12),rgba(249,247,238,.2))';}
+}));
+let zoom=1;function setZoom(){document.getElementById('mapArt').style.transform=`scale(${zoom})`;document.getElementById('mapArt').style.transition='transform .25s';document.querySelectorAll('.map-label,.state-label,.road-shield,.road-tag').forEach(el=>{el.style.transform=`translate(-50%,-50%) scale(${zoom})`;});}
+document.getElementById('zoomIn').addEventListener('click',()=>{zoom=Math.min(1.6,zoom+.1);setZoom()});
+document.getElementById('zoomOut').addEventListener('click',()=>{zoom=Math.max(.8,zoom-.1);setZoom()});
+document.getElementById('fullscreen').addEventListener('click',()=>{const map=document.getElementById('mapCanvas');if(!document.fullscreenElement&&map.requestFullscreen)map.requestFullscreen();else if(document.exitFullscreen)document.exitFullscreen();});
+document.getElementById('layers').addEventListener('click',()=>document.querySelector('.map-legend').classList.toggle('hidden'));
+document.querySelectorAll('.legend-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  btn.classList.toggle('active');const layer=btn.dataset.layer;
+  const labels=document.querySelectorAll('.map-label');
+  if(layer==='districts')labels.forEach(l=>{if(l.dataset.region)l.style.display=btn.classList.contains('active')?'flex':'none';});
+  if(layer==='roads')document.querySelectorAll('.road-shield,.road-tag').forEach(el=>el.style.display=btn.classList.contains('active')?'block':'none');
+  if(layer==='landmarks')document.querySelectorAll('.landmark').forEach(el=>el.style.display=btn.classList.contains('active')?'':'none');
+  if(layer==='transit')document.querySelectorAll('.plane').forEach(el=>el.style.display=btn.classList.contains('active')?'grid':'none');
+  if(layer==='schools'||layer==='hospitals')document.getElementById('mapStatus').style.display=btn.classList.contains('active')?'block':'none';
+}));
+document.getElementById('openFullMap').addEventListener('click',()=>{const map=document.getElementById('mapCanvas');if(map.requestFullscreen)map.requestFullscreen();});
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILA Homes — Find Your Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#10232a;--green:#075c4b;--deep:#002e27;--cream:#faf8f2;--muted:#63717b;--line:#dcded8}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"DM Sans",Arial,sans-serif;color:var(--ink);background:var(--cream)}
+button,input,a{font:inherit}
+button{cursor:pointer}
+.hero{position:relative;min-height:600px;height:clamp(600px,40vw,720px);overflow:hidden;background:#d9d8c8;isolation:isolate}
+.hero-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 57%;z-index:-3}
+.hero:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(250,248,241,.97) 0%,rgba(250,248,241,.88) 28%,rgba(250,248,241,.48) 51%,rgba(250,248,241,.04) 76%),linear-gradient(0deg,rgba(12,31,26,.12),transparent 40%)}
+.hero-content{width:min(100% - 10.5%,1440px);margin:auto;padding-top:clamp(55px,5.1vw,88px);position:relative;z-index:1}
+.hero h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(43px,3.55vw,65px);line-height:1.08;letter-spacing:-1.4px;font-weight:600;margin:0 0 15px;max-width:780px}
+.hero h1 span{color:var(--green)}
+.hero-subtitle{font-size:clamp(16px,1.25vw,20px);line-height:1.5;color:#5e6c76;margin:0 0 23px;max-width:630px}
+.search-row{display:flex;align-items:stretch;gap:20px;max-width:1125px}
+.search-stack{flex:1;min-width:0}
+.search-box{height:66px;display:flex;align-items:center;gap:15px;padding:7px 8px 7px 22px;background:rgba(255,255,255,.94);border:1px solid rgba(143,151,147,.55);border-radius:36px;box-shadow:0 4px 16px #172b2510;transition:border-color .2s,box-shadow .2s}
+.search-box:focus-within{border-color:var(--green);box-shadow:0 0 0 4px #075c4b12}
+.sparkle{font-size:23px;color:var(--green);flex-shrink:0}
+.search-box input{border:0;outline:0;min-width:0;flex:1;background:transparent;color:var(--ink);font-size:15px}
+.search-box input::placeholder{color:#6e7981;opacity:1}
+.search-submit{width:50px;height:50px;flex-shrink:0;border:0;border-radius:50%;background:var(--green);color:white;font-size:23px;display:grid;place-items:center;transition:background .2s,transform .2s}
+.search-submit:hover{background:#003e33;transform:scale(1.04)}
+.suggestions{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+.suggestion{border:1px solid #e0ded5;border-radius:24px;padding:9px 14px;background:rgba(255,253,247,.8);color:#24353b;font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px;transition:.2s}
+.suggestion:hover,.suggestion.active{border-color:#7b9c8e;background:#e8efe6;color:#064d40}
+.suggestion .icon{font-size:16px}
+.or-divider{display:flex;align-items:center;flex-direction:column;justify-content:center;gap:7px;min-width:28px;color:#24373a;font-size:14px}
+.or-divider:before,.or-divider:after{content:"";width:1px;height:29px;background:#8eaaa0}
+.map-cta{align-self:flex-start;margin-top:-5px;width:335px;min-height:92px;border:1px solid #4e9683;border-radius:17px;background:linear-gradient(100deg,rgba(248,251,242,.94),rgba(255,255,255,.88));display:flex;align-items:center;gap:15px;padding:13px 18px;text-align:left;color:var(--ink);box-shadow:0 4px 14px #102c2410;transition:transform .2s,box-shadow .2s}
+.map-cta:hover{transform:translateY(-3px);box-shadow:0 9px 24px #102c2420}
+.map-cta-icon{width:57px;height:57px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;background:var(--green);color:white;font-size:28px;box-shadow:0 0 0 8px #dce8d8}
+.map-cta-copy{flex:1}
+.map-cta strong{display:block;font-size:17px;font-weight:700;white-space:nowrap}
+.map-cta small{display:block;margin-top:5px;font-size:13px;color:#52626a}
+.map-arrow{font-size:22px;color:var(--green)}
+/* Footer */
+.site-footer{position:relative;overflow:hidden;background:radial-gradient(ellipse at 70% 0%,#003b31 0%,transparent 45%),linear-gradient(110deg,#002e27,#002a24);color:#f7f7f0;padding:47px max(5.1%,calc((100% - 1440px)/2)) 25px;isolation:isolate}
+.footer-leaf{position:absolute;z-index:-1;right:-17px;bottom:2px;width:180px;height:280px;opacity:.48;pointer-events:none}
+.footer-main{display:grid;grid-template-columns:1.65fr .8fr .8fr .8fr 1.35fr;gap:clamp(24px,4vw,65px);padding-bottom:29px}
+.brand{font-size:32px;font-weight:400;letter-spacing:7px;line-height:1.2;white-space:nowrap}
+.brand span{font-weight:600;letter-spacing:6px}
+.tagline{font-size:13px;margin:5px 0 20px;color:#e3ebe6}
+.about{font-size:13px;line-height:1.8;color:#d6e0db;max-width:320px;margin:0 0 19px}
+.socials{display:flex;gap:12px}
+.social{width:37px;height:37px;border:1px solid #487369;border-radius:50%;display:grid;place-items:center;color:#e9f1ed;text-decoration:none;font-size:15px;transition:.2s}
+.social:hover{background:#0b6554;border-color:#8bb3a4}
+.footer-col h3,.contact h3{font-size:14px;font-weight:700;margin:4px 0 17px;color:#fff}
+.footer-col ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.footer-col a,.contact a,.contact p{color:#d7e1dc;text-decoration:none;font-size:13px;line-height:1.6;transition:color .2s}
+.footer-col a:hover,.contact a:hover{color:#fff;text-decoration:underline}
+.contact{border-left:1px solid #427066;padding-left:clamp(20px,3.2vw,50px)}
+.contact-item{display:flex;align-items:flex-start;gap:12px;margin:0 0 15px}
+.contact-icon{width:19px;flex-shrink:0;font-size:17px;line-height:1.4;color:#f4f5ef}
+.contact p{margin:0}
+.footer-bottom{border-top:1px solid #3a655b;padding-top:20px;display:flex;justify-content:space-between;align-items:center;gap:18px;color:#d5dfda;font-size:12px}
+.legal{display:flex;align-items:center;gap:17px;flex-wrap:wrap}
+.legal a{color:inherit;text-decoration:none}
+.legal a:hover{color:#fff}
+.copyright{white-space:nowrap}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);opacity:0;pointer-events:none;background:#103f35;color:white;padding:12px 18px;border-radius:25px;font-size:13px;box-shadow:0 7px 20px #0002;transition:.25s;z-index:10;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1050px){.hero{height:auto;min-height:650px}.hero-content{width:calc(100% - 48px);padding-top:58px;padding-bottom:52px}.search-row{flex-wrap:wrap;gap:15px}.search-stack{flex-basis:calc(100% - 370px)}.or-divider{display:none}.map-cta{width:335px;align-self:flex-start;margin-top:0}.footer-main{grid-template-columns:1.4fr 1fr 1fr;row-gap:34px}.contact{border-left:0;padding-left:0}.footer-bottom{align-items:flex-start;flex-direction:column}}
+@media(max-width:700px){.hero{min-height:720px;height:auto}.hero-image{object-position:62% center}.hero:before{background:linear-gradient(90deg,rgba(250,248,241,.96),rgba(250,248,241,.76) 70%,rgba(250,248,241,.32)),linear-gradient(0deg,rgba(10,28,24,.16),transparent 45%)}.hero-content{width:calc(100% - 36px);padding-top:42px;padding-bottom:42px}.hero h1{font-size:clamp(39px,9.2vw,54px);letter-spacing:-.9px}.hero-subtitle{font-size:16px;margin-bottom:21px}.search-row{display:flex;flex-direction:column;gap:17px}.search-stack{flex:auto;width:100%}.search-box{height:61px;padding-left:16px;gap:10px}.search-box input{font-size:13px}.search-submit{width:45px;height:45px}.suggestions{gap:8px;margin-top:12px}.suggestion{font-size:12px;padding:8px 11px}.map-cta{width:100%;min-height:82px;padding:12px 16px}.map-cta strong{font-size:16px}.map-cta-icon{width:50px;height:50px}.site-footer{padding:35px 22px 22px}.footer-main{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 24px}.brand-block{grid-column:1/-1}.brand{font-size:29px}.about{max-width:440px}.footer-col h3,.contact h3{margin-bottom:13px}.footer-col ul{gap:10px}.contact{grid-column:1/-1}.footer-bottom{gap:15px}.legal{gap:9px 12px}.copyright{white-space:normal}.footer-leaf{width:120px;height:190px;opacity:.25}}
+@media(max-width:390px){.hero-content{width:calc(100% - 28px)}.hero h1{font-size:36px}.suggestion{font-size:11px;padding:8px 9px}.footer-main{column-gap:16px}.brand{font-size:25px;letter-spacing:5px}.footer-col a,.contact a,.contact p{font-size:12px}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero" aria-labelledby="hero-title">
+  <img class="hero-image" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=90" alt="Contemporary luxury home overlooking a peaceful green landscape">
+  <div class="hero-content">
+    <h1 id="hero-title">Your next chapter<br>starts with <span>the right place.</span></h1>
+    <p class="hero-subtitle">Search by location, lifestyle or what matters to you —<br class="desktop-break"> our AI will help you find the right properties.</p>
+    <div class="search-row">
+      <div class="search-stack">
+        <form class="search-box" id="searchForm">
+          <span class="sparkle" aria-hidden="true">✦</span>
+          <input id="propertySearch" type="search" aria-label="Search properties" placeholder='Try “villas with private garden in Kokapet” or “plots near ORR”'>
+          <button class="search-submit" type="submit" aria-label="Search">⌕</button>
+        </form>
+        <div class="suggestions" aria-label="Popular searches">
+          <button class="suggestion" data-query="Villas with garden"><span class="icon">⌂</span> Villas with garden</button>
+          <button class="suggestion" data-query="Plots near ORR"><span class="icon">♙</span> Plots near ORR</button>
+          <button class="suggestion" data-query="Homes with a view"><span class="icon">⌁</span> Homes with a view</button>
+          <button class="suggestion" data-query="Near top schools"><span class="icon">♧</span> Near top schools</button>
+        </div>
+      </div>
+      <div class="or-divider" aria-hidden="true"><span>or</span></div>
+      <button class="map-cta" id="mapButton">
+        <span class="map-cta-icon" aria-hidden="true">⌖</span>
+        <span class="map-cta-copy"><strong>Explore the Map <span class="map-arrow">→</span></strong><small>Discover properties visually</small></span>
+      </button>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <svg class="footer-leaf" viewBox="0 0 180 280" fill="none" aria-hidden="true">
+    <path d="M180 270C123 204 130 116 177 12M154 228C110 209 86 184 68 145C111 149 142 175 154 228ZM145 183C105 160 91 130 91 96C125 115 144 146 145 183ZM163 135C138 98 139 65 153 37C177 68 179 103 163 135ZM122 247C89 235 60 212 42 180C79 185 106 209 122 247Z" stroke="#16806b" stroke-width="1.2"/>
+  </svg>
+  <div class="footer-main">
+    <div class="brand-block">
+      <div class="brand"><span>ILA</span> HOMES</div>
+      <p class="tagline">A smarter way to find your place.</p>
+      <p class="about">ILA HOMES helps you discover residential properties with clarity and confidence, backed by real data, immersive experiences and neighbourhood insights.</p>
+      <div class="socials">
+        <a class="social" href="#" aria-label="Instagram">◎</a>
+        <a class="social" href="#" aria-label="LinkedIn">in</a>
+        <a class="social" href="#" aria-label="YouTube">▶</a>
+        <a class="social" href="#" aria-label="WhatsApp">◉</a>
+      </div>
+    </div>
+    <nav class="footer-col" aria-label="Properties">
+      <h3>Properties</h3>
+      <ul>
+        <li><a href="#">All Properties</a></li><li><a href="#">Villas</a></li><li><a href="#">Apartments</a></li><li><a href="#">Residential Plots</a></li><li><a href="#">New Launches</a></li><li><a href="#">Premium Properties</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-col" aria-label="Explore">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="#">Interactive Map</a></li><li><a href="#">3D Visualisation</a></li><li><a href="#">Location Insights</a></li><li><a href="#">Connectivity</a></li><li><a href="#">Property Collections</a></li><li><a href="#">Buying Guide</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-col" aria-label="Company">
+      <h3>Company</h3>
+      <ul>
+        <li><a href="#">About Us</a></li><li><a href="#">For Builders &amp; Developers</a></li><li><a href="#">List Your Property</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact Us</a></li>
+      </ul>
+    </nav>
+    <div class="contact">
+      <h3>Get in Touch</h3>
+      <div class="contact-item"><span class="contact-icon">🇮🇳</span><a href="tel:+919876543210">+91 98765 43210</a></div>
+      <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:hello@ilahomes.com">hello@ilahomes.com</a></div>
+      <div class="contact-item"><span class="contact-icon">⌖</span><p>Hyderabad, Telangana<br>India</p></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <nav class="legal" aria-label="Legal">
+      <a href="#">Privacy Policy</a><span>|</span><a href="#">Terms of Use</a><span>|</span><a href="#">Cookie Policy</a><span>|</span><a href="#">Disclaimer</a><span>|</span><a href="#">Sitemap</a>
+    </nav>
+    <div class="copyright">© 2024 ILA HOMES. All rights reserved.</div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const toast=document.getElementById('toast');let toastTimer;
+function notify(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2600)}
+const input=document.getElementById('propertySearch');
+document.querySelectorAll('.suggestion').forEach(button=>button.addEventListener('click',()=>{
+  input.value=button.dataset.query;
+  document.querySelectorAll('.suggestion').forEach(item=>item.classList.toggle('active',item===button));
+  input.focus();
+}));
+document.getElementById('searchForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  const query=input.value.trim();
+  if(!query){input.focus();notify('Enter a location or describe the property you are looking for.');return}
+  notify('Search ready: '+query+' — connect this form to your property search or AI endpoint.');
+});
+document.getElementById('mapButton').addEventListener('click',()=>notify('Connect this button to the ILA Homes interactive map.'));
+document.querySelectorAll('a[href="#"]').forEach(link=>link.addEventListener('click',event=>{
+  event.preventDefault();
+  notify('Connect “'+link.textContent.trim()+'” to its destination page.');
+}));
+</script>
+</body>
+</html>

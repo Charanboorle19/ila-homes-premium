@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILA Homes — Homes Closer to What Matters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#07543f;--green2:#08765b;--ink:#101c28;--muted:#78818a;--cream:#f8f7f1;--line:#e9e8e1;--shadow:0 9px 28px rgba(27,42,32,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif}
+button{font:inherit;cursor:pointer}.connectivity{padding:26px clamp(16px,4vw,68px) 32px;background:radial-gradient(ellipse at 20% 0%,#fffefa 0,transparent 54%),var(--cream);overflow:hidden}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(34px,3.2vw,50px);line-height:1.13;letter-spacing:-1px;margin:0 0 24px;font-weight:700}h1 span{color:var(--green)}
+.layout{display:grid;grid-template-columns:minmax(430px,.84fr) minmax(0,1.16fr);gap:18px;align-items:stretch}
+.left-panel{min-width:0;display:flex;flex-direction:column;gap:17px}
+.featured{display:grid;grid-template-columns: minmax(160px, .9fr) 1.1fr;gap:22px;padding:14px;background:#fff;border:1px solid #efeee8;border-radius:18px;box-shadow:var(--shadow);min-height:225px}
+.feature-image{position:relative;min-height:185px;border-radius:13px;overflow:hidden;background:#d9e4d6}
+.feature-image img,.project-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.feature-image:hover img,.project-row:hover .project-img img{transform:scale(1.04)}
+.tag3d{position:absolute;left:12px;top:12px;background:#07543feF;color:white;border-radius:20px;padding:8px 12px;font-size:11px;font-weight:700;box-shadow:0 3px 8px #0002}
+.feature-info{position:relative;padding:7px 0;min-width:0}.feature-top{display:flex;align-items:flex-start;gap:10px}.feature-top h2{font-family:"Playfair Display",Georgia,serif;font-size:25px;line-height:1.1;margin:0 0 8px;flex:1}.round-go{width:52px;height:52px;flex-shrink:0;border:0;border-radius:50%;background:#07835e;color:#fff;font-size:31px;line-height:1;margin:-2px 0 0;box-shadow:0 5px 12px #07835e20}.location{font-size:14px;color:#52606b;display:flex;align-items:center;gap:7px}.location b{font-size:18px;color:var(--green)}
+.stats{display:flex;align-items:center;gap:24px;margin:24px 0 17px}.stat{display:flex;align-items:center;gap:9px;min-width:0}.stat-icon{font-size:24px;color:#253f46}.stat strong{font-size:15px;display:block;line-height:1.2}.stat small{display:block;font-size:11px;color:#828991;margin-top:3px}.price{font-family:"Playfair Display",Georgia,serif;font-size:23px;font-weight:700}.price small{font-family:"DM Sans",sans-serif;font-size:13px;color:#858b91;font-weight:400;display:block;margin-top:2px}
+.category-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.category-tab{display:flex;align-items:center;justify-content:center;gap:9px;min-width:0;padding:12px 7px;border:1px solid transparent;border-radius:15px;background:#fff;color:#183b37;box-shadow:0 4px 16px #243b2d05;font-size:12px;font-weight:700;transition:.2s}
+.category-tab .icon{font-size:20px}.category-tab small{display:block;font-size:10px;font-weight:500;color:#87908f;margin-top:3px;white-space:nowrap}.category-tab.active{background:var(--green);color:#fff;box-shadow:0 5px 14px #07543f1b}.category-tab.active small{color:#d6ebe4}.category-tab:hover{border-color:#8bb6a9}
+.project-list{display:flex;flex-direction:column;gap:9px}
+.project-row{display:grid;grid-template-columns:148px minmax(125px,1fr) 85px 100px 48px;gap:16px;align-items:center;padding:9px 12px;background:#fff;border:1px solid #f0efe9;border-radius:15px;min-height:108px;box-shadow:0 5px 18px #203d2b04;transition:transform .2s,box-shadow .2s;cursor:pointer}
+.project-row:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.project-img{height:88px;border-radius:11px;overflow:hidden;background:#dfe6dc}
+.project-title{min-width:0}.project-title h3{font-family:"Playfair Display",Georgia,serif;font-size:17px;margin:0 0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.project-title p{font-size:12px;color:#828a91;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.project-stat{display:flex;align-items:center;gap:7px;white-space:nowrap}.project-stat .ico{font-size:21px}.project-stat strong{font-size:13px;display:block}.project-stat small{font-size:10px;color:#858c92;display:block;margin-top:3px}
+.row-arrow{width:46px;height:46px;border:0;border-radius:50%;background:#fff;box-shadow:0 4px 17px #182d2514;font-size:26px;color:#132b30}
+.view-all{align-self:flex-start;border:1px solid #76a99b;border-radius:28px;background:#fff;padding:14px 25px;font-size:14px;font-weight:700;color:#132d31;display:flex;align-items:center;gap:12px}.view-all span{font-size:20px;color:var(--green)}
+.map-panel{position:relative;min-height:690px;border-radius:20px;overflow:hidden;background:#e7ecdf;box-shadow:var(--shadow);border:1px solid #e8e8df;isolation:isolate}
+.map-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.82) brightness(1.03)}
+.map-wash{position:absolute;inset:0;background:linear-gradient(110deg,rgba(244,247,233,.22),rgba(245,247,236,.08) 48%,rgba(234,242,228,.12));pointer-events:none}
+.map-top{position:absolute;top:16px;left:17px;right:17px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:4}
+.dest-tabs{display:flex;gap:2px;align-items:center;padding:5px;background:#fffefcf2;border-radius:40px;box-shadow:0 4px 18px #1b352b12;backdrop-filter:blur(12px)}
+.dest-tab{border:0;background:transparent;border-radius:30px;padding:13px 15px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#293941;white-space:nowrap}
+.dest-tab .icon{font-size:19px}.dest-tab.active{background:var(--green);color:#fff}
+.travel-select{border:0;border-radius:35px;background:#fffefcf5;padding:15px 20px;display:flex;align-items:center;gap:11px;font-size:13px;font-weight:700;white-space:nowrap;box-shadow:0 4px 18px #1b352b12;color:#27363b}
+.map-label{position:absolute;z-index:2;color:#304a51;font-size:14px;font-weight:500;text-shadow:0 1px 4px #fff;white-space:nowrap}
+.label-gachi{top:18%;left:27%}.label-hitec{top:37%;right:10%}.label-narsingi{top:56%;left:12%}.label-manikonda{bottom:10%;left:43%}
+.route{position:absolute;z-index:2;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.route.main{width:100%;height:100%;inset:0;filter:drop-shadow(0 2px 2px #fff8)}
+.route.main path{stroke:#075b46;stroke-width:4}
+.route.alt path{stroke:#9ba5a7;stroke-width:3.4}
+.route-node{position:absolute;z-index:3;width:46px;height:46px;border-radius:50%;background:#078461;color:white;border:7px solid #c2dfd4;box-shadow:0 0 0 12px #5aa88a2b;display:grid;place-items:center;font-size:17px}
+.node-home{top:40%;left:17%}.node-work{top:66%;right:20%;width:49px;height:49px}
+.route-pill{position:absolute;z-index:4;display:flex;align-items:center;gap:10px;border-radius:14px;background:#fffefdf5;padding:10px 13px;box-shadow:0 5px 18px #203b2b18;backdrop-filter:blur(10px);font-size:12px;white-space:nowrap}
+.route-pill img{width:67px;height:54px;object-fit:cover;border-radius:8px}.route-pill strong{font-size:16px;display:block;margin-bottom:3px}.route-pill small{font-size:12px;color:#52616a}
+.home-pill{top:29%;left:7%}.work-pill{top:55%;right:5%;font-size:13px;font-weight:700}.work-pill .work-icon{width:35px;height:35px;display:grid;place-items:center;background:var(--green);color:#fff;border-radius:7px;font-size:18px}
+.eta{position:absolute;z-index:4;top:47%;left:43%;border-radius:12px;background:#07543f;color:#fff;padding:10px 15px;box-shadow:0 4px 12px #0002}.eta strong{font-size:16px;display:block}.eta small{font-size:11px;color:#e2f1ea}
+.alt-eta{position:absolute;z-index:4;top:66%;left:32%;border-radius:12px;background:#fffef5ee;color:#28343a;padding:10px 14px;box-shadow:0 4px 12px #0001}.alt-eta strong{font-size:15px;display:block}.alt-eta small{font-size:11px;color:#65717a}
+.zoom-controls{position:absolute;z-index:5;bottom:23px;left:23px;display:flex;flex-direction:column;border-radius:13px;overflow:hidden;box-shadow:0 4px 14px #203b2b18}.zoom-controls button{width:50px;height:45px;background:#fff;border:0;font-size:25px;color:#21353a}.zoom-controls button+button{border-top:1px solid #e6e8e3}
+.map-status{position:absolute;bottom:20px;right:20px;background:#fffef5dd;border-radius:10px;padding:9px 12px;font-size:11px;color:#52616a;z-index:3;backdrop-filter:blur(8px)}
+@media(max-width:1200px){.layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.featured{grid-template-columns: .9fr 1.1fr;gap:14px}.feature-top h2{font-size:22px}.stats{gap:13px;margin:19px 0 15px}.project-row{grid-template-columns:115px minmax(100px,1fr) 72px 82px 40px;gap:10px}.project-img{height:80px}.row-arrow{width:38px;height:38px}.category-tab{gap:5px;font-size:11px}.category-tab .icon{font-size:17px}.dest-tab{padding:11px 10px;font-size:11px}.travel-select{padding:13px 14px;font-size:11px}.map-panel{min-height:650px}}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.map-panel{min-height:650px;order:2}.left-panel{order:1}.project-row{grid-template-columns:145px minmax(100px,1fr) 82px 95px 45px}.map-top{left:12px;right:12px}.dest-tab{padding:12px}.travel-select{padding:13px 16px}}
+@media(max-width:600px){.connectivity{padding:23px 12px}.layout{gap:16px}h1{font-size:34px;line-height:1.12;margin-bottom:20px}.featured{grid-template-columns: minmax(110px,.85fr) 1.15fr;gap:12px;padding:9px;border-radius:15px;min-height:190px}.feature-image{min-height:170px}.tag3d{left:7px;top:7px;padding:6px 8px;font-size:9px}.feature-info{padding:5px 0}.feature-top h2{font-size:19px;margin-bottom:6px}.round-go{width:37px;height:37px;font-size:23px}.location{font-size:11px;gap:4px}.stats{gap:12px;margin:20px 0 13px;flex-wrap:wrap}.stat{gap:5px}.stat-icon{font-size:18px}.stat strong{font-size:12px}.stat small{font-size:9px}.price{font-size:20px}.price small{font-size:11px}.category-tabs{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.category-tab{padding:10px 3px;display:flex;flex-direction:column;gap:4px;border-radius:11px;font-size:10px}.category-tab .icon{font-size:18px}.category-tab small{font-size:8px}.project-list{gap:8px}.project-row{grid-template-columns:78px minmax(80px,1fr) 39px;gap:9px;padding:8px;min-height:91px;border-radius:12px}.project-img{height:72px}.project-title h3{font-size:15px;margin-bottom:6px}.project-title p{font-size:10px}.project-stat{display:none}.row-arrow{grid-column:3;grid-row:1;width:36px;height:36px;font-size:22px}.view-all{padding:12px 19px;font-size:12px}.map-panel{min-height:540px;border-radius:15px}.map-top{top:10px;left:9px;right:9px;align-items:flex-start;flex-direction:column}.dest-tabs{max-width:100%;width:100%;justify-content:space-between;padding:4px}.dest-tab{padding:10px 8px;gap:5px;font-size:10px}.dest-tab .icon{font-size:15px}.travel-select{align-self:flex-end;padding:10px 13px;font-size:11px}.label-gachi{top:23%;left:28%}.label-hitec{top:43%;right:6%;font-size:12px}.label-narsingi{top:59%;left:8%;font-size:12px}.label-manikonda{bottom:12%;left:42%;font-size:12px}.route-pill{padding:7px 9px;gap:7px;font-size:10px}.route-pill img{width:48px;height:40px}.route-pill strong{font-size:13px}.route-pill small{font-size:10px}.home-pill{top:33%;left:3%}.work-pill{top:58%;right:2%;font-size:10px}.work-pill .work-icon{width:28px;height:28px}.node-home{top:44%;left:17%;width:38px;height:38px}.node-work{top:67%;right:17%;width:40px;height:40px}.eta{top:49%;left:42%;padding:8px 10px}.eta strong,.alt-eta strong{font-size:13px}.eta small,.alt-eta small{font-size:9px}.alt-eta{top:69%;left:27%;padding:8px 10px}.zoom-controls{bottom:16px;left:14px}.zoom-controls button{width:42px;height:39px}.map-status{right:10px;bottom:12px;font-size:9px;padding:7px 8px}}
+</style>
+</head>
+<body>
+<section class="connectivity">
+  <h1>Homes Closer to <span>What Matters.</span></h1>
+  <div class="layout">
+    <div class="left-panel">
+      <article class="featured">
+        <div class="feature-image"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=88" alt="Luxury villa in a landscaped residential community"><span class="tag3d">◇ &nbsp;3D View</span></div>
+        <div class="feature-info">
+          <div class="feature-top"><h2>Serene Meadows</h2><button class="round-go" aria-label="View featured development">➜</button></div>
+          <div class="location"><b>⌖</b> Kokapet, Hyderabad</div>
+          <div class="stats"><div class="stat"><span class="stat-icon">▦</span><div><strong>120+</strong><small>Plots</small></div></div><div class="stat"><span class="stat-icon">⌂</span><div><strong>4</strong><small>Villa Designs</small></div></div></div>
+          <div class="price">₹1.2 Cr <small>Onwards</small></div>
+        </div>
+      </article>
+      <div class="category-tabs" id="categoryTabs">
+        <button class="category-tab active" data-kind="Workplace"><span class="icon">▣</span><span>Workplace<small>18 min</small></span></button>
+        <button class="category-tab" data-kind="Schools"><span class="icon">♧</span><span>Schools<small>10 min</small></span></button>
+        <button class="category-tab" data-kind="Hospitals"><span class="icon">✚</span><span>Hospitals<small>14 min</small></span></button>
+        <button class="category-tab" data-kind="Shopping"><span class="icon">▢</span><span>Shopping<small>8 min</small></span></button>
+        <button class="category-tab" data-kind="More"><span class="icon">•••</span><span>More</span></button>
+      </div>
+      <div class="project-list">
+        <article class="project-row" tabindex="0"><div class="project-img"><img src="https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=500&q=85" alt="Green Valley residential development beside greenery"></div><div class="project-title"><h3>Green Valley</h3><p>⌖ &nbsp;Tellapur, Hyderabad</p></div><div class="project-stat"><span class="ico">▦</span><div><strong>80+</strong><small>Plots</small></div></div><div class="project-stat"><span class="ico">⌂</span><div><strong>3</strong><small>Villa Designs</small></div></div><button class="row-arrow" aria-label="View Green Valley">›</button></article>
+        <article class="project-row" tabindex="0"><div class="project-img"><img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?auto=format&fit=crop&w=500&q=85" alt="Lakefront residential community"></div><div class="project-title"><h3>Lakefront Enclave</h3><p>⌖ &nbsp;Mokila, Hyderabad</p></div><div class="project-stat"><span class="ico">▦</span><div><strong>150+</strong><small>Plots</small></div></div><div class="project-stat"><span class="ico">⌂</span><div><strong>3</strong><small>Villa Designs</small></div></div><button class="row-arrow" aria-label="View Lakefront Enclave">›</button></article>
+        <article class="project-row" tabindex="0"><div class="project-img"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=500&q=85" alt="Modern villa in Urban Nest"></div><div class="project-title"><h3>Urban Nest</h3><p>⌖ &nbsp;Narsingi, Hyderabad</p></div><div class="project-stat"><span class="ico">▦</span><div><strong>95+</strong><small>Plots</small></div></div><div class="project-stat"><span class="ico">⌂</span><div><strong>3</strong><small>Villa Designs</small></div></div><button class="row-arrow" aria-label="View Urban Nest">›</button></article>
+      </div>
+      <button class="view-all" id="viewAll">View All Developments <span>→</span></button>
+    </div>
+    <div class="map-panel" id="mapPanel" aria-label="Illustrative map showing nearby destinations and commute routes">
+      <img class="map-image" src="https://images.unsplash.com/photo-1569336415962-a4bd9f69c07b?auto=format&fit=crop&w=1600&q=90" alt="" aria-hidden="true">
+      <div class="map-wash"></div>
+      <div class="map-top">
+        <div class="dest-tabs" id="destTabs"><button class="dest-tab active" data-kind="Workplace"><span class="icon">▣</span>Workplace</button><button class="dest-tab" data-kind="Schools"><span class="icon">♧</span>Schools</button><button class="dest-tab" data-kind="Hospitals"><span class="icon">✚</span>Hospitals</button><button class="dest-tab" data-kind="Transit"><span class="icon">▤</span>Transit</button></div>
+        <button class="travel-select" id="travelMode"><span style="font-size:20px">▱</span><span id="travelLabel">Drive (Typical)</span><span>⌄</span></button>
+      </div>
+      <span class="map-label label-gachi">Gachibowli</span><span class="map-label label-hitec">HITEC City</span><span class="map-label label-narsingi">Narsingi</span><span class="map-label label-manikonda">Manikonda</span>
+      <svg class="route main" viewBox="0 0 800 700" preserveAspectRatio="none" aria-hidden="true"><path d="M135 290 C190 315 225 365 285 370 S385 385 430 405 S515 470 565 455 S630 430 665 425"/></svg>
+      <svg class="route alt" viewBox="0 0 800 700" preserveAspectRatio="none" aria-hidden="true"><path d="M138 292 C185 360 255 420 320 450 S405 490 440 475 S520 520 585 490 S640 455 665 425"/></svg>
+      <div class="route-node node-home">⌖</div><div class="route-node node-work">▦</div>
+      <div class="route-pill home-pill"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=200&q=80" alt=""><div><strong>₹1.2 Cr</strong><small>Kokapet</small></div></div>
+      <div class="route-pill work-pill"><span class="work-icon" id="workIcon">▣</span><span id="destinationName">Financial District</span></div>
+      <div class="eta"><strong><span id="etaTime">18 min</span></strong><small id="etaRoute">via ORR</small></div>
+      <div class="alt-eta"><strong><span id="altTime">26 min</span></strong><small>via Service Road</small></div>
+      <div class="zoom-controls"><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button></div>
+      <div class="map-status" id="mapStatus">Illustrative commute routes · Hyderabad</div>
+    </div>
+  </div>
+</section>
+<script>
+const commute={
+ Workplace:{time:'18 min',alt:'26 min',via:'via ORR',destination:'Financial District',icon:'▣'},
+ Schools:{time:'10 min',alt:'16 min',via:'via Main Road',destination:'Oakridge International',icon:'♧'},
+ Hospitals:{time:'14 min',alt:'21 min',via:'via ORR',destination:'Continental Hospital',icon:'✚'},
+ Shopping:{time:'8 min',alt:'13 min',via:'via Main Road',destination:'Premium Shopping',icon:'▢'},
+ Transit:{time:'12 min',alt:'19 min',via:'via ORR',destination:'Raidurg Metro',icon:'▤'},
+ More:{time:'11 min',alt:'17 min',via:'via Main Road',destination:'Nearby Amenities',icon:'•••'}
+};
+function setCategory(kind){
+ const data=commute[kind]||commute.Workplace;
+ document.querySelectorAll('[data-kind]').forEach(el=>el.classList.toggle('active',el.dataset.kind===kind));
+ document.getElementById('etaTime').textContent=data.time;
+ document.getElementById('altTime').textContent=data.alt;
+ document.getElementById('etaRoute').textContent=data.via;
+ document.getElementById('destinationName').textContent=data.destination;
+ document.getElementById('workIcon').textContent=data.icon;
+ document.getElementById('mapStatus').textContent=kind+' · illustrative commute routes · Hyderabad';
+}
+document.querySelectorAll('#categoryTabs [data-kind],#destTabs [data-kind]').forEach(btn=>btn.addEventListener('click',()=>setCategory(btn.dataset.kind)));
+document.getElementById('travelMode').addEventListener('click',()=>{
+ const label=document.getElementById('travelLabel');
+ const modes=['Drive (Typical)','Public Transit','Walk'];
+ label.textContent=modes[(modes.indexOf(label.textContent)+1)%modes.length];
+ document.getElementById('mapStatus').textContent='Travel mode: '+label.textContent+' · estimated times are illustrative';
+});
+let zoom=1;const map=document.getElementById('mapPanel');const mapImg=map.querySelector('.map-image');
+document.getElementById('zoomIn').addEventListener('click',()=>{zoom=Math.min(1.6,zoom+.1);mapImg.style.transform=`scale(${zoom})`});
+document.getElementById('zoomOut').addEventListener('click',()=>{zoom=Math.max(1,zoom-.1);mapImg.style.transform=`scale(${zoom})`});
+document.getElementById('viewAll').addEventListener('click',()=>alert('Connect this button to the full developments listing page.'));
+document.querySelectorAll('.project-row,.round-go').forEach(el=>el.addEventListener('click',()=>alert('Connect this card to its development details page.')));
+</script>
+</body>
+</html>

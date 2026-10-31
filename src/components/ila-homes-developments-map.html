@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILA Homes | Explore Developments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
+<style>
+:root{
+  --ink:#142237;--muted:#687586;--green:#006452;--green-dark:#004c40;--mint:#e8f2ee;
+  --line:#e4e7e5;--paper:#fbfaf6;--white:#fff;--shadow:0 5px 20px rgba(21,40,34,.07);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"DM Sans",sans-serif;color:var(--ink);background:var(--paper)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:minmax(0, 1fr) minmax(360px, 32.4vw);align-items:stretch}
+.content{min-width:0;border-right:1px solid #e5e6e2;background:linear-gradient(160deg,#fffefa 0%,#fbfaf6 55%,#f7f8f3 100%);position:relative;z-index:1}
+.nav{height:45px;padding:0 clamp(22px,3.2vw,52px);display:flex;align-items:center;gap:clamp(22px,3vw,48px);border-bottom:1px solid rgba(21,35,49,.1);background:rgba(255,255,255,.66)}
+.logo{font-weight:700;font-size:22px;line-height:.8;letter-spacing:-1.4px;color:#111e2b;white-space:nowrap;position:relative}
+.logo small{display:block;font-size:5px;letter-spacing:1px;text-align:center;margin-top:5px;font-weight:600}
+.navlinks{display:flex;align-items:center;gap:clamp(18px,2.1vw,34px);height:100%;font-size:11px;font-weight:600;white-space:nowrap}
+.navlinks a{height:100%;display:flex;align-items:center;text-decoration:none;color:#293547;position:relative}
+.navlinks a.active{color:var(--green)}
+.navlinks a.active:after{content:"";height:2px;position:absolute;bottom:0;left:-12px;right:-12px;background:var(--green);border-radius:3px}
+.nav-actions{margin-left:auto;display:flex;align-items:center;gap:20px}
+.icon-btn{border:0;background:transparent;padding:4px;color:#152538;display:grid;place-items:center}
+.signin{border:0;background:var(--green);color:white;border-radius:6px;padding:10px 20px;font-size:11px;font-weight:700;white-space:nowrap}
+.intro{padding:12px clamp(22px,3.2vw,52px) 10px}
+.eyebrow{font-size:9px;letter-spacing:2.8px;font-weight:700;color:#2b4654;margin-bottom:4px}
+h1,h2,h3,p{margin-top:0}
+h1{font-family:"Playfair Display",serif;font-size:clamp(25px,2.05vw,36px);line-height:1.14;letter-spacing:-.65px;margin:0 0 3px;font-weight:700}
+.subtitle{font-size:13px;color:var(--muted);margin:0 0 10px}
+.searchbar{height:42px;border:1px solid #dce2e1;border-radius:30px;background:#fff;display:flex;align-items:center;gap:12px;padding:0 10px 0 15px;box-shadow:0 2px 7px rgba(24,45,44,.025)}
+.searchbar svg{flex:none}
+.searchbar input{border:0;outline:0;min-width:0;flex:1;color:var(--ink);font-size:11px;background:transparent}
+.searchbar input::placeholder{color:#7d8794}
+.search-location{display:flex;align-items:center;gap:10px;border-left:1px solid var(--line);padding:0 14px;font-size:11px;font-weight:600;white-space:nowrap}
+.search-submit{width:42px;height:38px;border:0;border-radius:22px;background:var(--green);color:white;display:grid;place-items:center}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.filter{height:40px;min-width:0;border:1px solid #e0e4e4;background:rgba(255,255,255,.82);border-radius:6px;display:flex;align-items:center;gap:8px;padding:0 11px;color:#253449;flex:1;white-space:nowrap}
+.filter .f-label{font-size:10px;text-align:left;line-height:1.1;min-width:0}
+.filter .f-label strong{display:block;font-weight:600;font-size:10px;margin-bottom:3px}
+.filter .f-label span{display:block;color:#687586;font-size:10px}
+.filter svg{flex:none}
+.filter.more{flex:1.35;justify-content:center;border-color:#4c9c90;background:transparent;font-weight:600;font-size:10px}
+.chips{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:7px;font-size:10px}
+.chip{background:#e3efeb;color:#075d50;border-radius:18px;padding:5px 12px;white-space:nowrap}
+.clear{border:0;background:transparent;color:#075d50;font-size:10px;font-weight:600;padding:4px 5px}
+.categories{padding:0 clamp(22px,2.8vw,44px) 20px}
+.category{padding:12px 0 9px;border-top:1px solid rgba(226,229,225,.72)}
+.category:first-child{border-top:0}
+.cat-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cat-icon{width:34px;height:34px;display:grid;place-items:center;flex:none;color:#8b5943}
+.category:nth-child(2) .cat-icon{color:#008160}.category:nth-child(3) .cat-icon{color:#175a9a}.category:nth-child(4) .cat-icon{color:#184f8d}
+.cat-title{min-width:0;flex:1}
+.cat-title h2{font-family:"Playfair Display",serif;font-size:18px;line-height:1.15;margin:0 0 1px;letter-spacing:-.25px}
+.cat-title p{font-size:10.5px;color:var(--muted);margin:0}
+.cat-tools{display:flex;align-items:center;gap:5px}
+.view-all{color:var(--green);font-size:10px;font-weight:700;text-decoration:none;white-space:nowrap;margin-right:26px}
+.round-arrow{width:31px;height:31px;border:1px solid #dfe5e4;border-radius:50%;background:#fff;display:grid;place-items:center;color:#17283a;box-shadow:0 2px 5px #14223708}
+.project-row{display:grid;grid-template-columns:minmax(180px,1.5fr) minmax(230px,1.05fr) minmax(120px,.65fr) minmax(120px,.65fr);gap:9px;align-items:stretch}
+.feature-image{height:166px;border-radius:9px;overflow:hidden;position:relative;background:#dfe7df;box-shadow:var(--shadow)}
+.feature-image img{width:100%;height:100%;object-fit:cover;display:block}
+.feature-image:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.76))}
+.badge{position:absolute;z-index:1;top:10px;left:12px;border-radius:15px;padding:5px 10px;background:#f5fffa;color:#075b48;font-size:9px;font-weight:700}
+.feature-caption{position:absolute;z-index:1;bottom:12px;left:14px;color:#fff}
+.feature-caption strong{display:block;font-size:16px;line-height:1.2;margin-bottom:5px}
+.feature-caption span{font-size:10px;display:flex;align-items:center;gap:4px}
+.detail-card{border:1px solid #edf0ed;border-radius:9px;background:#fff;padding:10px 11px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0}
+.detail-top{display:flex;align-items:center;gap:5px;justify-content:space-between}
+.tag-row{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:8px;padding:4px 7px;border:1px solid #d8e9e2;color:#286e60;border-radius:12px;white-space:nowrap;background:#f6fbf8}
+.heart{border:0;background:transparent;color:#233448;padding:2px;display:grid;place-items:center;flex:none}
+.price{font-size:17px;font-weight:700;color:#08735f;letter-spacing:-.4px;margin:8px 0 6px}
+.price small{font-size:10px;color:#3e4c5c;font-weight:500;letter-spacing:0}
+.specs{display:flex;gap:12px;flex-wrap:wrap;color:#637080;font-size:9px;margin-bottom:8px}
+.specs span{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.amenities{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 5px;margin:2px 0 auto}
+.amenity{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;font-size:8px;color:#536273;white-space:nowrap}
+.amenity svg{color:#52657a}
+.outline-cta{margin-top:9px;height:25px;border:1px solid #5da89a;border-radius:14px;background:#fff;color:#075c4d;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px}
+.mini-card{position:relative;border:1px solid #edf0ed;border-radius:9px;overflow:hidden;background:#fff;box-shadow:var(--shadow);min-width:0;display:flex;flex-direction:column}
+.mini-image{height:94px;position:relative;flex:none}
+.mini-image img{width:100%;height:100%;object-fit:cover;display:block}
+.mini-image .heart{position:absolute;top:7px;right:7px;width:25px;height:25px;border-radius:50%;background:#fff;box-shadow:0 2px 6px #0002}
+.mini-body{padding:7px 9px 8px;min-width:0}
+.mini-body h3{font-size:10.5px;line-height:1.15;margin:0 0 3px;font-weight:700}
+.mini-location{font-size:8.5px;color:#697587;display:flex;align-items:center;gap:3px;margin-bottom:4px}
+.mini-price{font-size:11px;color:#08715e;font-weight:700;margin-bottom:3px;white-space:nowrap}
+.mini-price small{font-size:9px;color:#4e5a68;font-weight:500}
+.mini-specs{font-size:8px;color:#697587;display:flex;gap:7px;flex-wrap:wrap}
+.map-panel{position:sticky;top:0;height:100vh;min-height:620px;overflow:hidden;background:#e4eadf}
+#map{position:absolute;inset:0}
+.map-overlay{position:absolute;z-index:2;left:22px;right:22px;top:66px;display:flex;justify-content:center;pointer-events:none}
+.map-tabs{pointer-events:auto;display:flex;gap:5px;padding:4px;border:1px solid #dfe4e2;background:rgba(255,255,255,.96);box-shadow:0 4px 15px #182a2412;border-radius:12px;max-width:100%;overflow:auto}
+.map-tabs button{border:0;background:transparent;color:#263347;border-radius:9px;padding:9px 13px;font-size:10px;font-weight:600;white-space:nowrap}
+.map-tabs button.active{background:var(--green);color:#fff}
+.map-legend{position:absolute;z-index:2;bottom:18px;left:18px;right:18px;display:flex;justify-content:center;pointer-events:none}
+.map-legend-inner{background:rgba(255,255,255,.97);border:1px solid #e2e8e4;border-radius:10px;padding:10px 13px;display:flex;gap:12px;align-items:center;box-shadow:0 4px 16px #172d2518;font-size:9px;color:#344253;pointer-events:auto}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+.map-card{position:absolute;z-index:2;bottom:72px;left:18px;right:18px;max-width:300px;margin:auto;background:#fff;border:1px solid #e5e9e5;border-radius:10px;padding:8px;display:flex;gap:10px;box-shadow:0 8px 24px #152a251e}
+.map-card img{width:88px;height:62px;object-fit:cover;border-radius:6px;flex:none}
+.map-card-content{min-width:0;display:flex;flex-direction:column;justify-content:center}
+.map-card-content strong{font-size:11px;margin-bottom:2px}
+.map-card-content span{font-size:9px;color:#697586;margin-bottom:4px}
+.map-card-content b{font-size:11px;color:var(--green);margin-bottom:4px}
+.map-card-content button{align-self:flex-start;border:0;background:#e8f3ef;color:#075d50;border-radius:14px;padding:5px 10px;font-size:9px;font-weight:700}
+.mapboxgl-ctrl-group{border-radius:9px!important;overflow:hidden;box-shadow:0 3px 12px #14223718!important}
+.mapboxgl-ctrl-bottom-right{bottom:12px!important;right:12px!important}
+.toast{position:fixed;z-index:20;bottom:18px;left:50%;transform:translateX(-50%);background:#153b32;color:white;padding:10px 16px;border-radius:8px;font-size:12px;box-shadow:0 8px 24px #0002;display:none}
+@media(min-width:1500px){.project-row{grid-template-columns:minmax(220px,1.55fr) minmax(270px,1.05fr) minmax(140px,.65fr) minmax(140px,.65fr)}.feature-image{height:180px}.mini-image{height:104px}}
+@media(max-width:1100px){.app{grid-template-columns:minmax(0,1fr) 34vw}.nav{gap:20px}.navlinks{gap:16px}.nav-actions{gap:10px}.project-row{grid-template-columns:minmax(160px,1.2fr) minmax(210px,1fr) minmax(115px,.7fr)}.project-row .mini-card:last-child{display:none}.feature-image{height:160px}.filter{padding:0 8px}.filter .f-label{font-size:9px}}
+@media(max-width:760px){.app{display:flex;flex-direction:column}.content{border-right:0}.nav{height:58px;padding:0 18px;gap:20px}.navlinks{gap:15px;overflow:auto}.navlinks a:nth-child(4),.navlinks a:nth-child(5){display:none}.nav-actions{gap:8px}.signin{padding:9px 12px}.intro{padding:18px 18px 12px}h1{font-size:29px}.subtitle{font-size:12px;line-height:1.45}.searchbar{gap:8px}.search-location{padding:0 8px}.search-location span{display:none}.filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.filter{width:100%;height:42px}.filter.more{grid-column:span 2}.categories{padding:0 18px 16px}.category{padding:14px 0}.cat-title h2{font-size:17px}.cat-title p{font-size:9px}.view-all{margin-right:4px}.project-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.feature-image{height:175px}.detail-card{min-height:175px}.project-row .mini-card{display:flex!important}.mini-image{height:105px}.mini-body h3{font-size:11px}.mini-price{font-size:12px}.map-panel{position:relative;height:68vh;min-height:460px;order:2}.map-overlay{top:16px;left:10px;right:10px}.map-tabs{gap:1px}.map-tabs button{padding:9px 10px;font-size:9px}.map-card{bottom:22px;left:12px;right:12px}.map-legend{display:none}}
+@media(max-width:430px){.navlinks{gap:12px;font-size:10px}.logo{font-size:20px}.nav-actions .icon-btn:first-child{display:none}.intro{padding-top:15px}h1{font-size:26px}.search-location{font-size:10px}.filter{gap:5px;padding:0 7px}.filter .f-label strong,.filter .f-label span{font-size:9px}.cat-head{gap:6px}.cat-icon{width:28px}.cat-tools{gap:3px}.view-all{font-size:9px}.round-arrow{width:27px;height:27px}.project-row{grid-template-columns:1fr 1fr}.feature-image{height:155px}.detail-card{padding:9px}.detail-top .tag:nth-child(2){display:none}.amenities{grid-template-columns:repeat(2,1fr);gap:6px}.amenity{font-size:8px}.price{font-size:15px}.specs{gap:7px}.map-panel{height:65vh}}
+</style>
+</head>
+<body>
+<div class="app">
+  <main class="content">
+    <nav class="nav">
+      <div class="logo">iLA<small>H O M E S</small></div>
+      <div class="navlinks">
+        <a href="#">Buy</a><a class="active" href="#">Developments</a><a href="#map">Map</a><a href="#">Tools</a><a href="#">Resources⌄</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn" aria-label="Search" onclick="document.getElementById('projectSearch').focus()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg></button>
+        <button class="icon-btn" aria-label="Saved properties" onclick="notify('Your saved developments will appear here.')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg></button>
+        <button class="signin" onclick="notify('Sign-in can be connected to your account flow.')">Sign In</button>
+      </div>
+    </nav>
+    <section class="intro">
+      <div class="eyebrow">EXPLORE DEVELOPMENTS</div>
+      <h1>Find the Right Development for Your Future</h1>
+      <p class="subtitle">Discover premium villa communities, plotted developments, apartments and more across Hyderabad.</p>
+      <form class="searchbar" id="searchForm">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>
+        <input id="projectSearch" placeholder='Search projects, locations, developers or try "villas in kokapet"...' aria-label="Search developments">
+        <div class="search-location"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Hyderabad</span><span>⌄</span></div>
+        <button class="search-submit" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg></button>
+      </form>
+      <div class="filters">
+        <button class="filter" data-filter="Location"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="f-label"><strong>Location</strong><span>Hyderabad</span></span><span>⌄</span></button>
+        <button class="filter" data-filter="Budget Range"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v13H4z"/><path d="M8 7V4h8v3M8 12h8M8 16h5"/></svg><span class="f-label"><strong>Budget Range</strong><span>Any</span></span><span>⌄</span></button>
+        <button class="filter" data-filter="Development Type"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 11h2m2 0h2m-6 4h2m2 0h2"/></svg><span class="f-label"><strong>Development Type</strong><span>All Types</span></span><span>⌄</span></button>
+        <button class="filter" data-filter="Project Status"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h6"/></svg><span class="f-label"><strong>Project Status</strong><span>All</span></span><span>⌄</span></button>
+        <button class="filter" data-filter="Developer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h2m4 0h2M8 11h2m4 0h2M10 21v-5h4v5"/></svg><span class="f-label"><strong>Developer</strong><span>All</span></span><span>⌄</span></button>
+        <button class="filter" data-filter="Amenities"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3"/><path d="M5 21v-2a7 7 0 0 1 14 0v2M3 8l2-3m16 3-2-3"/></svg><span class="f-label"><strong>Amenities</strong><span>Any</span></span><span>⌄</span></button>
+        <button class="filter" data-filter="Approvals"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6z"/><path d="m9 12 2 2 4-4"/></svg><span class="f-label"><strong>Approvals</strong><span>Any</span></span><span>⌄</span></button>
+        <button class="filter more" id="moreFilters"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2" fill="#fff"/><circle cx="15" cy="12" r="2" fill="#fff"/><circle cx="10" cy="18" r="2" fill="#fff"/></svg>More Filters</button>
+      </div>
+      <div class="chips"><span class="chip">Hyderabad&nbsp; ×</span><span class="chip">₹30L – ₹2Cr&nbsp; ×</span><span class="chip">Ready to Move&nbsp; ×</span><button class="clear" id="clearFilters">Clear All</button></div>
+    </section>
+
+    <section class="categories" id="categories">
+      <article class="category" data-category="villa">
+        <div class="cat-head"><div class="cat-icon"><svg width="31" height="31" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 15 16 4l13 11M7 13v15h18V13M12 28v-9h8v9M3 15h5m16 0h5"/><path d="M12 11h2m4 0h2"/></svg></div><div class="cat-title"><h2>Villa Projects</h2><p>Luxury villa communities with world-class amenities and modern living spaces.</p></div><div class="cat-tools"><a class="view-all" href="#">View All&nbsp; →</a><button class="round-arrow" aria-label="Previous villas">‹</button><button class="round-arrow" aria-label="Next villas">›</button></div></div>
+        <div class="project-row">
+          <div class="feature-image"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85" alt="Luxury modern villa"><span class="badge">Premium</span><div class="feature-caption"><strong>Serenity Villas</strong><span>♧ Tellapur, Hyderabad</span></div></div>
+          <div class="detail-card"><div class="detail-top"><div class="tag-row"><span class="tag">Gated Community</span><span class="tag">RERA Approved</span></div><button class="heart" aria-label="Save Serenity Villas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg></button></div><div class="price">₹5.2 Cr <small>Onwards</small></div><div class="specs"><span>▤ 4 BHK</span><span>◩ 4,800 Sq. Ft.</span><span>♧ 12 Acres</span></div><div class="amenities"><div class="amenity">♧<span>Clubhouse</span></div><div class="amenity">≋<span>Swimming Pool</span></div><div class="amenity">♧<span>Parks</span></div><div class="amenity">♢<span>24/7 Security</span></div></div><button class="outline-cta">Explore Villas&nbsp; →</button></div>
+          <div class="mini-card"><div class="mini-image"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=500&q=80" alt="Contemporary villa"><button class="heart" aria-label="Save The Elite Villas">♡</button></div><div class="mini-body"><h3>The Elite Villas</h3><div class="mini-location">♧ Manikonda</div><div class="mini-price">₹7.4 Cr <small>Onwards</small></div><div class="mini-specs">▤ 4 BHK&nbsp; ◩ 4,600 Sq. Ft.</div></div></div>
+          <div class="mini-card"><div class="mini-image"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=500&q=80" alt="Greenwood villas"><button class="heart" aria-label="Save Greenwood Villas">♡</button></div><div class="mini-body"><h3>Greenwood Villas</h3><div class="mini-location">♧ Narsingi</div><div class="mini-price">₹6.9 Cr <small>Onwards</small></div><div class="mini-specs">▤ 4 BHK&nbsp; ◩ 5,000 Sq. Ft.</div></div></div>
+        </div>
+      </article>
+
+      <article class="category" data-category="plots">
+        <div class="cat-head"><div class="cat-icon"><svg width="31" height="31" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 27 3 10l8-5 8 5-2 17zM17 27l1-12 7-4 4 4-1 12zM7 14h8m-7 5h8m6 0h5m-5 5h5"/></svg></div><div class="cat-title"><h2>Plotted Developments</h2><p>Open plots in fast-growing locations with excellent connectivity.</p></div><div class="cat-tools"><a class="view-all" href="#">View All&nbsp; →</a><button class="round-arrow" aria-label="Previous plots">‹</button><button class="round-arrow" aria-label="Next plots">›</button></div></div>
+        <div class="project-row">
+          <div class="feature-image"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=85" alt="Green plotted development aerial view"><span class="badge">New Launch</span><div class="feature-caption"><strong>The Grove</strong><span>♧ Kokapet, Hyderabad</span></div></div>
+          <div class="detail-card"><div class="detail-top"><div class="tag-row"><span class="tag">HMDA Approved</span><span class="tag">Gated Layout</span></div><button class="heart" aria-label="Save The Grove">♡</button></div><div class="price">₹1.8 Cr <small>Onwards</small></div><div class="specs"><span>▱ 150–300 Sq. Yd.</span><span>▦ 150 Acres</span></div><div class="amenities"><div class="amenity">✓<span>HMDA Approved</span></div><div class="amenity">✓<span>Parks & Green Spaces</span></div><div class="amenity">✓<span>Wide Internal Roads</span></div><div class="amenity">✓<span>Near Financial District</span></div></div><button class="outline-cta" data-project="The Grove">View Plots&nbsp; →</button></div>
+          <div class="mini-card"><div class="mini-image"><img src="https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=500&q=80" alt="Sunrise County layout"><button class="heart" aria-label="Save Sunrise County">♡</button></div><div class="mini-body"><h3>Sunrise County</h3><div class="mini-location">♧ Shankarpally</div><div class="mini-price">₹28 L <small>Onwards</small></div><div class="mini-specs">▱ 200–500 Sq. Yd.</div></div></div>
+          <div class="mini-card"><div class="mini-image"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80" alt="Meadow Lands"><button class="heart" aria-label="Save Meadow Lands">♡</button></div><div class="mini-body"><h3>Meadow Lands</h3><div class="mini-location">♧ Chevella</div><div class="mini-price">₹38 L <small>Onwards</small></div><div class="mini-specs">▱ 200–500 Sq. Yd.</div></div></div>
+        </div>
+      </article>
+
+      <article class="category" data-category="apartments">
+        <div class="cat-head"><div class="cat-icon"><svg width="31" height="31" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 28V9h10v19M14 28V3h14v25M2 28h28M8 13h2m-2 4h2m-2 4h2m10-13h2m-2 5h2m-2 5h2m-2 5h2"/></svg></div><div class="cat-title"><h2>Apartment Projects</h2><p>Modern apartments with premium amenities and great locations.</p></div><div class="cat-tools"><a class="view-all" href="#">View All&nbsp; →</a><button class="round-arrow" aria-label="Previous apartments">‹</button><button class="round-arrow" aria-label="Next apartments">›</button></div></div>
+        <div class="project-row">
+          <div class="feature-image"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85" alt="Apartment towers"><span class="badge">Under Construction</span><div class="feature-caption"><strong>Seyline Enclave</strong><span>♧ Narsingi, Hyderabad</span></div></div>
+          <div class="detail-card"><div class="detail-top"><div class="tag-row"><span class="tag">RERA Registered</span><span class="tag">Premium Living</span></div><button class="heart" aria-label="Save Seyline Enclave">♡</button></div><div class="price">₹1.2 Cr <small>Onwards</small></div><div class="specs"><span>▤ 2, 3 BHK</span><span>◩ 1,150–2,100 Sq. Ft.</span></div><div class="amenities"><div class="amenity">♧<span>Clubhouse</span></div><div class="amenity">♜<span>Gym</span></div><div class="amenity">♧<span>Kids Play Area</span></div><div class="amenity">▦<span>Multi-Court</span></div></div><button class="outline-cta">Explore Apartments&nbsp; →</button></div>
+          <div class="mini-card"><div class="mini-image"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80" alt="Urban Heights"><button class="heart" aria-label="Save Urban Heights">♡</button></div><div class="mini-body"><h3>Urban Heights</h3><div class="mini-location">♧ Narsingi</div><div class="mini-price">₹95 L <small>Onwards</small></div><div class="mini-specs">▤ 2, 3 BHK</div></div></div>
+          <div class="mini-card"><div class="mini-image"><img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=500&q=80" alt="Trident Towers"><button class="heart" aria-label="Save Trident Towers">♡</button></div><div class="mini-body"><h3>Trident Towers</h3><div class="mini-location">♧ Kokapet</div><div class="mini-price">₹1.4 Cr <small>Onwards</small></div><div class="mini-specs">▤ 2, 3 BHK</div></div></div>
+        </div>
+      </article>
+
+      <article class="category" data-category="gated">
+        <div class="cat-head"><div class="cat-icon"><svg width="31" height="31" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 15 16 4l13 11M7 13v15h18V13M12 28v-9h8v9M4 8V4h5M23 4h5v4M10 15h12"/></svg></div><div class="cat-title"><h2>Gated Communities</h2><p>Secure communities with a complete lifestyle.</p></div><div class="cat-tools"><a class="view-all" href="#">View All&nbsp; →</a><button class="round-arrow" aria-label="Previous communities">‹</button><button class="round-arrow" aria-label="Next communities">›</button></div></div>
+        <div class="project-row">
+          <div class="feature-image"><img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1000&q=85" alt="Gated villa community"><span class="badge">Ready to Move</span><div class="feature-caption"><strong>Lake View Enclave</strong><span>♧ Patancheru, Hyderabad</span></div></div>
+          <div class="detail-card"><div class="detail-top"><div class="tag-row"><span class="tag">Gated Community</span><span class="tag">RERA Approved</span></div><button class="heart" aria-label="Save Lake View Enclave">♡</button></div><div class="price">₹3.9 Cr <small>Onwards</small></div><div class="specs"><span>▤ 3, 4 BHK Villas</span><span>◩ Lakefront Homes</span></div><div class="amenities"><div class="amenity">♧<span>Lake View</span></div><div class="amenity">♜<span>Clubhouse</span></div><div class="amenity">♧<span>Parks</span></div><div class="amenity">♢<span>24/7 Security</span></div></div><button class="outline-cta">Explore Community&nbsp; →</button></div>
+          <div class="mini-card"><div class="mini-image"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=500&q=80" alt="Oakridge Greens"><button class="heart" aria-label="Save Oakridge Greens">♡</button></div><div class="mini-body"><h3>Oakridge Greens</h3><div class="mini-location">♧ Mokila</div><div class="mini-price">₹3.2 Cr <small>Onwards</small></div><div class="mini-specs">▤ 3, 4 BHK</div></div></div>
+          <div class="mini-card"><div class="mini-image"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=500&q=80" alt="Sreenidhi County"><button class="heart" aria-label="Save Sreenidhi County">♡</button></div><div class="mini-body"><h3>Sreenidhi County</h3><div class="mini-location">♧ Kollur</div><div class="mini-price">₹4.1 Cr <small>Onwards</small></div><div class="mini-specs">▤ 3, 4 BHK</div></div></div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <aside class="map-panel" aria-label="Development locations map">
+    <div id="map"></div>
+    <div class="map-overlay"><div class="map-tabs" role="tablist" aria-label="Development type">
+      <button class="active" data-map-filter="All">All</button><button data-map-filter="Villas">Villas</button><button data-map-filter="Plots">Plots</button><button data-map-filter="Apartments">Apartments</button><button data-map-filter="Gated Communities">Gated Communities</button>
+    </div></div>
+    <div class="map-card"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=250&q=80" alt="The Grove development"><div class="map-card-content"><strong id="mapCardTitle">The Grove</strong><span id="mapCardLocation">Kokapet, Hyderabad</span><b id="mapCardPrice">₹1.8 Cr Onwards</b><button onclick="notify('Opening The Grove development details.')">View Details&nbsp; →</button></div></div>
+    <div class="map-legend"><div class="map-legend-inner"><span><i class="legend-dot" style="background:#e54f58"></i>New Launch</span><span><i class="legend-dot" style="background:#1688e7"></i>Popular</span><span><i class="legend-dot" style="background:#079568"></i>Premium</span><span><i class="legend-dot" style="background:#8b5be7"></i>Upcoming</span></div></div>
+  </aside>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const token = window.MAPBOX_TOKEN || '';
+mapboxgl.accessToken = token;
+const locations = [
+ {name:'Patancheru',count:8,coords:[78.265,17.533],color:'#ef535b',type:'Gated Communities',price:'₹3.9 Cr',project:'Lake View Enclave'},
+ {name:'Tellapur',count:12,coords:[78.310,17.465],color:'#1688e7',type:'Villas',price:'₹5.2 Cr',project:'Serenity Villas'},
+ {name:'Kokapet',count:24,coords:[78.342,17.391],color:'#1688e7',type:'Plots',price:'₹1.8 Cr',project:'The Grove',active:true},
+ {name:'Narsingi',count:16,coords:[78.356,17.377],color:'#079568',type:'Apartments',price:'₹1.2 Cr',project:'Seyline Enclave'},
+ {name:'Manikonda',count:14,coords:[78.382,17.405],color:'#8b5be7',type:'Villas',price:'₹7.4 Cr',project:'The Elite Villas'},
+ {name:'Financial District',count:22,coords:[78.342,17.421],color:'#f59b19',type:'Apartments',price:'₹1.4 Cr',project:'Trident Towers'},
+ {name:'Shankarpally',count:10,coords:[78.128,17.452],color:'#ef535b',type:'Plots',price:'₹28 L',project:'Sunrise County'},
+ {name:'Mokila',count:6,coords:[78.214,17.393],color:'#079568',type:'Gated Communities',price:'₹3.2 Cr',project:'Oakridge Greens'},
+ {name:'Chevella',count:9,coords:[78.137,17.307],color:'#8b5be7',type:'Plots',price:'₹38 L',project:'Meadow Lands'}
+];
+let map;
+function markerElement(item){
+ const el=document.createElement('button');
+ el.className='map-marker'+(item.active?' selected':'');
+ el.style.cssText=`border:0;border-radius:9px;background:${item.active?'#075d91':'rgba(255,255,255,.96)'};color:${item.active?'#fff':'#1a2b3d'};padding:6px 9px;box-shadow:0 3px 12px #14223722;display:flex;align-items:center;gap:6px;white-space:nowrap;font-family:DM Sans,sans-serif;cursor:pointer;`;
+ el.innerHTML=`<span style="display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:${item.color};color:white;font-size:11px">●</span><span style="text-align:left"><b style="display:block;font-size:10px">${item.name}</b><small style="font-size:8px;opacity:.85">${item.count} projects</small></span>`;
+ el.addEventListener('click',()=>selectLocation(item));
+ return new mapboxgl.Marker({element:el,anchor:'bottom'}).setLngLat(item.coords).addTo(map);
+}
+const markers=[];
+function selectLocation(item){
+ document.getElementById('mapCardTitle').textContent=item.project;
+ document.getElementById('mapCardLocation').textContent=item.name+', Hyderabad';
+ document.getElementById('mapCardPrice').textContent=item.price+' Onwards';
+ map.flyTo({center:item.coords,zoom:11.8,duration:700});
+}
+function initMap(){
+ map=new mapboxgl.Map({container:'map',style:'mapbox://styles/mapbox/streets-v12',center:[78.31,17.405],zoom:9.65,attributionControl:true});
+ map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'bottom-right');
+ map.addControl(new mapboxgl.GeolocateControl({positionOptions:{enableHighAccuracy:true},trackUserLocation:false}),'bottom-right');
+ map.on('load',()=>{
+   locations.forEach(l=>markers.push({data:l,marker:markerElement(l)}));
+   // A light, premium map treatment while preserving road and place labels.
+   try{map.setConfigProperty('basemap','lightPreset','day');}catch(e){}
+ });
+}
+if(window.mapboxgl){initMap()}else{document.getElementById('map').innerHTML='<div style="padding:24px;color:#344">Mapbox could not load. Check your internet connection and access token.</div>'}
+function notify(message){const t=document.getElementById('toast');t.textContent=message;t.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display='none',2600)}
+document.getElementById('searchForm').addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('projectSearch').value.trim();if(q){const found=locations.find(l=>(l.name+' '+l.project+' '+l.type).toLowerCase().includes(q.toLowerCase()));if(found)selectLocation(found);else notify('Showing matching developments for “'+q+'” in the listing.')}else notify('Enter a project or location to search.')});
+document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>notify(btn.dataset.filter+' filter selected — connect your preferred filter options here.')));
+document.getElementById('moreFilters').addEventListener('click',()=>notify('More filters: possession, approvals, amenities and price range.'));
+document.getElementById('clearFilters').addEventListener('click',()=>{document.querySelectorAll('.chip').forEach(c=>c.style.display='none');notify('Filters cleared.')});
+document.querySelectorAll('.heart').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();btn.classList.toggle('saved');btn.style.color=btn.classList.contains('saved')?'#08715e':'#233448';btn.innerHTML=btn.classList.contains('saved')?'♥':'♡';notify(btn.classList.contains('saved')?'Development saved':'Removed from saved developments')}));
+document.querySelectorAll('.map-tabs button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.map-tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const type=btn.dataset.mapFilter;markers.forEach(({data,marker})=>{const visible=type==='All'||data.type===type;marker.getElement().style.display=visible?'flex':'none'});}));
+document.querySelectorAll('.outline-cta').forEach(btn=>btn.addEventListener('click',()=>{const cat=btn.closest('.category');const title=cat?.querySelector('.feature-caption strong')?.textContent||'Development';notify('Opening '+title+' details.')}));
+document.querySelectorAll('.round-arrow').forEach(btn=>btn.addEventListener('click',()=>{const row=btn.closest('.category')?.querySelector('.project-row');if(row){row.scrollIntoView({behavior:'smooth',block:'nearest'});notify('More developments can be connected to this carousel.')}}));
+</script>
+<style>
+.map-marker.selected{outline:2px solid #fff;outline-offset:2px}
+.heart.saved{color:#08715e}
+</style>
+</body>
+</html>

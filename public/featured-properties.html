@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#f5f2e8" />
+<title>ILA Homes — Featured Properties</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,400..600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#0a3d2b;
+  --forest-deep:#062a1d;
+  --forest-soft:#12523a;
+  --ink:#13231b;
+  --muted:#6d766e;
+  --cream:#f5f2e8;
+  --paper:#fffdf7;
+  --soft:#f0eddf;
+  --sage:#e6e9d6;
+  --gold:#c8a35f;
+  --line:rgba(19,35,27,.10);
+  --shadow:0 18px 40px -22px rgba(12,36,25,.30);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  overflow:hidden;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:"DM Sans",Manrope,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+svg{display:block}
+
+/* ---------- page shell: one viewport, four aligned rows ---------- */
+.showcase{
+  position:relative;
+  isolation:isolate;
+  height:100vh;
+  height:100dvh;
+  display:grid;
+  grid-template-rows:auto auto minmax(0,1fr) auto;
+  gap:clamp(8px,1.25vh,16px);
+  padding:clamp(14px,2.4vh,28px) clamp(16px,3.6vw,56px);
+  overflow:hidden;
+  background:
+    radial-gradient(70% 55% at 88% -10%,rgba(200,163,95,.16),transparent 65%),
+    radial-gradient(55% 45% at -5% 105%,rgba(10,61,43,.10),transparent 70%),
+    var(--cream);
+}
+.showcase::before,
+.showcase::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  pointer-events:none;
+  border:1px solid rgba(10,61,43,.10);
+  border-radius:50%;
+}
+.showcase::before{width:460px;height:460px;top:-230px;right:-90px}
+.showcase::after{width:380px;height:380px;bottom:-260px;left:-140px}
+
+/* ---------- masthead ---------- */
+.masthead{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:clamp(16px,3vw,40px);
+  min-width:0;
+}
+.masthead-copy{min-width:0}
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:0 0 clamp(4px,.9vh,10px);
+  color:var(--forest);
+  font-size:clamp(8px,1.05vh,10.5px);
+  font-weight:700;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+}
+.eyebrow::before{content:"";width:clamp(18px,2vw,34px);height:1px;background:rgba(10,61,43,.45)}
+.eyebrow::after{content:"";width:4px;height:4px;border-radius:50%;background:var(--gold)}
+h1{
+  margin:0;
+  font-family:Manrope,sans-serif;
+  font-size:clamp(26px,3.3vw,48px);
+  font-weight:800;
+  line-height:.98;
+  letter-spacing:-.045em;
+}
+h1 em{
+  font-family:Fraunces,serif;
+  font-style:italic;
+  font-weight:500;
+  letter-spacing:-.02em;
+  color:var(--forest);
+}
+.subtitle{
+  margin:clamp(4px,.9vh,9px) 0 0;
+  max-width:56ch;
+  color:var(--muted);
+  font-size:clamp(10px,1.4vh,14px);
+  font-weight:500;
+  line-height:1.5;
+}
+.masthead-tools{
+  display:flex;
+  align-items:flex-end;
+  gap:clamp(8px,1.2vw,16px);
+  flex-shrink:0;
+  padding-bottom:2px;
+}
+.count-block{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:2px;
+  padding-right:clamp(8px,1vw,14px);
+  border-right:1px solid var(--line);
+}
+.count-block b{
+  font-family:Manrope,sans-serif;
+  font-size:clamp(17px,2.5vh,25px);
+  font-weight:800;
+  line-height:1;
+  color:var(--forest);
+}
+.count-block span{
+  color:var(--muted);
+  font-size:clamp(7px,.9vh,9px);
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.arrow-group{display:flex;gap:6px}
+.circle-btn{
+  width:clamp(30px,4.1vh,40px);
+  height:clamp(30px,4.1vh,40px);
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(19,35,27,.16);
+  border-radius:50%;
+  background:rgba(255,253,247,.65);
+  color:var(--forest);
+  transition:transform .2s var(--ease),background .2s,border-color .2s,color .2s;
+}
+.circle-btn svg{width:15px;height:15px}
+.circle-btn:hover{transform:translateY(-2px);border-color:var(--forest)}
+.circle-btn.dark{background:var(--forest);border-color:var(--forest);color:#fff}
+.circle-btn.dark:hover{background:var(--forest-soft)}
+.view-all{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:clamp(8px,1.15vh,11px) clamp(13px,1.3vw,20px);
+  border:1px solid rgba(10,61,43,.35);
+  border-radius:999px;
+  background:transparent;
+  color:var(--forest);
+  font-size:clamp(9px,1.25vh,11.5px);
+  font-weight:700;
+  white-space:nowrap;
+  transition:background .2s,color .2s,transform .2s;
+}
+.view-all svg{width:13px;height:13px}
+.view-all:hover{background:var(--forest);color:#fff;transform:translateY(-1px)}
+
+/* ---------- filters ---------- */
+.filters{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  min-width:0;
+}
+.categories{
+  display:flex;
+  align-items:center;
+  gap:3px;
+  max-width:100%;
+  padding:4px;
+  overflow-x:auto;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(255,253,247,.66);
+  box-shadow:0 8px 22px -18px rgba(10,61,43,.5);
+  scrollbar-width:none;
+}
+.categories::-webkit-scrollbar{display:none}
+.category{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:clamp(6px,1vh,9px) clamp(9px,1.2vw,16px);
+  border:0;
+  border-radius:999px;
+  background:transparent;
+  color:#2c3a32;
+  font-size:clamp(9px,1.2vh,11.5px);
+  font-weight:700;
+  white-space:nowrap;
+  transition:background .2s,color .2s;
+}
+.category svg{width:13px;height:13px;opacity:.75}
+.category:hover{background:rgba(10,61,43,.07)}
+.category.active{background:var(--forest);color:#fff;box-shadow:0 7px 16px -9px rgba(10,61,43,.9)}
+.category.active svg{opacity:1}
+.filters-note{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0;
+  color:var(--muted);
+  font-size:clamp(8px,1vh,10px);
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.filters-note::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
+
+/* ---------- property row ---------- */
+.property-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.62fr) repeat(3,minmax(0,1fr));
+  gap:clamp(8px,1vw,15px);
+  min-width:0;
+  min-height:0;
+}
+.property-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:clamp(14px,2.1vh,22px);
+  background:var(--paper);
+  box-shadow:var(--shadow);
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .2s;
+}
+.property-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(10,61,43,.18);
+  box-shadow:0 26px 50px -26px rgba(12,36,25,.45);
+}
+.hidden-card{display:none!important}
+
+/* media */
+.card-media{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  overflow:hidden;
+  background:#c9d2c8;
+}
+.card-media img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .8s var(--ease);
+}
+.property-card:hover .card-media img{transform:scale(1.05)}
+.card-media::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(4,22,14,.46) 0%,rgba(4,22,14,0) 30%,rgba(4,22,14,0) 58%,rgba(4,22,14,.62) 100%);
+}
+.media-top{
+  position:absolute;
+  z-index:2;
+  top:clamp(8px,1.2vh,13px);
+  left:clamp(8px,1vw,13px);
+  right:clamp(8px,1vw,13px);
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:6px;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:rgba(255,253,247,.95);
+  color:var(--forest);
+  font-size:clamp(7px,.98vh,9.5px);
+  font-weight:700;
+  letter-spacing:.02em;
+  white-space:nowrap;
+  box-shadow:0 3px 10px rgba(4,22,14,.14);
+}
+.pill svg{width:10px;height:10px;fill:var(--gold);stroke:none}
+.pill.warm{background:#f8e8cf;color:#8a4a1f}
+.pill.cool{background:#e3edf2;color:#255064}
+.media-actions{display:flex;gap:5px;flex-shrink:0}
+.round-action{
+  width:clamp(26px,3.5vh,33px);
+  height:clamp(26px,3.5vh,33px);
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:50%;
+  background:rgba(255,253,247,.95);
+  color:var(--forest);
+  box-shadow:0 4px 12px rgba(4,22,14,.18);
+  transition:transform .2s var(--ease),background .2s;
+}
+.round-action svg{width:13px;height:13px}
+.round-action:hover{transform:translateY(-1px);background:#fff}
+.round-action.saved{color:#b5474c}
+.round-action.saved svg{fill:currentColor}
+.media-bottom{
+  position:absolute;
+  z-index:2;
+  left:clamp(8px,1vw,13px);
+  right:clamp(8px,1vw,13px);
+  bottom:clamp(8px,1.2vh,12px);
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:6px;
+}
+.is-featured .media-bottom{justify-content:flex-start}
+.image-tags{display:flex;gap:5px;flex-wrap:wrap}
+.image-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 8px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+  background:rgba(4,22,14,.5);
+  color:#fff;
+  font-size:clamp(7px,.95vh,9px);
+  font-weight:600;
+  white-space:nowrap;
+  backdrop-filter:blur(6px);
+}
+.image-tag svg{width:10px;height:10px}
+.photo-count{
+  padding:4px 8px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:999px;
+  background:rgba(4,22,14,.62);
+  color:#fff;
+  font-size:clamp(6.5px,.9vh,8.5px);
+  font-weight:600;
+  white-space:nowrap;
+  backdrop-filter:blur(4px);
+}
+
+/* card body */
+.card-body{
+  flex:0 0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:clamp(5px,.8vh,9px);
+  min-width:0;
+  padding:clamp(9px,1.3vh,15px) clamp(10px,1vw,16px);
+  background:var(--paper);
+}
+.card-heading{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  min-width:0;
+}
+.card-copy{min-width:0}
+.card-title{
+  margin:0 0 3px;
+  overflow:hidden;
+  font-family:Manrope,sans-serif;
+  font-size:clamp(11px,1.35vw,17px);
+  font-weight:800;
+  line-height:1.18;
+  letter-spacing:-.025em;
+  text-overflow:ellipsis;
+}
+.card-loc{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  overflow:hidden;
+  color:var(--muted);
+  font-size:clamp(8px,.78vw,10.5px);
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.card-loc svg{width:9px;height:9px;flex-shrink:0}
+.card-price{
+  flex-shrink:0;
+  color:var(--forest);
+  font-family:Manrope,sans-serif;
+  font-size:clamp(12px,1.35vw,19px);
+  font-weight:800;
+  line-height:1.05;
+  letter-spacing:-.03em;
+  white-space:nowrap;
+  text-align:right;
+}
+.card-price small{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font:600 clamp(6.5px,.85vh,8.5px) "DM Sans",sans-serif;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+.card-price-row{display:flex;align-items:baseline;gap:8px;min-width:0}
+.card-price-row .card-price{font-size:clamp(13px,1.5vw,20px)}
+.card-area{
+  padding-left:8px;
+  border-left:1px solid var(--line);
+  color:var(--muted);
+  font-size:clamp(7.5px,.85vw,10px);
+  white-space:nowrap;
+}
+.card-arrow{
+  flex-shrink:0;
+  width:clamp(22px,2.7vh,28px);
+  height:clamp(22px,2.7vh,28px);
+  display:grid;
+  place-items:center;
+  border:1px solid var(--line);
+  border-radius:50%;
+  background:rgba(240,237,223,.6);
+  color:var(--forest);
+  transition:background .2s,color .2s,border-color .2s,transform .2s;
+}
+.card-arrow svg{width:10px;height:10px}
+.card-arrow:hover{background:var(--forest);border-color:var(--forest);color:#fff;transform:translateX(1px)}
+.badges{display:flex;flex-wrap:wrap;gap:4px;min-width:0;overflow:hidden}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  padding:3px 7px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(240,237,223,.55);
+  color:#3b4a40;
+  font-size:clamp(6.5px,.7vw,8.5px);
+  font-weight:700;
+  white-space:nowrap;
+}
+.badge svg{width:8px;height:8px}
+.badge.green{border-color:transparent;background:var(--sage);color:var(--forest)}
+
+/* featured card */
+.is-featured .card-body{
+  background:linear-gradient(150deg,var(--forest-deep) 0%,var(--forest) 62%,#0d4a34 100%);
+  color:#f4f1e3;
+}
+.is-featured .card-title{color:#fff;font-size:clamp(13px,1.55vw,21px)}
+.is-featured .card-loc{color:rgba(244,241,227,.66)}
+.is-featured .card-price{color:#fff;font-size:clamp(15px,1.7vw,23px)}
+.is-featured .card-price small{color:rgba(244,241,227,.6)}
+.is-featured .card-area{color:rgba(244,241,227,.6);border-color:rgba(255,255,255,.16)}
+.spec-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(4px,.6vh,7px);
+}
+.spec{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+  padding:clamp(4px,.65vh,7px) clamp(5px,.55vw,9px);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  background:rgba(255,255,255,.05);
+}
+.spec-icon{
+  flex-shrink:0;
+  width:clamp(18px,2.3vh,23px);
+  height:clamp(18px,2.3vh,23px);
+  display:grid;
+  place-items:center;
+  border-radius:6px;
+  background:rgba(230,233,214,.14);
+  color:#e9ecd9;
+}
+.spec-icon svg{width:11px;height:11px}
+.spec strong{
+  display:block;
+  overflow:hidden;
+  color:#fff;
+  font-size:clamp(7.5px,1.05vh,10.5px);
+  font-weight:700;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.spec small{
+  display:block;
+  overflow:hidden;
+  margin-top:1px;
+  color:rgba(244,241,227,.55);
+  font-size:clamp(6.5px,.85vh,8.5px);
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.featured-foot{display:flex;align-items:center;gap:8px;min-width:0}
+.trust-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap;min-width:0}
+.trust{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  padding:4px 7px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  color:rgba(244,241,227,.88);
+  font-size:clamp(6.5px,.82vh,8.5px);
+  font-weight:700;
+  white-space:nowrap;
+}
+.trust svg{width:9px;height:9px;color:#cfe0b8}
+.details-btn{
+  flex-shrink:0;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+  padding:clamp(6px,1vh,9px) clamp(10px,1vw,15px);
+  border:0;
+  border-radius:999px;
+  background:#f4f1e3;
+  color:var(--forest);
+  font-size:clamp(7.5px,1vh,10px);
+  font-weight:700;
+  white-space:nowrap;
+  box-shadow:0 9px 20px -11px rgba(0,0,0,.55);
+  transition:background .2s,transform .2s;
+}
+.details-btn svg{width:11px;height:11px}
+.details-btn:hover{background:#fff;transform:translateY(-1px)}
+
+/* filtered: the single result becomes a wide horizontal card */
+.property-grid.is-filtered{grid-template-columns:minmax(0,1fr)}
+.property-grid.is-filtered .property-card{
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
+  min-height:0;
+}
+.property-grid.is-filtered .card-media{min-height:0}
+.property-grid.is-filtered .card-body{justify-content:center}
+.property-grid.is-filtered .card-title{font-size:clamp(16px,1.8vw,24px)}
+.property-grid.is-filtered .card-loc{font-size:clamp(9px,.9vw,12px)}
+
+/* ---------- location strip ---------- */
+.explore-bar{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:clamp(10px,1.3vw,18px);
+  overflow:hidden;
+  padding:clamp(7px,1.1vh,11px) clamp(10px,1.3vw,16px);
+  border-radius:clamp(14px,2.2vh,20px);
+  background:linear-gradient(120deg,var(--forest-deep),var(--forest) 55%,#0d4a34);
+  color:#f4f1e3;
+  box-shadow:0 20px 44px -26px rgba(6,42,29,.95);
+}
+.explore-bar::before,
+.explore-bar::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50%;
+}
+.explore-bar::before{width:260px;height:260px;top:-140px;right:-40px}
+.explore-bar::after{width:220px;height:220px;bottom:-150px;right:60px;border-color:rgba(255,255,255,.06)}
+.explore-intro{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
+  max-width:min(280px,27vw);
+  padding-right:clamp(10px,1.3vw,18px);
+  border-right:1px solid rgba(255,255,255,.14);
+}
+.pin-circle{
+  flex-shrink:0;
+  width:clamp(28px,4.2vh,36px);
+  height:clamp(28px,4.2vh,36px);
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(230,233,214,.25);
+  border-radius:50%;
+  background:rgba(230,233,214,.14);
+  color:#e9ecd9;
+}
+.pin-circle svg{width:13px;height:13px}
+.explore-intro strong{
+  display:block;
+  font-family:Manrope,sans-serif;
+  font-size:clamp(9.5px,1.35vh,12.5px);
+  font-weight:700;
+  line-height:1.2;
+}
+.explore-intro p{
+  margin:2px 0 0;
+  color:rgba(244,241,227,.6);
+  font-size:clamp(7px,.95vh,9.5px);
+  line-height:1.3;
+}
+.location-chips{
+  flex:1;
+  min-width:0;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(5px,.7vw,9px);
+}
+.location-chip{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+  padding:4px 5px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:rgba(255,255,255,.055);
+  transition:background .2s,border-color .2s;
+}
+.location-chip:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.24)}
+.location-chip img{
+  flex-shrink:0;
+  width:clamp(23px,3.3vh,30px);
+  height:clamp(23px,3.3vh,30px);
+  border-radius:50%;
+  object-fit:cover;
+}
+.location-chip div{min-width:0}
+.location-chip strong{
+  display:block;
+  overflow:hidden;
+  font-size:clamp(7.5px,1.05vh,10.5px);
+  font-weight:700;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.location-chip small{
+  display:block;
+  overflow:hidden;
+  margin-top:1px;
+  color:rgba(244,241,227,.58);
+  font-size:clamp(6.5px,.88vh,8.5px);
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.chip-arrow{
+  flex-shrink:0;
+  width:clamp(19px,2.5vh,23px);
+  height:clamp(19px,2.5vh,23px);
+  display:grid;
+  place-items:center;
+  margin-left:auto;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:50%;
+  background:transparent;
+  color:#f4f1e3;
+  transition:background .2s,color .2s;
+}
+.chip-arrow svg{width:9px;height:9px}
+.chip-arrow:hover{background:#f4f1e3;color:var(--forest)}
+.loc-all{
+  flex-shrink:0;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#f4f1e3;
+  font-size:clamp(8px,1.05vh,10px);
+  font-weight:700;
+  white-space:nowrap;
+}
+.loc-all svg{width:11px;height:11px}
+.loc-all:hover{text-decoration:underline}
+
+/* ---------- tablet ---------- */
+@media(max-width:1100px){
+  .filters-note{display:none}
+  .trust.optional{display:none}
+  .explore-intro{max-width:210px}
+  .location-chip .chip-arrow{display:none}
+  .loc-all{display:none}
+  .card-price small{display:none}
+}
+@media(max-width:900px){
+  .showcase{padding-inline:24px}
+  .count-block span{display:none}
+  .explore-intro{max-width:170px}
+  .explore-intro p{display:none}
+  .badge:nth-child(3){display:none}
+}
+/* tablet portrait: 2 x 2 keeps cards readable without scrolling */
+@media(min-width:761px) and (max-width:1100px) and (min-height:561px){
+  .property-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(2,minmax(0,1fr));
+    gap:clamp(8px,1vw,13px);
+  }
+  .property-card{border-radius:16px}
+  .card-body{padding:10px 12px;gap:5px}
+  .card-title{font-size:13px}
+  .is-featured .card-title{font-size:15px}
+  .card-loc{font-size:9px}
+  .card-price-row .card-price{font-size:14px}
+  .is-featured .card-price{font-size:16px}
+  .card-area{font-size:9px}
+  .spec-grid{display:none}
+  .featured-foot .trust{display:none}
+  .property-grid.is-filtered{grid-template-rows:minmax(0,1fr)}
+}
+
+/* ---------- mobile: 2 x 2 aligned grid, still one screen ---------- */
+@media(max-width:760px){
+  .showcase{
+    gap:8px;
+    padding:12px 12px 10px;
+  }
+  .showcase::before{width:280px;height:280px;top:-170px;right:-110px}
+  .showcase::after{display:none}
+  .masthead{display:block}
+  .eyebrow{gap:7px;margin-bottom:4px;font-size:8px;letter-spacing:.24em}
+  .eyebrow::before{width:16px}
+  h1{font-size:clamp(24px,7vw,32px);letter-spacing:-.04em}
+  .subtitle{max-width:44ch;margin-top:4px;font-size:10px;line-height:1.4}
+  .masthead-tools{display:none}
+  .categories{gap:1px;padding:3px;width:100%}
+  .category{gap:0;padding:6px 4px;font-size:8.5px;flex:1;justify-content:center}
+  .category svg{display:none}
+  .property-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+  .property-card{border-radius:12px}
+  .property-card:hover{transform:none}
+  .card-media::after{background:linear-gradient(180deg,rgba(4,22,14,.4),transparent 46%,rgba(4,22,14,.45))}
+  .media-top{top:6px;left:6px;right:6px;gap:4px}
+  .pill{padding:3px 6px;font-size:7px;gap:3px}
+  .pill svg{width:8px;height:8px}
+  .round-action{width:22px;height:22px}
+  .round-action svg{width:10px;height:10px}
+  .media-bottom{left:6px;right:6px;bottom:6px}
+  .image-tags,.photo-count{display:none}
+  .card-body{padding:7px 8px 8px;gap:3px}
+  .card-title{
+    margin-bottom:1px;
+    font-size:10px;
+    letter-spacing:-.01em;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  .card-loc{font-size:7.5px;white-space:nowrap;text-overflow:ellipsis}
+  .card-loc svg{width:8px;height:8px}
+  .card-price-row{gap:5px}
+  .card-price-row .card-price{font-size:11px}
+  .card-area{font-size:7.5px;padding-left:5px}
+  .badges,.card-arrow{display:none}
+  .is-featured .card-title{font-size:11px}
+  .is-featured .card-price{font-size:12px}
+  .is-featured .card-price small{display:none}
+  .spec-grid{display:none}
+  .featured-foot .trust-row{display:none}
+  .details-btn{margin-left:0;padding:4px 8px;font-size:8px;gap:4px}
+  .details-btn svg{width:9px;height:9px}
+  .property-grid.is-filtered{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr)}
+  .property-grid.is-filtered .property-card{display:flex;flex-direction:column}
+  .property-grid.is-filtered .card-body{justify-content:flex-start}
+  .property-grid.is-filtered .card-title{font-size:13px}
+  .property-grid.is-filtered .card-loc{font-size:9px}
+  .explore-bar{
+    flex-direction:column;
+    align-items:stretch;
+    gap:5px;
+    padding:6px 8px;
+    border-radius:12px;
+  }
+  .explore-intro{max-width:none;padding:0;border:0;gap:6px}
+  .pin-circle{width:20px;height:20px}
+  .pin-circle svg{width:9px;height:9px}
+  .explore-intro strong{font-size:9px}
+  .explore-intro p{display:none}
+  .location-chips{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+  .location-chip{justify-content:center;gap:0;padding:4px 3px;border-radius:7px}
+  .location-chip img,
+  .location-chip .chip-arrow{display:none}
+  .location-chip strong{font-size:7.5px}
+  .location-chip small{font-size:6.5px}
+  .loc-all{display:none}
+}
+@media(max-width:400px){
+  .category{font-size:7.5px;padding:6px 3px}
+  .subtitle{font-size:9.5px}
+  .card-area{display:none}
+  .is-featured .card-price{font-size:11px}
+}
+@media(max-height:680px) and (max-width:760px){
+  .subtitle{display:none}
+  .explore-intro{display:none}
+}
+@media(max-height:620px) and (min-width:761px){
+  .subtitle,.image-tags,.badges,.explore-intro p{display:none}
+  .showcase{padding-block:10px;gap:8px}
+  .spec-grid{display:none}
+  .card-body{gap:4px;padding:7px 10px}
+  .featured-foot .trust{display:none}
+  .explore-bar{padding:6px 10px}
+  .explore-intro{max-width:160px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<section class="showcase" aria-labelledby="featured-heading">
+  <header class="masthead">
+    <div class="masthead-copy">
+      <div class="eyebrow">Handpicked for you</div>
+      <h1 id="featured-heading">Featured <em>Properties</em></h1>
+      <p class="subtitle">Premium homes, plots and investment opportunities in Hyderabad’s most sought-after locations.</p>
+    </div>
+    <div class="masthead-tools">
+      <div class="count-block">
+        <b id="resultCount">04</b>
+        <span>curated listings</span>
+      </div>
+      <div class="arrow-group">
+        <button class="circle-btn" aria-label="Previous category" id="prevTop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="circle-btn dark" aria-label="Next category" id="nextTop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+      <button class="view-all" id="viewAll">
+        View all properties
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="filters">
+    <nav class="categories" aria-label="Property categories">
+      <button class="category active" data-category="all" aria-pressed="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>
+        All properties
+      </button>
+      <button class="category" data-category="apartments" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v16M3 21h18M9 8h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1m-2 5v-4h-3v4"/></svg>
+        Apartments
+      </button>
+      <button class="category" data-category="villas" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 9-7 9 7M5 10v10h14V10M9 20v-6h6v6"/></svg>
+        Villas
+      </button>
+      <button class="category" data-category="plots" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 17H3L12 3Z"/><path d="M12 9v4m0 3h.01"/></svg>
+        Plots
+      </button>
+      <button class="category" data-category="commercial" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4h16v17M2 21h20M8 8h2m4 0h2m-8 4h2m4 0h2m-8 4h2m4 0h2"/></svg>
+        Commercial
+      </button>
+    </nav>
+    <p class="filters-note">Hyderabad · Updated weekly</p>
+  </div>
+
+  <div class="property-grid" id="propertyGrid">
+    <article class="property-card is-featured" data-type="villas">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=85" alt="Contemporary luxury villa with landscaped garden">
+        <div class="media-top">
+          <span class="pill">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.4 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.2l5.9-.8L12 3Z"/></svg>
+            Featured property
+          </span>
+          <div class="media-actions">
+            <button class="round-action favorite" aria-label="Save luxury villa" aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+            </button>
+            <button class="round-action share" aria-label="Share luxury villa">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.4 10.8 7.2-4.2M8.4 13.2l7.2 4.2"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="media-bottom">
+          <div class="image-tags">
+            <span class="image-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+              24 images
+            </span>
+            <span class="image-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="M12 12v9M4 7.5l8 4.5 8-4.5"/></svg>
+              3D tour
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-heading">
+          <div class="card-copy">
+            <h2 class="card-title">Luxury Villa in Kokapet</h2>
+            <div class="card-loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+              Kokapet, Hyderabad
+            </div>
+          </div>
+          <div class="card-price">₹4.80 Cr<small>₹12,000 per sq.ft.</small></div>
+        </div>
+        <div class="spec-grid">
+          <div class="spec">
+            <span class="spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/></svg></span>
+            <div><strong>4 BHK</strong><small>Configuration</small></div>
+          </div>
+          <div class="spec">
+            <span class="spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M4 9h5"/></svg></span>
+            <div><strong>3,200 sq.ft.</strong><small>Built-up area</small></div>
+          </div>
+          <div class="spec">
+            <span class="spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 9-7 9 7M5 10v10h14V10M9 20v-6h6v6"/></svg></span>
+            <div><strong>Villa</strong><small>Property type</small></div>
+          </div>
+          <div class="spec">
+            <span class="spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M8 3v4m8-4v4M3.5 10h17"/></svg></span>
+            <div><strong>Dec 2025</strong><small>Possession</small></div>
+          </div>
+        </div>
+        <div class="featured-foot">
+          <div class="trust-row">
+            <span class="trust">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.6 2.6L16 9"/></svg>
+              RERA approved
+            </span>
+            <span class="trust">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.6 2.6L16 9"/></svg>
+              Verified
+            </span>
+            <span class="trust optional">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V8l8-5 8 5v12M9 20v-6h6v6"/></svg>
+              Gated community
+            </span>
+          </div>
+          <button class="details-btn">
+            View details
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <article class="property-card" data-type="apartments">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=850&q=85" alt="Modern apartment towers">
+        <div class="media-top">
+          <span class="pill warm">Popular</span>
+          <div class="media-actions">
+            <button class="round-action favorite" aria-label="Save apartment" aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="media-bottom"><span class="photo-count">12 photos</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-heading">
+          <div class="card-copy">
+            <h3 class="card-title">Sattva Knowledge City</h3>
+            <div class="card-loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+              HITEC City, Hyderabad
+            </div>
+          </div>
+          <button class="card-arrow" aria-label="View Sattva Knowledge City">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="card-price-row"><span class="card-price">₹1.25 Cr</span><span class="card-area">1,850 sq.ft.</span></div>
+        <div class="badges">
+          <span class="badge green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>
+            Verified
+          </span>
+          <span class="badge">Apartment</span>
+          <span class="badge">Ready to move</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="property-card" data-type="plots">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=850&q=85" alt="Green plotted residential layout">
+        <div class="media-top">
+          <span class="pill">New launch</span>
+          <div class="media-actions">
+            <button class="round-action favorite" aria-label="Save plot" aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="media-bottom"><span class="photo-count">8 photos</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-heading">
+          <div class="card-copy">
+            <h3 class="card-title">Urbanrise Highgrove</h3>
+            <div class="card-loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+              Shadnagar, Hyderabad
+            </div>
+          </div>
+          <button class="card-arrow" aria-label="View Urbanrise Highgrove">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="card-price-row"><span class="card-price">₹48.5 Lakhs</span><span class="card-area">267 sq.yd.</span></div>
+        <div class="badges">
+          <span class="badge green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>
+            RERA approved
+          </span>
+          <span class="badge">Plot</span>
+          <span class="badge">HMDA layout</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="property-card" data-type="commercial">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=850&q=85" alt="Contemporary commercial office building">
+        <div class="media-top">
+          <span class="pill cool">High ROI</span>
+          <div class="media-actions">
+            <button class="round-action favorite" aria-label="Save commercial property" aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="media-bottom"><span class="photo-count">10 photos</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-heading">
+          <div class="card-copy">
+            <h3 class="card-title">Commercial Space</h3>
+            <div class="card-loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+              Gachibowli, Hyderabad
+            </div>
+          </div>
+          <button class="card-arrow" aria-label="View commercial space">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="card-price-row"><span class="card-price">₹6.2 Cr</span><span class="card-area">4,350 sq.ft.</span></div>
+        <div class="badges">
+          <span class="badge green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>
+            Verified
+          </span>
+          <span class="badge">Commercial</span>
+          <span class="badge">Prime location</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <section class="explore-bar" aria-label="Explore properties by location">
+    <div class="explore-intro">
+      <span class="pin-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+      </span>
+      <div>
+        <strong>Explore by location</strong>
+        <p>Hyderabad’s top growth corridors</p>
+      </div>
+    </div>
+    <div class="location-chips" id="locationChips">
+      <div class="location-chip">
+        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=160&q=80" alt="">
+        <div><strong>Gachibowli</strong><small>120+ properties</small></div>
+        <button class="chip-arrow" aria-label="Explore Gachibowli">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="location-chip">
+        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=160&q=80" alt="">
+        <div><strong>Kokapet</strong><small>85+ properties</small></div>
+        <button class="chip-arrow" aria-label="Explore Kokapet">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="location-chip">
+        <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=160&q=80" alt="">
+        <div><strong>Shadnagar</strong><small>60+ properties</small></div>
+        <button class="chip-arrow" aria-label="Explore Shadnagar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="location-chip">
+        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=160&q=80" alt="">
+        <div><strong>Tellapur</strong><small>40+ properties</small></div>
+        <button class="chip-arrow" aria-label="Explore Tellapur">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+    <button class="loc-all" id="allLocations">
+      All locations
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </section>
+</section>
+
+<script>
+  const categoryButtons = [...document.querySelectorAll('.category')];
+  const propertyGrid = document.getElementById('propertyGrid');
+  const propertyCards = [...document.querySelectorAll('.property-card')];
+  const resultCount = document.getElementById('resultCount');
+
+  // Category filter. When a category is active, the single matching
+  // property expands into a wide horizontal card so it still fills
+  // the viewport without any scrolling.
+  function applyCategory(selected) {
+    categoryButtons.forEach(button => {
+      const active = button.dataset.category === selected;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+
+    let visible = 0;
+    propertyCards.forEach(card => {
+      const show = selected === 'all' || card.dataset.type === selected;
+      card.classList.toggle('hidden-card', !show);
+      if (show) visible += 1;
+    });
+
+    propertyGrid.classList.toggle('is-filtered', selected !== 'all');
+    resultCount.textContent = String(visible).padStart(2, '0');
+  }
+
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', () => applyCategory(button.dataset.category));
+  });
+
+  // Header arrows step through the category tabs.
+  function stepCategory(direction) {
+    const current = categoryButtons.findIndex(button => button.classList.contains('active'));
+    const next = (current + direction + categoryButtons.length) % categoryButtons.length;
+    applyCategory(categoryButtons[next].dataset.category);
+  }
+  document.getElementById('prevTop').addEventListener('click', () => stepCategory(-1));
+  document.getElementById('nextTop').addEventListener('click', () => stepCategory(1));
+
+  // Favorite buttons toggle their saved state.
+  document.querySelectorAll('.favorite').forEach(button => {
+    button.addEventListener('click', () => {
+      const saved = button.classList.toggle('saved');
+      button.setAttribute('aria-pressed', String(saved));
+    });
+  });
+
+  // Share button uses native share when supported, otherwise copies the page URL.
+  document.querySelector('.share').addEventListener('click', async () => {
+    try {
+      if (navigator.share) await navigator.share({title: 'Luxury Villa in Kokapet', text: 'Explore this featured property on ILA Homes.', url: location.href});
+      else { await navigator.clipboard.writeText(location.href); alert('Property link copied!'); }
+    } catch (error) {}
+  });
+
+  document.getElementById('viewAll').addEventListener('click', () => applyCategory('all'));
+
+  document.querySelectorAll('.details-btn, .card-arrow, .chip-arrow').forEach(button => {
+    button.addEventListener('click', () => {
+      const name = button.closest('.property-card')?.querySelector('.card-title')?.textContent
+        || button.closest('.location-chip')?.querySelector('strong')?.textContent
+        || 'Properties';
+      alert('Connect this action to the ' + name + ' details page.');
+    });
+  });
+
+  document.getElementById('allLocations').addEventListener('click', () => {
+    alert('Connect this action to the locations page.');
+  });
+</script>
+</body>
+</html>

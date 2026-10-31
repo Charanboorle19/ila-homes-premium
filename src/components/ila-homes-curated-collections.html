@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILA Homes — Curated Property Collections</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#faf9f4;--ink:#11212a;--green:#075c4b;--muted:#6f7b84;--line:#e9e8e1}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",Arial,sans-serif}
+button,a{font:inherit}
+button{cursor:pointer}
+.collections{position:relative;isolation:isolate;overflow:hidden;padding:clamp(28px,4.1vw,64px) clamp(20px,3.1vw,52px) 48px;background:radial-gradient(ellipse at 22% 16%,#fffefa 0%,transparent 52%),linear-gradient(115deg,#faf9f4,#f8f7f0)}
+.decor{position:absolute;z-index:-1;pointer-events:none;border:1px solid rgba(143,159,134,.2);border-radius:50%;width:580px;height:270px;transform:rotate(28deg);right:-110px;top:-150px}
+.decor.two{width:540px;height:250px;left:-210px;bottom:-190px;top:auto;right:auto;transform:rotate(20deg)}
+.decor-leaf{position:absolute;z-index:-1;pointer-events:none;width:120px;height:230px;left:-47px;bottom:-62px;opacity:.42;transform:rotate(-25deg);background:radial-gradient(ellipse at 50% 15%,#8da77d 0 22%,transparent 23%),radial-gradient(ellipse at 22% 45%,#a5b994 0 20%,transparent 21%),radial-gradient(ellipse at 74% 68%,#91a980 0 23%,transparent 24%);filter:blur(.4px)}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;gap:26px;margin:0 0 30px;position:relative}
+.heading-copy{max-width:760px}
+h1{font-family:"Playfair Display",Georgia,serif;font-weight:600;letter-spacing:-1.5px;font-size:clamp(38px,4vw,64px);line-height:1.08;margin:0 0 10px}
+h1 span{color:var(--green)}
+.subtitle{font-size:clamp(15px,1.35vw,21px);line-height:1.5;color:#707b85;margin:0}
+.header-actions{display:flex;align-items:center;gap:28px;flex-shrink:0;padding-bottom:8px}
+.carousel-controls{display:flex;gap:12px}
+.round-control{width:48px;height:48px;border-radius:50%;border:1px solid #e8e7df;background:#fffdf9;color:#17313a;font-size:25px;display:grid;place-items:center;transition:.2s}
+.round-control:hover{background:var(--green);color:white;border-color:var(--green)}
+.all-link{border:0;background:transparent;color:var(--green);font-weight:600;white-space:nowrap;padding:10px 0;display:flex;align-items:center;gap:12px;font-size:15px}
+.all-link span{font-size:22px;transition:transform .2s}.all-link:hover span{transform:translateX(4px)}
+.collection-grid{display:grid;grid-template-columns:1.42fr 1fr 1fr 1fr;gap:13px}
+.collection-card{position:relative;height:clamp(390px,34.7vw,510px);min-width:0;border-radius:15px;overflow:hidden;background:#dbe3d5;box-shadow:0 4px 12px #182a2110;isolation:isolate;transition:transform .25s,box-shadow .25s}
+.collection-card:hover{transform:translateY(-4px);box-shadow:0 13px 28px #182a211e}
+.collection-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .65s}
+.collection-card:hover>img{transform:scale(1.045)}
+.collection-card:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(9,25,26,.03) 22%,rgba(8,24,26,.05) 42%,rgba(7,21,22,.88) 100%)}
+.collection-icon{position:absolute;top:23px;left:23px;width:62px;height:62px;display:grid;place-items:center;border-radius:50%;background:rgba(255,254,249,.96);color:#122b31;font-size:27px;box-shadow:0 4px 14px #16282016}
+.card-copy{position:absolute;left:clamp(18px,2.1vw,34px);right:18px;bottom:20px;color:white}
+.card-copy h2{font-family:"Playfair Display",Georgia,serif;font-size:clamp(22px,2vw,34px);font-weight:600;line-height:1.12;letter-spacing:-.4px;margin:0 0 12px;max-width:440px}
+.card-copy p{font-size:clamp(12px,1vw,15px);line-height:1.6;color:#f0f1ed;margin:0;max-width:390px;padding-right:42px}
+.card-arrow{position:absolute;right:0;bottom:0;width:51px;height:51px;border:0;border-radius:50%;background:#fffdf8;color:#142b31;display:grid;place-items:center;font-size:25px;transition:background .2s,color .2s,transform .2s;box-shadow:0 4px 12px #0002}
+.card-arrow:hover{background:#0b725d;color:white;transform:translateX(2px)}
+.card-copy .text-wrap{padding-right:0}
+.collection-card:first-child .card-copy{left:34px;right:24px;bottom:23px}
+.collection-card:first-child .card-copy h2{font-size:clamp(27px,2.25vw,38px);max-width:410px}
+.collection-card:first-child .card-copy p{max-width:390px}
+.collection-card:first-child .card-arrow{right:0;bottom:0}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);opacity:0;pointer-events:none;background:#103f35;color:white;padding:12px 18px;border-radius:25px;font-size:13px;box-shadow:0 7px 20px #0002;transition:.25s;z-index:10}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1150px){.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.collection-card{height:420px}.collection-card:first-child .card-copy{left:24px}.card-copy h2{font-size:29px}.card-copy p{font-size:14px}.header-actions{gap:16px}}
+@media(max-width:700px){.collections{padding:28px 15px 30px}.section-header{align-items:flex-start;flex-direction:column;gap:18px;margin-bottom:22px}h1{font-size:42px}.subtitle{font-size:15px}.header-actions{width:100%;justify-content:space-between;align-items:center;padding:0}.round-control{width:42px;height:42px}.all-link{font-size:13px}.collection-grid{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 1px 12px;scrollbar-width:none}.collection-grid::-webkit-scrollbar{display:none}.collection-card,.collection-card:first-child{flex:0 0 min(82vw,380px);height:450px;scroll-snap-align:start}.collection-card:first-child .card-copy{left:22px;right:18px;bottom:20px}.collection-card:first-child .card-copy h2{font-size:30px}.card-copy{left:22px;right:17px;bottom:20px}.card-copy h2{font-size:27px}.card-copy p{font-size:13px}.collection-icon{top:17px;left:17px;width:53px;height:53px;font-size:24px}}
+@media(max-width:390px){h1{font-size:36px}.collection-card,.collection-card:first-child{flex-basis:88vw;height:420px}.header-actions{gap:10px}.carousel-controls{gap:7px}.round-control{width:38px;height:38px}.all-link{gap:5px;font-size:12px}}
+</style>
+</head>
+<body>
+<section class="collections" aria-labelledby="collections-title">
+  <div class="decor"></div><div class="decor two"></div><div class="decor-leaf"></div>
+  <header class="section-header">
+    <div class="heading-copy">
+      <h1 id="collections-title">Find a place<br>that <span>feels like you.</span></h1>
+      <p class="subtitle">Explore curated collections built around the way you want to live.</p>
+    </div>
+    <div class="header-actions">
+      <div class="carousel-controls">
+        <button class="round-control" id="prev" aria-label="Previous collections">‹</button>
+        <button class="round-control" id="next" aria-label="Next collections">›</button>
+      </div>
+      <button class="all-link" id="allCollections">Explore All Collections <span>→</span></button>
+    </div>
+  </header>
+  <div class="collection-grid" id="collectionGrid">
+    <article class="collection-card" tabindex="0" data-title="Homes with Exceptional Views">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=90" alt="Modern home overlooking a serene landscape">
+      <div class="collection-icon" aria-hidden="true">⌁</div>
+      <div class="card-copy"><h2>Homes with<br>Exceptional Views</h2><p>Wake up to serene lakes, green landscapes and stunning city views.</p><button class="card-arrow" aria-label="Explore homes with exceptional views">→</button></div>
+    </article>
+    <article class="collection-card" tabindex="0" data-title="Villas with Private Gardens">
+      <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85" alt="Contemporary villa surrounded by a private garden">
+      <div class="collection-icon" aria-hidden="true">♧</div>
+      <div class="card-copy"><h2>Villas with<br>Private Gardens</h2><p>Spacious homes with your own outdoor space.</p><button class="card-arrow" aria-label="Explore villas with private gardens">→</button></div>
+    </article>
+    <article class="collection-card" tabindex="0" data-title="Plots with Convenient Access">
+      <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=85" alt="Open land and roads in a developing residential area">
+      <div class="collection-icon" aria-hidden="true">♙</div>
+      <div class="card-copy"><h2>Plots with<br>Convenient Access</h2><p>Well-connected plots with verified road access.</p><button class="card-arrow" aria-label="Explore plots with convenient access">→</button></div>
+    </article>
+    <article class="collection-card" tabindex="0" data-title="Established Neighbourhoods">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85" alt="Homes on a tree-lined residential street">
+      <div class="collection-icon" aria-hidden="true">▦</div>
+      <div class="card-copy"><h2>Established<br>Neighbourhoods</h2><p>Properties in well-developed, trusted localities.</p><button class="card-arrow" aria-label="Explore established neighbourhoods">→</button></div>
+    </article>
+  </div>
+</section>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const grid=document.getElementById('collectionGrid');
+function scrollCards(direction){const card=grid.querySelector('.collection-card');if(!card)return;grid.scrollBy({left:direction*(card.getBoundingClientRect().width+13),behavior:'smooth'})}
+document.getElementById('prev').addEventListener('click',()=>scrollCards(-1));
+document.getElementById('next').addEventListener('click',()=>scrollCards(1));
+const toastEl=document.getElementById('toast');let timer;
+function notify(message){toastEl.textContent=message;toastEl.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>toastEl.classList.remove('show'),2400)}
+document.getElementById('allCollections').addEventListener('click',()=>notify('Connect this action to the full collections page.'));
+document.querySelectorAll('.collection-card').forEach(card=>{
+ const open=()=>notify('Explore collection: '+card.dataset.title);
+ card.querySelector('.card-arrow').addEventListener('click',e=>{e.stopPropagation();open()});
+ card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){if(e.target===card){e.preventDefault();open()}}});
+});
+</script>
+</body>
+</html>

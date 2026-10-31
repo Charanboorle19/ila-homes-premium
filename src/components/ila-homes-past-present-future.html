@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILA Homes — Past, Present & Future</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#07513c;--green-dark:#073d2d;--navy:#101c2b;--muted:#6c7882;--cream:#f8f7f1;--line:#e9e8e1;--white:#fff;--shadow:0 8px 25px rgba(23,35,27,.045)}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--navy);font-family:"DM Sans",sans-serif}
+button{font:inherit;cursor:pointer}
+.past-present{padding:30px clamp(18px,2.3vw,36px) 34px;overflow:hidden;background:radial-gradient(ellipse at 10% 0%,#fffdf9 0%,transparent 48%),var(--cream)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:25px;margin:0 18px 28px}
+.head-title{min-width:0}.accent-line{width:43px;height:2px;background:#0d5a43;margin:0 0 13px 2px}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(34px,3.5vw,52px);line-height:1.08;letter-spacing:-1.3px;font-weight:700;margin:0;white-space:nowrap}
+h1 span{color:#075b49}
+.head-right{display:flex;align-items:center;gap:32px;max-width:570px}
+.head-right p{font-size:13px;line-height:1.5;color:#68737d;margin:0;max-width:410px}
+.head-arrows{display:flex;gap:14px;flex-shrink:0}
+.circle{width:47px;height:47px;border:0;border-radius:50%;background:#fff;box-shadow:0 5px 15px #263d2d0c;font-size:25px;color:#142c36;display:grid;place-items:center;transition:.2s}
+.circle:hover{transform:translateY(-2px);box-shadow:0 7px 20px #263d2d18}
+.cards-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 18px}
+.location-card{min-width:0;background:#fff;border:1px solid #eeede8;border-radius:17px;padding:8px 8px 8px;box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;gap:15px;padding:5px 5px 12px;min-width:0}
+.place-mark{font-size:28px;color:#0a5a49;flex-shrink:0;line-height:1}
+.place-name{min-width:0;flex:1}
+.place-name h2{font-family:"Playfair Display",Georgia,serif;font-size:19px;line-height:1.15;margin:0 0 3px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.place-name p{margin:0;color:#0a5872;font-size:13px;font-weight:500}
+.growth{display:flex;align-items:center;gap:10px;white-space:nowrap;flex-shrink:0}
+.growth-icon{font-size:28px;color:#0a6a59;line-height:1}
+.growth strong{font-family:Manrope,sans-serif;font-size:17px;font-weight:800;display:block}
+.growth small{display:block;font-size:10px;color:#64747d;margin-top:1px}
+.view-location{border:1px solid #5c9d8d;background:#fafffc;border-radius:24px;padding:10px 16px;color:#0b5146;font-size:11px;font-weight:800;white-space:nowrap;margin-left:7px}
+.view-location span{font-size:16px;margin-left:7px;vertical-align:-1px}
+.timeline{position:relative;display:grid;grid-template-columns:27.5% 30.5% 42%;height:clamp(245px,21vw,315px);border-radius:12px;overflow:hidden;background:#d8e1db}
+.era{position:relative;min-width:0;overflow:hidden;border-right:2px solid rgba(255,255,255,.88);background:#b7c6bd}
+.era:last-of-type{border-right:0}
+.era img{width:100%;height:100%;object-fit:cover;display:block;transition:filter .25s,transform .5s}
+.era.past img{filter:grayscale(1) contrast(1.05) brightness(.88)}
+.era.present img{filter:saturate(1.08) contrast(1.03)}
+.era.future img{filter:saturate(1.18) contrast(1.06)}
+.era:hover img{transform:scale(1.035)}
+.era:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,20,26,.08),transparent 25%,transparent 62%,rgba(5,17,20,.76));pointer-events:none}
+.era-label{position:absolute;top:12px;left:12px;z-index:2;min-width:58px;border-radius:9px;background:#222b2bdf;color:#fff;padding:7px 11px;font-size:12px;font-weight:700;line-height:1.2}
+.era-label small{display:block;font-size:10px;font-weight:500;margin-top:3px}
+.present .era-label{background:#087565f2}.future .era-label{background:#07513cf2}
+.era-caption{position:absolute;bottom:10px;left:12px;right:8px;z-index:2;color:#fff;font-size:11px;line-height:1.3;font-weight:600;text-shadow:0 1px 4px #0008}
+.callout{position:absolute;z-index:3;background:#fffefa;border-radius:7px;padding:7px 9px;font-size:10px;line-height:1.15;font-weight:700;color:#16232e;box-shadow:0 3px 10px #10242c2b;white-space:nowrap}
+.callout:after{content:"";position:absolute;left:50%;top:100%;height:15px;width:1px;background:#fff;border-left:1px dashed #fff}
+.callout:before{content:"";position:absolute;left:calc(50% - 3px);top:calc(100% + 12px);width:6px;height:6px;border-radius:50%;background:white;box-shadow:0 0 0 3px #ffffff40}
+.future .callout.one{top:24%;left:44%}.future .callout.two{top:49%;left:66%}.future .callout.three{top:72%;left:29%}
+.compare-handle{position:absolute;z-index:5;left:27.5%;top:50%;transform:translate(-50%,-50%);width:38px;height:38px;border:2px solid #fff;border-radius:50%;background:#fff;color:#1b2b34;display:flex;align-items:center;justify-content:center;gap:1px;box-shadow:0 3px 12px #0002;font-size:17px;line-height:1}
+.timeline .divider{position:absolute;z-index:4;top:0;bottom:0;width:2px;background:#fff;left:27.5%;pointer-events:none}
+.timeline .divider.second{left:58%}
+.timeline-note{display:none}
+@media(min-width:1500px){.timeline{height:315px}}
+@media(max-width:1250px){.section-head{margin-inline:4px}.head-right{gap:18px}.head-right p{max-width:300px}.growth{gap:7px}.view-location{padding:9px 12px;margin-left:0}.card-head{gap:10px}.place-name h2{font-size:17px}.growth strong{font-size:15px}.timeline{height:265px}.callout{font-size:9px;padding:6px 7px}}
+@media(max-width:950px){.section-head{align-items:flex-start;flex-direction:column;gap:16px}.head-right{width:100%;max-width:none;justify-content:space-between}.head-right p{max-width:unset}.head-arrows{margin-left:15px}.cards-grid{grid-template-columns:1fr}.timeline{height:clamp(270px,40vw,370px)}.card-head{padding-inline:8px}.place-name h2{font-size:20px}.growth strong{font-size:17px}.view-location{padding:10px 17px}}
+@media(max-width:600px){.past-present{padding:23px 12px 26px}.section-head{margin:0 4px 20px}.accent-line{margin-bottom:10px}h1{white-space:normal;font-size:34px;letter-spacing:-.8px}.head-right{align-items:flex-start}.head-right p{font-size:12px}.head-arrows{gap:7px;margin-left:5px}.circle{width:37px;height:37px;font-size:21px}.cards-grid{gap:14px}.location-card{padding:7px;border-radius:14px}.card-head{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;padding:5px 4px 11px}.place-mark{font-size:24px}.place-name h2{font-size:17px}.place-name p{font-size:11px}.growth{grid-column:2;grid-row:2;justify-self:start;margin-top:3px}.growth-icon{font-size:22px}.growth strong{font-size:14px}.growth small{font-size:9px}.view-location{grid-column:3;grid-row:1/3;padding:9px 10px;font-size:10px}.view-location span{margin-left:3px}.timeline{height:255px;grid-template-columns:27.5% 30.5% 42%;border-radius:10px}.era-label{left:6px;top:7px;padding:6px 7px;min-width:48px;font-size:10px;border-radius:7px}.era-label small{font-size:9px}.era-caption{left:6px;right:4px;bottom:7px;font-size:9px}.callout{font-size:8px;padding:5px 6px;white-space:normal;max-width:95px;text-align:center}.future .callout.one{left:20%;top:24%}.future .callout.two{left:50%;top:50%}.future .callout.three{left:10%;top:72%}.compare-handle{width:32px;height:32px;font-size:14px}.growth small{white-space:nowrap}}
+@media(max-width:380px){h1{font-size:30px}.head-right p{max-width:230px}.head-arrows{margin-left:0}.card-head{grid-template-columns:24px minmax(0,1fr) auto}.place-name h2{font-size:15px}.view-location{padding:8px;font-size:9px}.timeline{height:230px}.era-caption{font-size:8px}.callout{font-size:7px;max-width:78px}}
+</style>
+</head>
+<body>
+<section class="past-present" aria-labelledby="timeline-heading">
+  <header class="section-head">
+    <div class="head-title"><div class="accent-line"></div><h1 id="timeline-heading">Explore the <span>Past, Present &amp; Future</span></h1></div>
+    <div class="head-right"><p>See how these locations have evolved over the years<br> and what’s planned ahead — so you can invest with confidence.</p><div class="head-arrows"><button class="circle" id="previous" aria-label="Previous locations">‹</button><button class="circle" id="next" aria-label="Next locations">›</button></div></div>
+  </header>
+  <div class="cards-grid" id="cardsGrid">
+    <article class="location-card">
+      <div class="card-head"><span class="place-mark">♧</span><div class="place-name"><h2>Kokapet</h2><p>Hyderabad</p></div><div class="growth"><span class="growth-icon">↗</span><div><strong>+320%</strong><small>Growth Over the Years</small></div></div><button class="view-location">View Location <span>→</span></button></div>
+      <div class="timeline" data-location="Kokapet">
+        <div class="era past"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=700&q=85" alt="Kokapet past landscape"><span class="era-label">Past<small>2010</small></span><span class="era-caption">Farmland &amp; Open Land</span></div>
+        <div class="era present"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=750&q=85" alt="Kokapet present-day residential towers"><span class="era-label">Present<small>2024</small></span><span class="era-caption">IT Hub &amp; Residential Growth</span></div>
+        <div class="era future"><img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1000&q=85" alt="Kokapet planned urban infrastructure"><span class="era-label">Future<small>2030</small></span><span class="callout one">Proposed Metro</span><span class="callout two">Mega IT Park</span><span class="callout three">Premium Residential Zone</span><span class="era-caption">Planned Infrastructure &amp; Smart City Expansion</span></div>
+        <span class="divider"></span><span class="divider second"></span><button class="compare-handle" aria-label="Adjust comparison divider">‹›</button>
+      </div>
+    </article>
+    <article class="location-card">
+      <div class="card-head"><span class="place-mark">♧</span><div class="place-name"><h2>Tellapur</h2><p>Hyderabad</p></div><div class="growth"><span class="growth-icon">↗</span><div><strong>+280%</strong><small>Growth Over the Years</small></div></div><button class="view-location">View Location <span>→</span></button></div>
+      <div class="timeline" data-location="Tellapur">
+        <div class="era past"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=700&q=85" alt="Tellapur earlier agricultural land"><span class="era-label">Past<small>2012</small></span><span class="era-caption">Agricultural Land</span></div>
+        <div class="era present"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=750&q=85" alt="Tellapur current residential and commercial growth"><span class="era-label">Present<small>2024</small></span><span class="era-caption">Residential &amp; Commercial Growth</span></div>
+        <div class="era future"><img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1000&q=85" alt="Tellapur future development"><span class="era-label">Future<small>2030</small></span><span class="callout one">Proposed Regional Park</span><span class="callout two">Tech &amp; Business District</span><span class="callout three">New Connectivity Corridor</span><span class="era-caption">Planned Business Hub &amp; Green Spaces</span></div>
+        <span class="divider"></span><span class="divider second"></span><button class="compare-handle" aria-label="Adjust comparison divider">‹›</button>
+      </div>
+    </article>
+    <article class="location-card">
+      <div class="card-head"><span class="place-mark">♧</span><div class="place-name"><h2>Narsingi</h2><p>Hyderabad</p></div><div class="growth"><span class="growth-icon">↗</span><div><strong>+300%</strong><small>Growth Over the Years</small></div></div><button class="view-location">View Location <span>→</span></button></div>
+      <div class="timeline" data-location="Narsingi">
+        <div class="era past"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=700&q=85" alt="Narsingi past open land"><span class="era-label">Past<small>2011</small></span><span class="era-caption">Open Plots &amp; Sparse Development</span></div>
+        <div class="era present"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=750&q=85" alt="Narsingi present gated communities"><span class="era-label">Present<small>2024</small></span><span class="era-caption">Gated Communities &amp; Social Infra</span></div>
+        <div class="era future"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=85" alt="Narsingi planned urban expansion"><span class="era-label">Future<small>2030</small></span><span class="callout one">Proposed Metro Station</span><span class="callout two">Upcoming CBD</span><span class="callout three">International School</span><span class="era-caption">Planned Metro Access &amp; Urban Expansion</span></div>
+        <span class="divider"></span><span class="divider second"></span><button class="compare-handle" aria-label="Adjust comparison divider">‹›</button>
+      </div>
+    </article>
+    <article class="location-card">
+      <div class="card-head"><span class="place-mark">♧</span><div class="place-name"><h2>Financial District</h2><p>Hyderabad</p></div><div class="growth"><span class="growth-icon">↗</span><div><strong>+400%</strong><small>Growth Over the Years</small></div></div><button class="view-location">View Location <span>→</span></button></div>
+      <div class="timeline" data-location="Financial District">
+        <div class="era past"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=700&q=85" alt="Financial District early development"><span class="era-label">Past<small>2013</small></span><span class="era-caption">Initial Development</span></div>
+        <div class="era present"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=750&q=85" alt="Financial District global companies and IT hub"><span class="era-label">Present<small>2024</small></span><span class="era-caption">Global Companies &amp; IT Hub</span></div>
+        <div class="era future"><img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1000&q=85" alt="Financial District planned business district"><span class="era-label">Future<small>2030</small></span><span class="callout one">Upcoming Metro Line</span><span class="callout two">Convention Center</span><span class="callout three">Mixed-Use Development</span><span class="era-caption">Planned Global Business District</span></div>
+        <span class="divider"></span><span class="divider second"></span><button class="compare-handle" aria-label="Adjust comparison divider">‹›</button>
+      </div>
+    </article>
+  </div>
+</section>
+<script>
+const grid=document.getElementById('cardsGrid');
+document.getElementById('previous').addEventListener('click',()=>grid.scrollBy({left:-grid.clientWidth/2,behavior:'smooth'}));
+document.getElementById('next').addEventListener('click',()=>grid.scrollBy({left:grid.clientWidth/2,behavior:'smooth'}));
+document.querySelectorAll('.view-location').forEach(btn=>btn.addEventListener('click',()=>{
+  const card=btn.closest('.location-card');const name=card.querySelector('h2').textContent;
+  alert('Connect this action to the '+name+' location details page.');
+}));
+document.querySelectorAll('.compare-handle').forEach(handle=>{
+  let dragging=false;const timeline=handle.closest('.timeline');
+  const update=e=>{
+    const rect=timeline.getBoundingClientRect();const x=Math.max(rect.width*.18,Math.min(rect.width*.43,e.clientX-rect.left));
+    const pct=x/rect.width*100;timeline.querySelector('.divider').style.left=pct+'%';handle.style.left=pct+'%';
+  };
+  handle.addEventListener('pointerdown',e=>{dragging=true;handle.setPointerCapture(e.pointerId);});
+  handle.addEventListener('pointermove',e=>{if(dragging)update(e)});
+  handle.addEventListener('pointerup',()=>dragging=false);
+  handle.addEventListener('pointercancel',()=>dragging=false);
+  handle.addEventListener('click',()=>{const d=timeline.querySelector('.divider');const current=parseFloat(d.style.left||'27.5');const next=current>33?27.5:38;d.style.left=next+'%';handle.style.left=next+'%';});
+});
+</script>
+</body>
+</html>
