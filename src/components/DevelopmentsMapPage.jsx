@@ -257,13 +257,9 @@ export default function DevelopmentsMapPage() {
             </button>
             <div className="dev-brand-logo-container">
               <img
-                src="/assets/ila-logo.png"
+                src="/assets/ILA Homes Logo on Transparent Background.png"
                 alt="ILA HOMES — Building futures and unlocking possibilities"
                 className="dev-brand-logo-img"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "/assets/ila-homes-logo-white.png";
-                }}
               />
             </div>
           </div>

@@ -6,7 +6,7 @@ export default function SiteHeader({ menuOpen, onToggleMenu, onNavigate }) {
     <header className="site-header">
       <a className="brand" href="#top" aria-label="ILA HOMES home" onClick={onNavigate}>
         <img
-          src="/assets/ila-homes-logo-white.png"
+          src="/assets/ILA Homes Logo on Transparent Background.png"
           alt="ILA HOMES — Building futures and unlocking possibilities"
         />
       </a>
