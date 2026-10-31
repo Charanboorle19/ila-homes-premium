@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FormFillingSection from "./form-filling";
 
 const POPULAR_SUGGESTIONS = [
   { icon: "⌂", label: "Villas with garden", query: "Villas with garden" },
@@ -53,18 +54,37 @@ export default function HeroFooter() {
     <div className="hero-footer-wrapper">
       {/* Visual Search CTA Banner / Next Chapter Section */}
       <section className="cta-hero-section" aria-labelledby="cta-hero-title">
-        <img
-          className="cta-hero-bg"
-          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=90"
-          alt="Contemporary luxury home overlooking a peaceful green landscape"
-          loading="lazy"
-        />
+        <div className="cta-hero-section__glow" aria-hidden="true" />
+        <div className="cta-hero-section__lines" aria-hidden="true">
+          <span className="cta-hero-section__vline cta-hero-section__vline--one" />
+          <span className="cta-hero-section__vline cta-hero-section__vline--two" />
+          <span className="cta-hero-section__hline cta-hero-section__hline--one" />
+          <span className="cta-hero-section__hline cta-hero-section__hline--two" />
+          <svg className="cta-hero-section__plot-art" viewBox="0 0 480 360" fill="none">
+            <path d="M40 48 H440" />
+            <path d="M40 120 H440" />
+            <path d="M40 192 H440" />
+            <path d="M40 264 H440" />
+            <path d="M40 336 H440" />
+            <path d="M72 24 V348" />
+            <path d="M168 24 V348" />
+            <path d="M264 24 V348" />
+            <path d="M360 24 V348" />
+            <rect x="168" y="120" width="96" height="72" />
+            <rect x="264" y="192" width="96" height="72" />
+            <circle cx="216" cy="156" r="11" />
+            <path d="M72 264 L168 192 L264 192 L360 120" strokeDasharray="5 7" />
+          </svg>
+        </div>
+
         <div className="cta-hero-content">
+          <p className="cta-hero-eyebrow">Find your place</p>
           <h2 id="cta-hero-title">
             Your next chapter<br />starts with <span>the right place.</span>
           </h2>
+          <div className="cta-hero-rule" aria-hidden="true" />
           <p className="cta-hero-subtitle">
-            Search by location, lifestyle or what matters to you —<br className="desktop-break" />{" "}
+            Search by location, lifestyle or what matters to you —
             our AI will help you find the right properties.
           </p>
 
@@ -116,6 +136,8 @@ export default function HeroFooter() {
         </div>
       </section>
 
+      <FormFillingSection />
+
       {/* Comprehensive Site Footer */}
       <footer className="site-footer">
         <svg className="footer-leaf" viewBox="0 0 180 280" fill="none" aria-hidden="true">
@@ -128,10 +150,15 @@ export default function HeroFooter() {
 
         <div className="footer-main">
           <div className="brand-block">
-            <div className="brand">
-              <span>ILA</span> HOMES
-            </div>
-            <p className="tagline">A smarter way to find your place.</p>
+            <a className="brand" href="#top" aria-label="ILA Homes home">
+              <img
+                className="brand-logo"
+                src="/assets/Thin%20White%20ILA%20HOMES%20Logo.png"
+                alt="ILA Homes — Building futures and unlocking possibilities"
+                width={280}
+                height={102}
+              />
+            </a>
             <p className="about">
               ILA HOMES helps you discover residential properties with clarity and confidence, backed by real data, immersive experiences and neighbourhood insights.
             </p>

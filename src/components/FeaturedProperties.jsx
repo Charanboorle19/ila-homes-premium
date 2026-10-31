@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import FeaturedCard from "./FeaturedCard";
 import LocationStrip from "./LocationStrip";
 import PropertyCard from "./PropertyCard";
@@ -9,18 +9,55 @@ import {
 } from "../data/content";
 import { navigateToPropertyDetails } from "../data/navigation";
 
+const SPOTLIGHT_INTERVAL_MS = 3200;
+
 export default function FeaturedProperties({ onSelectProperty }) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [savedIds, setSavedIds] = useState({});
   const [status, setStatus] = useState("");
+  const [spotlightIndex, setSpotlightIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   const gridRef = useRef(null);
 
   const isVisible = (type) =>
     activeCategory === "all" || activeCategory === type;
 
-  const visibleSideCards = SIDE_PROPERTIES.filter((property) =>
-    isVisible(property.type)
-  );
+  const visibleCards = useMemo(() => {
+    const cards = [];
+    if (isVisible(FEATURED_PROPERTY.type)) {
+      cards.push({ kind: "featured", property: FEATURED_PROPERTY });
+    }
+    SIDE_PROPERTIES.forEach((property) => {
+      if (isVisible(property.type)) {
+        cards.push({ kind: "side", property });
+      }
+    });
+    return cards;
+  }, [activeCategory]);
+
+  useEffect(() => {
+    setSpotlightIndex(0);
+  }, [activeCategory, visibleCards.length]);
+
+  useEffect(() => {
+    if (visibleCards.length <= 1 || paused) return undefined;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return undefined;
+
+    const timer = window.setInterval(() => {
+      setSpotlightIndex((current) => (current + 1) % visibleCards.length);
+    }, SPOTLIGHT_INTERVAL_MS);
+
+    return () => window.clearInterval(timer);
+  }, [visibleCards.length, paused]);
+
+  const gridTemplateColumns = useMemo(() => {
+    if (visibleCards.length === 0) return undefined;
+    return visibleCards
+      .map((_, index) => (index === spotlightIndex ? "1.45fr" : "1fr"))
+      .join(" ");
+  }, [visibleCards, spotlightIndex]);
 
   const toggleSave = (id) => {
     setSavedIds((current) => ({ ...current, [id]: !current[id] }));
@@ -128,35 +165,35 @@ export default function FeaturedProperties({ onSelectProperty }) {
         </div>
       </header>
 
-      <div className="property-grid" ref={gridRef}>
-        <FeaturedCard
-          property={FEATURED_PROPERTY}
-          saved={Boolean(savedIds[FEATURED_PROPERTY.id])}
-          onToggleSave={toggleSave}
-          onShare={handleShare}
-          onDetails={() => openDetails(FEATURED_PROPERTY)}
-          hidden={!isVisible(FEATURED_PROPERTY.type)}
-        />
+      <div
+        className="property-grid"
+        ref={gridRef}
+        style={{ gridTemplateColumns }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        {visibleCards.map((card, index) => {
+          const spotlight = index === spotlightIndex;
+          const sharedProps = {
+            property: card.property,
+            saved: Boolean(savedIds[card.property.id]),
+            onToggleSave: toggleSave,
+            onShare: handleShare,
+            onDetails: () => openDetails(card.property),
+            spotlight,
+          };
 
-        <div
-          className="side-list"
-          style={
-            activeCategory !== "all" && visibleSideCards.length === 0
-              ? { display: "none" }
-              : undefined
+          if (card.kind === "featured") {
+            return (
+              <FeaturedCard
+                key={card.property.id}
+                {...sharedProps}
+              />
+            );
           }
-        >
-          {SIDE_PROPERTIES.map((property) => (
-            <PropertyCard
-              key={property.id}
-              property={property}
-              hidden={!isVisible(property.type)}
-              saved={Boolean(savedIds[property.id])}
-              onToggleSave={toggleSave}
-              onDetails={() => openDetails(property)}
-            />
-          ))}
-        </div>
+
+          return <PropertyCard key={card.property.id} {...sharedProps} />;
+        })}
       </div>
 
       <LocationStrip

@@ -150,7 +150,7 @@ export default function PropertyMapExplorer({ onSelectProperty }) {
   };
 
   return (
-    <section className="map-section" id="map" aria-labelledby="map-heading">
+    <section className="map-section" id="map-explorer" aria-labelledby="map-heading">
       <header className="heading-row">
         <div>
           <div className="eyebrow">Discover by location</div>

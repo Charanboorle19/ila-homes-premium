@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
 import FeaturedProperties from "./components/FeaturedProperties";
 import Hero from "./components/Hero";
-import PastPresentFuture from "./components/PastPresentFuture";
-import PropertyMapExplorer from "./components/PropertyMapExplorer";
-import ConnectivityExplorer from "./components/ConnectivityExplorer";
-import ExploreDevelopments from "./components/ExploreDevelopments";
-import CuratedCollections from "./components/CuratedCollections";
+import MapSection from "./components/map-section";
+import AboutIlaHomesSection from "./components/about-ila-homes-section";
 import HeroFooter from "./components/HeroFooter";
 import PropertyDetailsPage from "./components/PropertyDetailsPage";
 import DevelopmentsMapPage from "./components/DevelopmentsMapPage";
@@ -83,12 +80,9 @@ export default function App() {
   return (
     <main id="top">
       <Hero />
+      <MapSection />
+      <AboutIlaHomesSection />
       <FeaturedProperties />
-      <PropertyMapExplorer />
-      <PastPresentFuture />
-      <ConnectivityExplorer />
-      <ExploreDevelopments />
-      <CuratedCollections />
       <HeroFooter />
     </main>
   );
