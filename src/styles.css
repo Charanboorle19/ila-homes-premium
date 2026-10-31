@@ -1864,8 +1864,10 @@ h1 span {
   font-weight: 500;
 }
 
-.featured-section .loc-dot {
-  font-size: 12px;
+.featured-section .loc-dot-svg {
+  flex-shrink: 0;
+  color: var(--royal-blue);
+  opacity: 0.85;
 }
 
 .featured-section .price-block {
@@ -2088,13 +2090,21 @@ h1 span {
 }
 
 .featured-section .side-location {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   margin-top: 1px;
   color: #64748b;
   font-size: 11px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.featured-section .side-loc-pin {
+  flex-shrink: 0;
+  color: var(--royal-blue);
+  opacity: 0.85;
 }
 
 .featured-section .side-next {
